@@ -1,0 +1,60 @@
+{# Render with trim_blocks=True, lstrip_blocks=True. Filters `num` and `md` are defined in generate_table_docs.py #}
+---
+table: {{ table.schema }}.{{ table.name }}
+schema: {{ table.schema }}
+domain: {{ table.domain or "unknown" }}
+rows: {{ table.row_count }}
+primary_key: [{{ (table.primary_key or []) | join(", ") }}]
+tags: [{{ (table.tags or []) | join(", ") }}]
+documented: {{ "true" if table.description else "false" }}
+---
+
+# {{ table.schema }}.{{ table.name }}
+
+{% if table.description %}
+{{ table.description }}
+
+{% endif %}
+{% if table.keywords %}
+## Keywords
+
+{{ table.keywords | join(", ") }}
+
+{% endif %}
+## Columns
+
+| Column | Type | Key | Null % | Approx. distinct | Description |
+|---|---|---|---|---|---|
+{% for col in table.columns %}
+| `{{ col.name | md }}` | {{ col.type }} | {{ col.key or "" }} | {{ col.null_pct | num }} | {{ col.approx_unique | num }} | {{ col.desc | md }} |
+{% endfor %}
+
+{% if table.foreign_keys or table.referenced_by %}
+## Relationships
+
+{% for fk in table.foreign_keys or [] %}
+- `{{ fk.column }}` -> `{{ fk.ref_table }}.{{ fk.ref_column }}`
+{% endfor %}
+{% for ref in table.referenced_by or [] %}
+- referenced by `{{ ref.table }}.{{ ref.column }}`
+{% endfor %}
+
+{% endif %}
+{% set numeric = table.columns | selectattr("numeric") | list %}
+{% if numeric %}
+## Numeric statistics
+
+| Column | Min | Max | Avg | Std | Median |
+|---|---|---|---|---|---|
+{% for col in numeric %}
+| `{{ col.name | md }}` | {{ col.min | md }} | {{ col.max | md }} | {{ col.avg | num }} | {{ col.std | num }} | {{ col.q50 | num }} |
+{% endfor %}
+
+{% endif %}
+{% if table.questions %}
+## Typical questions
+
+{% for q in table.questions %}
+- {{ q }}
+{% endfor %}
+{% endif %}

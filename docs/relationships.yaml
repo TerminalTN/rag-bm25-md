@@ -1,0 +1,569 @@
+schema: AdventureWorks2014 (CTU relational.fel.cvut.cz)
+target_schema: AdventureWorks 2019 OLTP (our DuckDB)
+note: Relationships extracted from the CTU MariaDB copy of AdventureWorks2014 and
+  mapped onto our 2019 tables by name. Base-table sets are 1:1 identical; values/edge
+  cases may differ.
+tables:
+  HumanResources.Department:
+    primary_key:
+    - DepartmentID
+  HumanResources.Employee:
+    primary_key:
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+  HumanResources.EmployeeDepartmentHistory:
+    primary_key:
+    - BusinessEntityID
+    - StartDate
+    - DepartmentID
+    - ShiftID
+    foreign_keys:
+    - column: DepartmentID
+      ref_table: HumanResources.Department
+      ref_column: DepartmentID
+    - column: BusinessEntityID
+      ref_table: HumanResources.Employee
+      ref_column: BusinessEntityID
+    - column: ShiftID
+      ref_table: HumanResources.Shift
+      ref_column: ShiftID
+  HumanResources.EmployeePayHistory:
+    primary_key:
+    - BusinessEntityID
+    - RateChangeDate
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: HumanResources.Employee
+      ref_column: BusinessEntityID
+  HumanResources.JobCandidate:
+    primary_key:
+    - JobCandidateID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: HumanResources.Employee
+      ref_column: BusinessEntityID
+  HumanResources.Shift:
+    primary_key:
+    - ShiftID
+  Person.Address:
+    primary_key:
+    - AddressID
+    foreign_keys:
+    - column: StateProvinceID
+      ref_table: Person.StateProvince
+      ref_column: StateProvinceID
+  Person.AddressType:
+    primary_key:
+    - AddressTypeID
+  Person.BusinessEntity:
+    primary_key:
+    - BusinessEntityID
+  Person.BusinessEntityAddress:
+    primary_key:
+    - BusinessEntityID
+    - AddressID
+    - AddressTypeID
+    foreign_keys:
+    - column: AddressTypeID
+      ref_table: Person.AddressType
+      ref_column: AddressTypeID
+    - column: AddressID
+      ref_table: Person.Address
+      ref_column: AddressID
+    - column: BusinessEntityID
+      ref_table: Person.BusinessEntity
+      ref_column: BusinessEntityID
+  Person.BusinessEntityContact:
+    primary_key:
+    - BusinessEntityID
+    - PersonID
+    - ContactTypeID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.BusinessEntity
+      ref_column: BusinessEntityID
+    - column: ContactTypeID
+      ref_table: Person.ContactType
+      ref_column: ContactTypeID
+    - column: PersonID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+  Person.ContactType:
+    primary_key:
+    - ContactTypeID
+  Person.CountryRegion:
+    primary_key:
+    - CountryRegionCode
+  Person.EmailAddress:
+    primary_key:
+    - EmailAddressID
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+  Person.Password:
+    primary_key:
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+  Person.Person:
+    primary_key:
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.BusinessEntity
+      ref_column: BusinessEntityID
+  Person.PersonPhone:
+    primary_key:
+    - BusinessEntityID
+    - PhoneNumber
+    - PhoneNumberTypeID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+    - column: PhoneNumberTypeID
+      ref_table: Person.PhoneNumberType
+      ref_column: PhoneNumberTypeID
+  Person.PhoneNumberType:
+    primary_key:
+    - PhoneNumberTypeID
+  Person.StateProvince:
+    primary_key:
+    - StateProvinceID
+    foreign_keys:
+    - column: CountryRegionCode
+      ref_table: Person.CountryRegion
+      ref_column: CountryRegionCode
+    - column: TerritoryID
+      ref_table: Sales.SalesTerritory
+      ref_column: TerritoryID
+  Production.BillOfMaterials:
+    primary_key:
+    - BillOfMaterialsID
+    foreign_keys:
+    - column: ComponentID
+      ref_table: Production.Product
+      ref_column: ProductID
+    - column: ProductAssemblyID
+      ref_table: Production.Product
+      ref_column: ProductID
+    - column: UnitMeasureCode
+      ref_table: Production.UnitMeasure
+      ref_column: UnitMeasureCode
+  Production.Culture:
+    primary_key:
+    - CultureID
+  Production.Document:
+    primary_key:
+    - DocumentNode
+    foreign_keys:
+    - column: Owner
+      ref_table: HumanResources.Employee
+      ref_column: BusinessEntityID
+  Production.Illustration:
+    primary_key:
+    - IllustrationID
+  Production.Location:
+    primary_key:
+    - LocationID
+  Production.Product:
+    primary_key:
+    - ProductID
+    foreign_keys:
+    - column: ProductModelID
+      ref_table: Production.ProductModel
+      ref_column: ProductModelID
+    - column: ProductSubcategoryID
+      ref_table: Production.ProductSubcategory
+      ref_column: ProductSubcategoryID
+    - column: SizeUnitMeasureCode
+      ref_table: Production.UnitMeasure
+      ref_column: UnitMeasureCode
+    - column: WeightUnitMeasureCode
+      ref_table: Production.UnitMeasure
+      ref_column: UnitMeasureCode
+  Production.ProductCategory:
+    primary_key:
+    - ProductCategoryID
+  Production.ProductCostHistory:
+    primary_key:
+    - ProductID
+    - StartDate
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.ProductDescription:
+    primary_key:
+    - ProductDescriptionID
+  Production.ProductDocument:
+    primary_key:
+    - ProductID
+    - DocumentNode
+    foreign_keys:
+    - column: DocumentNode
+      ref_table: Production.Document
+      ref_column: DocumentNode
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.ProductInventory:
+    primary_key:
+    - ProductID
+    - LocationID
+    foreign_keys:
+    - column: LocationID
+      ref_table: Production.Location
+      ref_column: LocationID
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.ProductListPriceHistory:
+    primary_key:
+    - ProductID
+    - StartDate
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.ProductModel:
+    primary_key:
+    - ProductModelID
+  Production.ProductModelIllustration:
+    primary_key:
+    - ProductModelID
+    - IllustrationID
+    foreign_keys:
+    - column: IllustrationID
+      ref_table: Production.Illustration
+      ref_column: IllustrationID
+    - column: ProductModelID
+      ref_table: Production.ProductModel
+      ref_column: ProductModelID
+  Production.ProductModelProductDescriptionCulture:
+    primary_key:
+    - ProductModelID
+    - ProductDescriptionID
+    - CultureID
+    foreign_keys:
+    - column: CultureID
+      ref_table: Production.Culture
+      ref_column: CultureID
+    - column: ProductDescriptionID
+      ref_table: Production.ProductDescription
+      ref_column: ProductDescriptionID
+    - column: ProductModelID
+      ref_table: Production.ProductModel
+      ref_column: ProductModelID
+  Production.ProductPhoto:
+    primary_key:
+    - ProductPhotoID
+  Production.ProductProductPhoto:
+    primary_key:
+    - ProductID
+    - ProductPhotoID
+    foreign_keys:
+    - column: ProductPhotoID
+      ref_table: Production.ProductPhoto
+      ref_column: ProductPhotoID
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.ProductReview:
+    primary_key:
+    - ProductReviewID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.ProductSubcategory:
+    primary_key:
+    - ProductSubcategoryID
+    foreign_keys:
+    - column: ProductCategoryID
+      ref_table: Production.ProductCategory
+      ref_column: ProductCategoryID
+  Production.ScrapReason:
+    primary_key:
+    - ScrapReasonID
+  Production.TransactionHistory:
+    primary_key:
+    - TransactionID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Production.TransactionHistoryArchive:
+    primary_key:
+    - TransactionID
+  Production.UnitMeasure:
+    primary_key:
+    - UnitMeasureCode
+  Production.WorkOrder:
+    primary_key:
+    - WorkOrderID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+    - column: ScrapReasonID
+      ref_table: Production.ScrapReason
+      ref_column: ScrapReasonID
+  Production.WorkOrderRouting:
+    primary_key:
+    - WorkOrderID
+    - ProductID
+    - OperationSequence
+    foreign_keys:
+    - column: LocationID
+      ref_table: Production.Location
+      ref_column: LocationID
+    - column: WorkOrderID
+      ref_table: Production.WorkOrder
+      ref_column: WorkOrderID
+  Purchasing.ProductVendor:
+    primary_key:
+    - ProductID
+    - BusinessEntityID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+    - column: UnitMeasureCode
+      ref_table: Production.UnitMeasure
+      ref_column: UnitMeasureCode
+    - column: BusinessEntityID
+      ref_table: Purchasing.Vendor
+      ref_column: BusinessEntityID
+  Purchasing.PurchaseOrderDetail:
+    primary_key:
+    - PurchaseOrderDetailID
+    - PurchaseOrderID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+    - column: PurchaseOrderID
+      ref_table: Purchasing.PurchaseOrderHeader
+      ref_column: PurchaseOrderID
+  Purchasing.PurchaseOrderHeader:
+    primary_key:
+    - PurchaseOrderID
+    foreign_keys:
+    - column: EmployeeID
+      ref_table: HumanResources.Employee
+      ref_column: BusinessEntityID
+    - column: ShipMethodID
+      ref_table: Purchasing.ShipMethod
+      ref_column: ShipMethodID
+    - column: VendorID
+      ref_table: Purchasing.Vendor
+      ref_column: BusinessEntityID
+  Purchasing.ShipMethod:
+    primary_key:
+    - ShipMethodID
+  Purchasing.Vendor:
+    primary_key:
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.BusinessEntity
+      ref_column: BusinessEntityID
+  Sales.CountryRegionCurrency:
+    primary_key:
+    - CountryRegionCode
+    - CurrencyCode
+    foreign_keys:
+    - column: CountryRegionCode
+      ref_table: Person.CountryRegion
+      ref_column: CountryRegionCode
+    - column: CurrencyCode
+      ref_table: Sales.Currency
+      ref_column: CurrencyCode
+  Sales.CreditCard:
+    primary_key:
+    - CreditCardID
+  Sales.Currency:
+    primary_key:
+    - CurrencyCode
+  Sales.CurrencyRate:
+    primary_key:
+    - CurrencyRateID
+    foreign_keys:
+    - column: FromCurrencyCode
+      ref_table: Sales.Currency
+      ref_column: CurrencyCode
+    - column: ToCurrencyCode
+      ref_table: Sales.Currency
+      ref_column: CurrencyCode
+  Sales.Customer:
+    primary_key:
+    - CustomerID
+    foreign_keys:
+    - column: PersonID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+    - column: TerritoryID
+      ref_table: Sales.SalesTerritory
+      ref_column: TerritoryID
+    - column: StoreID
+      ref_table: Sales.Store
+      ref_column: BusinessEntityID
+  Sales.PersonCreditCard:
+    primary_key:
+    - BusinessEntityID
+    - CreditCardID
+    foreign_keys:
+    - column: CreditCardID
+      ref_table: Sales.CreditCard
+      ref_column: CreditCardID
+    - column: BusinessEntityID
+      ref_table: Person.Person
+      ref_column: BusinessEntityID
+  Sales.SalesOrderDetail:
+    primary_key:
+    - SalesOrderDetailID
+    - SalesOrderID
+    foreign_keys:
+    - column: SalesOrderID
+      ref_table: Sales.SalesOrderHeader
+      ref_column: SalesOrderID
+    - column: SpecialOfferID
+      ref_table: Sales.SpecialOfferProduct
+      ref_column: SpecialOfferID
+    - column: ProductID
+      ref_table: Sales.SpecialOfferProduct
+      ref_column: ProductID
+  Sales.SalesOrderHeader:
+    primary_key:
+    - SalesOrderID
+    foreign_keys:
+    - column: BillToAddressID
+      ref_table: Person.Address
+      ref_column: AddressID
+    - column: ShipToAddressID
+      ref_table: Person.Address
+      ref_column: AddressID
+    - column: CreditCardID
+      ref_table: Sales.CreditCard
+      ref_column: CreditCardID
+    - column: CurrencyRateID
+      ref_table: Sales.CurrencyRate
+      ref_column: CurrencyRateID
+    - column: CustomerID
+      ref_table: Sales.Customer
+      ref_column: CustomerID
+    - column: SalesPersonID
+      ref_table: Sales.SalesPerson
+      ref_column: BusinessEntityID
+    - column: TerritoryID
+      ref_table: Sales.SalesTerritory
+      ref_column: TerritoryID
+    - column: ShipMethodID
+      ref_table: Purchasing.ShipMethod
+      ref_column: ShipMethodID
+  Sales.SalesOrderHeaderSalesReason:
+    primary_key:
+    - SalesOrderID
+    - SalesReasonID
+    foreign_keys:
+    - column: SalesOrderID
+      ref_table: Sales.SalesOrderHeader
+      ref_column: SalesOrderID
+    - column: SalesReasonID
+      ref_table: Sales.SalesReason
+      ref_column: SalesReasonID
+  Sales.SalesPerson:
+    primary_key:
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: HumanResources.Employee
+      ref_column: BusinessEntityID
+    - column: TerritoryID
+      ref_table: Sales.SalesTerritory
+      ref_column: TerritoryID
+  Sales.SalesPersonQuotaHistory:
+    primary_key:
+    - BusinessEntityID
+    - QuotaDate
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Sales.SalesPerson
+      ref_column: BusinessEntityID
+  Sales.SalesReason:
+    primary_key:
+    - SalesReasonID
+  Sales.SalesTaxRate:
+    primary_key:
+    - SalesTaxRateID
+    foreign_keys:
+    - column: StateProvinceID
+      ref_table: Person.StateProvince
+      ref_column: StateProvinceID
+  Sales.SalesTerritory:
+    primary_key:
+    - TerritoryID
+    foreign_keys:
+    - column: CountryRegionCode
+      ref_table: Person.CountryRegion
+      ref_column: CountryRegionCode
+  Sales.SalesTerritoryHistory:
+    primary_key:
+    - BusinessEntityID
+    - StartDate
+    - TerritoryID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Sales.SalesPerson
+      ref_column: BusinessEntityID
+    - column: TerritoryID
+      ref_table: Sales.SalesTerritory
+      ref_column: TerritoryID
+  Sales.ShoppingCartItem:
+    primary_key:
+    - ShoppingCartItemID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+  Sales.SpecialOffer:
+    primary_key:
+    - SpecialOfferID
+  Sales.SpecialOfferProduct:
+    primary_key:
+    - SpecialOfferID
+    - ProductID
+    foreign_keys:
+    - column: ProductID
+      ref_table: Production.Product
+      ref_column: ProductID
+    - column: SpecialOfferID
+      ref_table: Sales.SpecialOffer
+      ref_column: SpecialOfferID
+  Sales.Store:
+    primary_key:
+    - BusinessEntityID
+    foreign_keys:
+    - column: BusinessEntityID
+      ref_table: Person.BusinessEntity
+      ref_column: BusinessEntityID
+    - column: SalesPersonID
+      ref_table: Sales.SalesPerson
+      ref_column: BusinessEntityID
+  dbo.AWBuildVersion:
+    primary_key:
+    - SystemInformationID
+  dbo.DatabaseLog:
+    primary_key:
+    - DatabaseLogID
+  dbo.ErrorLog:
+    primary_key:
+    - ErrorLogID

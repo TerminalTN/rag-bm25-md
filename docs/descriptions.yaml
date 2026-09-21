@@ -1,0 +1,49 @@
+# Human-readable metadata for AdventureWorks tables.
+# Structure:
+#   "<schema>.<table>":
+#     description: "optional table description"
+#     columns:
+#       "<ColumnName>": "optional column description"
+#
+# Entries are merged into each table's generated .md file. Any table/column
+# not listed here is still documented (structure + stats), just without a
+# description. Add entries here as you curate the docs.
+
+"Person.Address":
+  description: "Street addresses for businesses, employees, and customers."
+  columns:
+    "AddressID": "Primary key."
+    "AddressLine1": "First line of the street address."
+    "AddressLine2": "Second line of the street address (optional)."
+    "City": "City of the address."
+    "StateProvinceID": "FK to Person.StateProvince."
+    "PostalCode": "Postal / ZIP code."
+    "ModifiedDate": "Date the row was last modified."
+
+"Production.Product":
+  description: "Products sold or used in the manufacturing of goods."
+  columns:
+    "ProductID": "Primary key."
+    "Name": "Product name."
+    "ProductNumber": "Unique product number."
+    "Color": "Product color."
+    "StandardCost": "Standard cost of the product."
+    "ListPrice": "Selling price."
+    "Size": "Product size."
+    "Weight": "Product weight."
+    "ProductSubcategoryID": "FK to Production.ProductSubcategory."
+    "ProductModelID": "FK to Production.ProductModel."
+
+"Sales.SalesOrderHeader":
+  description: "Sales order header: one row per order, with customer, dates, and totals."
+  columns:
+    "SalesOrderID": "Primary key."
+    "OrderDate": "Date the order was placed."
+    "DueDate": "Due date for the order."
+    "ShipDate": "Date the order was shipped."
+    "CustomerID": "FK to Sales.Customer."
+    "SubTotal": "Order subtotal excluding tax and freight."
+    "TaxAmt": "Tax amount."
+    "Freight": "Freight cost."
+    "TotalDue": "Total order amount (subtotal + tax + freight)."
+    "Status": "Order status (1 = In process, 2 = Approved, 3 = Backordered, 4 = Rejected, 5 = Shipped, 6 = Cancelled)."

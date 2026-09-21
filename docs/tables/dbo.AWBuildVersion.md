@@ -1,14 +1,20 @@
 ---
 table: dbo.AWBuildVersion
 schema: dbo
-domain: unknown
+domain: production
 rows: 1
 primary_key: [SystemInformationID]
 tags: []
-documented: false
+documented: true
 ---
 
 # dbo.AWBuildVersion
+
+One row containing the build version details for the database, including the database version string and modification dates.
+
+## Keywords
+
+build, version, database, system information, release, date, schema, update
 
 ## Columns
 
@@ -25,3 +31,8 @@ documented: false
 |---|---|---|---|---|---|
 | `SystemInformationID` | 1 | 1 | 1 | – | 1 |
 
+## Typical questions
+
+- What is the current database version?
+- When was this build last modified?
+- Does the system record a specific SystemInformationID?

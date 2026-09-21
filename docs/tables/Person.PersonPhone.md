@@ -1,14 +1,20 @@
 ---
 table: Person.PersonPhone
 schema: Person
-domain: unknown
+domain: person
 rows: 19972
 primary_key: [BusinessEntityID, PhoneNumber, PhoneNumberTypeID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.PersonPhone
+
+One row records a phone number associated with a person or business entity, specifying the number itself and its type.
+
+## Keywords
+
+phone number, contact, telephone, téléphone, number, business entity, communication, contact info
 
 ## Columns
 
@@ -31,3 +37,8 @@ documented: false
 | `BusinessEntityID` | 1 | 20777 | 10,763.08 | 5,814.13 | 10,802 |
 | `PhoneNumberTypeID` | 1 | 3 | 1.53 | 0.57 | 1 |
 
+## Typical questions
+
+- What is the primary phone number for an entity?
+- How many different phone types are recorded?
+- Which business entity has a specific phone number?

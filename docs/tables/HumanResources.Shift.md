@@ -1,14 +1,20 @@
 ---
 table: HumanResources.Shift
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 3
 primary_key: [ShiftID]
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.Shift
+
+One row defining a specific work shift, detailing its name and the start and end times for that period.
+
+## Keywords
+
+shift, work schedule, horaire, temps de travail, start time, end time, planning, rotation
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ShiftID` | 1 | 3 | 2 | 1 | 2 |
 
+## Typical questions
+
+- What are the defined work shifts?
+- How long is the shift named 'Day'?
+- When was the last modification to the shift records?

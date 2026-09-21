@@ -1,14 +1,20 @@
 ---
 table: Sales.ShoppingCartItem
 schema: Sales
-domain: unknown
+domain: sales
 rows: 3
 primary_key: [ShoppingCartItemID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.ShoppingCartItem
+
+One row represents a specific item added to a shopping cart, detailing the quantity and the associated product ID.
+
+## Keywords
+
+shopping cart, item, quantity, product, panier, achat, ecommerce, sale
 
 ## Columns
 
@@ -34,3 +40,8 @@ documented: false
 | `Quantity` | 3 | 7 | 4.67 | 2.08 | 4 |
 | `ProductID` | 862 | 881 | 872.33 | 9.61 | 874 |
 
+## Typical questions
+
+- What is the total quantity of products in a specific cart?
+- Which product IDs are currently in use in shopping carts?
+- When was an item last modified in the shopping cart?

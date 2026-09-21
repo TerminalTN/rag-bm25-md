@@ -1,14 +1,20 @@
 ---
 table: HumanResources.vEmployeeDepartmentHistory
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 296
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.vEmployeeDepartmentHistory
+
+One row tracks the historical assignment of an employee to a department, recording the title, dates (StartDate, EndDate), and associated group information.
+
+## Keywords
+
+employee history, department change, job title, employment record, transfer, ancienneté, poste, departement
 
 ## Columns
 
@@ -32,3 +38,8 @@ documented: false
 |---|---|---|---|---|---|
 | `BusinessEntityID` | 1 | 290 | 145.85 | 84.47 | 146 |
 
+## Typical questions
+
+- What was an employee's last recorded department?
+- How long did an employee hold a specific title?
+- Which departments have records of recent changes?

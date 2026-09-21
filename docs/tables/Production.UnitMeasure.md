@@ -1,14 +1,20 @@
 ---
 table: Production.UnitMeasure
 schema: Production
-domain: unknown
+domain: production
 rows: 38
 primary_key: [UnitMeasureCode]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.UnitMeasure
+
+One row defines a unit of measure used in production, specifying its code and name.
+
+## Keywords
+
+unit measure, measure, unité de mesure, code, name, dimension, measurement, produit
 
 ## Columns
 
@@ -25,3 +31,8 @@ documented: false
 - referenced by `Production.Product.WeightUnitMeasureCode`
 - referenced by `Purchasing.ProductVendor.UnitMeasureCode`
 
+## Typical questions
+
+- What is the full name associated with a given UnitMeasureCode?
+- How many different units of measure are defined?
+- When was the unit measure record last modified?

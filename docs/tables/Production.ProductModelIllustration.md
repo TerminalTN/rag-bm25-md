@@ -1,14 +1,20 @@
 ---
 table: Production.ProductModelIllustration
 schema: Production
-domain: unknown
+domain: production
 rows: 7
 primary_key: [ProductModelID, IllustrationID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductModelIllustration
+
+One row linking a specific product model to one of its illustrations, recording when the link was last modified.
+
+## Keywords
+
+illustration, product model, link, image, visual, modèle produit, illustration, modification date
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 | `ProductModelID` | 7 | 67 | 39.14 | 22.13 | 47 |
 | `IllustrationID` | 3 | 6 | 4.29 | 1.11 | 4 |
 
+## Typical questions
+
+- Which illustration is linked to ProductModelID 7?
+- What was the modification date for this link?
+- How many illustrations are associated with a product model?

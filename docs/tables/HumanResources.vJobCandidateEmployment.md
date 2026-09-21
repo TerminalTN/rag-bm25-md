@@ -1,14 +1,20 @@
 ---
 table: HumanResources.vJobCandidateEmployment
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 30
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.vJobCandidateEmployment
+
+One row detailing a specific employment period for a job candidate, recording start/end dates and organizational details like job title and location.
+
+## Keywords
+
+employment, job candidate, career, emploi, poste, start date, end date, responsibilities, HR
 
 ## Columns
 
@@ -32,3 +38,8 @@ documented: false
 |---|---|---|---|---|---|
 | `JobCandidateID` | 1 | 13 | 7.03 | 3.84 | 7 |
 
+## Typical questions
+
+- What was the job title for a specific candidate?
+- When did an employee start and end their tenure at a location?
+- Which industry category is associated with this employment record?

@@ -1,14 +1,20 @@
 ---
 table: Production.WorkOrderRouting
 schema: Production
-domain: unknown
+domain: production
 rows: 67131
 primary_key: [WorkOrderID, ProductID, OperationSequence]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.WorkOrderRouting
+
+One row detailing the routing steps for a specific work order and product, including planned and actual start/end dates and associated costs.
+
+## Keywords
+
+work order, routing, operation, cost, planned cost, actual cost, production schedule, location, process step
 
 ## Columns
 
@@ -44,3 +50,8 @@ documented: false
 | `PlannedCost` | 14.5 | 92.25 | 51.96 | 22.09 | 48.05 |
 | `ActualCost` | 14.5 | 92.25 | 51.96 | 22.09 | 48.05 |
 
+## Typical questions
+
+- What is the scheduled duration for an operation at a specific location?
+- How does the actual resource time compare to the planned cost for a work order?
+- Which product has the most operations defined in its routing?

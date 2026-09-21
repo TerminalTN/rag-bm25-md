@@ -1,14 +1,20 @@
 ---
 table: Person.ContactType
 schema: Person
-domain: unknown
+domain: person
 rows: 20
 primary_key: [ContactTypeID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.ContactType
+
+One row defining a specific method of contact, such as email or phone number. The primary identifier is ContactTypeID and the name describes the type.
+
+## Keywords
+
+contact, type, email, phone, telephone, communication, mode, method
 
 ## Columns
 
@@ -28,3 +34,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ContactTypeID` | 1 | 20 | 10.50 | 5.92 | 10 |
 
+## Typical questions
+
+- What are all available contact types?
+- How many different contact methods are recorded?
+- Which contact type was last modified?

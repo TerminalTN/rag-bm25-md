@@ -1,14 +1,20 @@
 ---
 table: Production.BillOfMaterials
 schema: Production
-domain: unknown
+domain: production
 rows: 2679
 primary_key: [BillOfMaterialsID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.BillOfMaterials
+
+One row detailing the components required to build a specific product assembly, specifying quantities and levels of assembly.
+
+## Keywords
+
+bill of materials, bom, component, assembly, produit, composition, quantity, manufacturing, recipe
 
 ## Columns
 
@@ -40,3 +46,8 @@ documented: false
 | `BOMLevel` | 0 | 4 | 1.36 | 0.58 | 1 |
 | `PerAssemblyQty` | 1 | 41 | 2.05 | 4.55 | 1 |
 
+## Typical questions
+
+- What are all the components needed for a given ProductAssemblyID?
+- How many units of a component are required per assembly?
+- Which BOMLevel represents the top-level product?

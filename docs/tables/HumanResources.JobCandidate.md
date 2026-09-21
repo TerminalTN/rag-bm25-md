@@ -1,14 +1,20 @@
 ---
 table: HumanResources.JobCandidate
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 13
 primary_key: [JobCandidateID]
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.JobCandidate
+
+One row represents a job candidate associated with a specific business entity, containing resume details and modification timestamps.
+
+## Keywords
+
+job candidate, resume, candidat, emploi, hr, business entity, application, recruitment
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 | `JobCandidateID` | 1 | 13 | 7 | 3.89 | 7 |
 | `BusinessEntityID` | 212 | 274 | 243 | 43.84 | 243 |
 
+## Typical questions
+
+- What is the resume for a given jobCandidateID?
+- Which business entity does this candidate belong to?
+- When was the record for this job candidate last modified?

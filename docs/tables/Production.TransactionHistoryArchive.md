@@ -1,14 +1,20 @@
 ---
 table: Production.TransactionHistoryArchive
 schema: Production
-domain: unknown
+domain: production
 rows: 89253
 primary_key: [TransactionID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.TransactionHistoryArchive
+
+One row records the historical changes or transactions for a specific product, referencing an original order via ReferenceOrderID and ReferenceOrderLineID.
+
+## Keywords
+
+transaction, history, product, cost, archive, modification date, quantity, actual cost, inventory change
 
 ## Columns
 
@@ -35,3 +41,8 @@ documented: false
 | `Quantity` | 1 | 39570 | 34.26 | 464.48 | 3 |
 | `ActualCost` | 0.0 | 3578.27 | 396.62 | 773.69 | 8.97 |
 
+## Typical questions
+
+- What was the quantity changed for a product on a specific date?
+- How can I track the historical cost of a product?
+- Which order references are associated with transaction history records?

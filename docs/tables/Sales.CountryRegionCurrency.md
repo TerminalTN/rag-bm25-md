@@ -1,14 +1,20 @@
 ---
 table: Sales.CountryRegionCurrency
 schema: Sales
-domain: unknown
+domain: sales
 rows: 109
 primary_key: [CountryRegionCode, CurrencyCode]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.CountryRegionCurrency
+
+One row defining the currency associated with a specific country region, tracking when this relationship was last modified.
+
+## Keywords
+
+currency, country region, code, monnaie, devise, transaction, billing, finance, exchange
 
 ## Columns
 
@@ -23,3 +29,8 @@ documented: false
 - `CountryRegionCode` -> `Person.CountryRegion.CountryRegionCode`
 - `CurrencyCode` -> `Sales.Currency.CurrencyCode`
 
+## Typical questions
+
+- What is the currency code for a given CountryRegionCode?
+- How do CurrencyCode and CountryRegionCode relate?
+- When was the last modification recorded for this currency pairing?

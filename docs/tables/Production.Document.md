@@ -1,14 +1,20 @@
 ---
 table: Production.Document
 schema: Production
-domain: unknown
+domain: production
 rows: 13
 primary_key: [DocumentNode]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.Document
+
+One row representing a document record, detailing its title, owner (Owner), and revision history.
+
+## Keywords
+
+document, file, revision, title, owner, fichier, documentaire, révision, metadata
 
 ## Columns
 
@@ -43,3 +49,8 @@ documented: false
 | `ChangeNumber` | 0 | 288 | 35.54 | 77.67 | 11 |
 | `Status` | 1 | 3 | 1.92 | 0.49 | 2 |
 
+## Typical questions
+
+- Who owns the document with the specified DocumentNode?
+- What is the latest revision number for a given file?
+- How many documents are associated with a specific owner?

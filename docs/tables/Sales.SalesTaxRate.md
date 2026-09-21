@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesTaxRate
 schema: Sales
-domain: unknown
+domain: sales
 rows: 29
 primary_key: [SalesTaxRateID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesTaxRate
+
+One row defines a specific sales tax rate applicable in a given state province and for a particular tax type, showing the actual tax rate.
+
+## Keywords
+
+tax rate, sales tax, taux de taxe, impôt, state province, rate, tax type, billing
 
 ## Columns
 
@@ -35,3 +41,8 @@ documented: false
 | `TaxType` | 1 | 3 | 2 | 0.96 | 2 |
 | `TaxRate` | 5.0 | 19.6 | 9.09 | 3.77 | 7 |
 
+## Typical questions
+
+- What is the sales tax rate for a specific StateProvinceID?
+- How does TaxType affect the applicable tax rate?
+- Which StateProvinceIDs have defined tax rates?

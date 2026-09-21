@@ -1,14 +1,20 @@
 ---
 table: Production.Illustration
 schema: Production
-domain: unknown
+domain: production
 rows: 5
 primary_key: [IllustrationID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.Illustration
+
+One row representing a specific diagram illustration used in product documentation, noting its ID and last modification date.
+
+## Keywords
+
+illustration, diagram, drawing, image, modification date, technical drawing, plan, visual
 
 ## Columns
 
@@ -28,3 +34,8 @@ documented: false
 |---|---|---|---|---|---|
 | `IllustrationID` | 3 | 7 | 5 | 1.58 | 5 |
 
+## Typical questions
+
+- What is the latest modified date for an illustration?
+- How many illustrations are recorded in the system?
+- Which diagram name corresponds to a specific IllustrationID?

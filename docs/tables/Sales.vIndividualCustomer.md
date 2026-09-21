@@ -1,14 +1,20 @@
 ---
 table: Sales.vIndividualCustomer
 schema: Sales
-domain: unknown
+domain: person
 rows: 18508
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vIndividualCustomer
+
+One row per individual customer, containing personal details like name (FirstName, LastName), contact information (PhoneNumber, EmailAddress), and address details.
+
+## Keywords
+
+customer, individual, contact, email, phone number, client, adresse, nom, personne
 
 ## Columns
 
@@ -40,3 +46,8 @@ documented: false
 | `BusinessEntityID` | 1699 | 20777 | 11,533.68 | 5,342.26 | 11,533 |
 | `EmailPromotion` | 0 | 2 | 0.63 | 0.78 | 0 |
 
+## Typical questions
+
+- What is the email address for a given BusinessEntityID?
+- How many phone numbers are associated with an individual?
+- Which country region does a customer reside in?

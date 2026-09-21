@@ -1,14 +1,20 @@
 ---
 table: Purchasing.PurchaseOrderDetail
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 8845
 primary_key: [PurchaseOrderDetailID, PurchaseOrderID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.PurchaseOrderDetail
+
+One row detailing a specific product line item within a purchase order, showing ordered quantity (OrderQty), unit price (UnitPrice), and total line cost (LineTotal).
+
+## Keywords
+
+purchase order, line item, order quantity, unit price, commande d'achat, article, quantité commandée, coût unitaire, achats
 
 ## Columns
 
@@ -45,3 +51,8 @@ documented: false
 | `RejectedQty` | 0 | 1250 | 8.22 | 58.32 | 0 |
 | `StockedQty` | 0 | 8000 | 254.90 | 350.98 | 57 |
 
+## Typical questions
+
+- What was the total line cost for a specific product on an order?
+- How many units were received versus ordered for a product?
+- Which purchase order contains records for ProductID 1?

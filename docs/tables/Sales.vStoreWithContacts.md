@@ -1,14 +1,20 @@
 ---
 table: Sales.vStoreWithContacts
 schema: Sales
-domain: unknown
+domain: sales
 rows: 753
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vStoreWithContacts
+
+One row representing a contact associated with a business entity, detailing the contact's name, phone number, and email address.
+
+## Keywords
+
+contact, business entity, email, phone number, client, customer, personnel, vstore
 
 ## Columns
 
@@ -34,3 +40,8 @@ documented: false
 | `BusinessEntityID` | 292 | 2051 | 1,034.64 | 466.24 | 1,001 |
 | `EmailPromotion` | 0 | 2 | 0.64 | 0.79 | 0 |
 
+## Typical questions
+
+- What is the primary phone number for a business?
+- How many contacts are associated with a specific BusinessEntityID?
+- Can we retrieve the email address and title of a contact?

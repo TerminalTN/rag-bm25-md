@@ -1,14 +1,20 @@
 ---
 table: Production.ProductDocument
 schema: Production
-domain: unknown
+domain: production
 rows: 32
 primary_key: [ProductID, DocumentNode]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductDocument
+
+One row documenting a specific change or document associated with a product, noting the product ID and the document node.
+
+## Keywords
+
+product, document, change, modification, update, revision, history, ProductDocument
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ProductID` | 317 | 999 | 740.06 | 245.81 | 930 |
 
+## Typical questions
+
+- What is the latest modification date for a given ProductID?
+- Which DocumentNode is associated with a specific product change?
+- How many documents are linked to a single ProductID?

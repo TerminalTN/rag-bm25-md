@@ -1,14 +1,20 @@
 ---
 table: HumanResources.EmployeeDepartmentHistory
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 296
 primary_key: [BusinessEntityID, StartDate, DepartmentID, ShiftID]
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.EmployeeDepartmentHistory
+
+One row tracks the historical assignment of an employee to a department and shift, noting the start date, end date, and associated DepartmentID and ShiftID.
+
+## Keywords
+
+employee history, department change, shift assignment, historique, departement, changement, emploi, HR
 
 ## Columns
 
@@ -35,3 +41,8 @@ documented: false
 | `DepartmentID` | 1 | 16 | 7.27 | 2.80 | 7 |
 | `ShiftID` | 1 | 3 | 1.56 | 0.77 | 1 |
 
+## Typical questions
+
+- What was an employee's department on a specific date?
+- How many times has an employee changed departments?
+- What is the earliest recorded shift for any employee?

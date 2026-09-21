@@ -1,14 +1,20 @@
 ---
 table: Person.Password
 schema: Person
-domain: unknown
+domain: person
 rows: 19972
 primary_key: [BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.Password
+
+One row per business entity's password credentials, storing the hash and salt used for authentication.
+
+## Keywords
+
+password, hash, salt, credential, authentication, security, login, business entity
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 |---|---|---|---|---|---|
 | `BusinessEntityID` | 1 | 20777 | 10,763.08 | 5,814.13 | 10,800 |
 
+## Typical questions
+
+- What is the password hash for a given BusinessEntityID?
+- When was the password record last modified?
+- How many passwords are stored in this table?

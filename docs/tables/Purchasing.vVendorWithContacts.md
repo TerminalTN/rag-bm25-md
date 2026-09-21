@@ -1,14 +1,20 @@
 ---
 table: Purchasing.vVendorWithContacts
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 156
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.vVendorWithContacts
+
+One row containing contact details for a vendor, linking the vendor (BusinessEntityID) to specific contact information like phone number or email.
+
+## Keywords
+
+vendor, contact, phone number, email, supplier, fournisseur, business entity, contact details, personnel
 
 ## Columns
 
@@ -34,3 +40,8 @@ documented: false
 | `BusinessEntityID` | 1492 | 1698 | 1,593.53 | 61.21 | 1,596 |
 | `EmailPromotion` | 0 | 2 | 0.58 | 0.74 | 0 |
 
+## Typical questions
+
+- What is the primary phone number for a vendor?
+- How can I find the email address associated with a business entity?
+- Which contact types are recorded for vendors?

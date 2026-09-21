@@ -1,14 +1,20 @@
 ---
 table: HumanResources.EmployeePayHistory
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 316
 primary_key: [BusinessEntityID, RateChangeDate]
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.EmployeePayHistory
+
+One row records a historical pay rate change for an employee, detailing the new rate and the date it became effective (RateChangeDate).
+
+## Keywords
+
+pay history, salary, rate, paie, compensation, employee, business entity, remuneration
 
 ## Columns
 
@@ -32,3 +38,8 @@ documented: false
 | `Rate` | 6.5 | 125.5 | 17.76 | 12.28 | 14 |
 | `PayFrequency` | 1 | 2 | 1.43 | 0.50 | 1 |
 
+## Typical questions
+
+- What was an employee's pay rate on a specific date?
+- How many pay frequency types are recorded?
+- Which business entity has the most pay history records?

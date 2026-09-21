@@ -1,14 +1,20 @@
 ---
 table: Production.TransactionHistory
 schema: Production
-domain: unknown
+domain: production
 rows: 113443
 primary_key: [TransactionID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.TransactionHistory
+
+One row records a historical change or transaction for a specific product, detailing the quantity and actual cost at the time of the event (TransactionDate).
+
+## Keywords
+
+transaction, history, product, cost, quantity, change, historical, inventory
 
 ## Columns
 
@@ -39,3 +45,8 @@ documented: false
 | `Quantity` | 1 | 39270 | 35.06 | 376.58 | 1 |
 | `ActualCost` | 0.0 | 2443.35 | 240.71 | 553.08 | 21.41 |
 
+## Typical questions
+
+- What was the recorded quantity change for a product?
+- When did a specific transaction occur?
+- How much was the actual cost during a historical transaction?

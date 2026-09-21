@@ -1,14 +1,20 @@
 ---
 table: Sales.CreditCard
 schema: Sales
-domain: unknown
+domain: sales
 rows: 19118
 primary_key: [CreditCardID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.CreditCard
+
+One row per credit card record, detailing the card type, number, and expiration date (ExpMonth, ExpYear).
+
+## Keywords
+
+credit card, payment, carte de crédit, paiement, card number, expiration, billing, transaction, finance
 
 ## Columns
 
@@ -35,3 +41,8 @@ documented: false
 | `ExpMonth` | 1 | 12 | 6.53 | 3.46 | 7 |
 | `ExpYear` | 2005 | 2008 | 2,006.50 | 1.11 | 2,006 |
 
+## Typical questions
+
+- What is the card type associated with a given CardNumber?
+- How can I find cards expiring in a specific month and year?
+- Which records show the most recent ModifiedDate?

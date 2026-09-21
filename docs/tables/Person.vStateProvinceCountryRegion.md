@@ -1,14 +1,20 @@
 ---
 table: Person.vStateProvinceCountryRegion
 schema: Person
-domain: unknown
+domain: person
 rows: 181
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.vStateProvinceCountryRegion
+
+One row containing the relationship between a state/province and its country region, detailing names and codes for geographical grouping.
+
+## Keywords
+
+state, province, country, region, geography, état, région, code pays, location
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 | `StateProvinceID` | 1 | 181 | 91 | 52.39 | 91 |
 | `TerritoryID` | 1 | 10 | 5.84 | 2.17 | 7 |
 
+## Typical questions
+
+- What is the name of a state province?
+- How can I find all regions associated with a specific country code?
+- Does this table indicate if a state province is unique to its territory?

@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesTerritoryHistory
 schema: Sales
-domain: unknown
+domain: sales
 rows: 17
 primary_key: [BusinessEntityID, StartDate, TerritoryID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesTerritoryHistory
+
+One row tracks the history of a business entity's assigned sales territory, showing when it started and ended in that specific territory (BusinessEntityID, TerritoryID).
+
+## Keywords
+
+territory, history, salesperson, assigned area, territoire, vente, business entity, start date, end date
 
 ## Columns
 
@@ -33,3 +39,8 @@ documented: false
 | `BusinessEntityID` | 275 | 290 | 281.29 | 4.84 | 281 |
 | `TerritoryID` | 1 | 10 | 4.59 | 2.85 | 4 |
 
+## Typical questions
+
+- What was the initial sales territory for a given business entity?
+- How long did a specific territory assignment last?
+- Which salespersons have changed territories over time?

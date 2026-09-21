@@ -1,14 +1,20 @@
 ---
 table: HumanResources.vEmployee
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 290
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.vEmployee
+
+One row per employee record, containing personal details such as name (FirstName, LastName), job title (JobTitle), and contact information (EmailAddress).
+
+## Keywords
+
+employee, staff, employé, personnel, job title, contact, email, HR, vEmployee
 
 ## Columns
 
@@ -40,3 +46,8 @@ documented: false
 | `BusinessEntityID` | 1 | 290 | 145.50 | 83.86 | 146 |
 | `EmailPromotion` | 0 | 2 | 0.67 | 0.83 | 0 |
 
+## Typical questions
+
+- What is the phone number for an employee with a specific job title?
+- How many employees are located in a particular city?
+- Which employee has a defined suffix?

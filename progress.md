@@ -111,3 +111,57 @@ timestamped with date + time.
 ### Next
 - Seed `docs/descriptions.yaml` (domain/tags/keywords/questions) for all tables.
 - Define RAG chunking strategy & retrieval layer.
+
+---
+
+## 2026-09-21 20:40 — LLM enrichment of all table descriptions
+
+### Done
+- `enrich_descriptions.py` (new): for each table without a description in
+  `docs/descriptions.yaml`, calls LM Studio (`http://127.0.0.1:1234`,
+  local OpenAI-compatible server) to generate description / domain /
+  keywords / questions as JSON.
+- Prompt hardening:
+  - Few-shot examples (SalesOrderHeader, Address, Product) anchored the
+    format and bilingual keyword style.
+  - Rules enforced in BOTH the system prompt and code via `validate()`:
+    exactly 3 questions, >= 8 keywords, domain required, and every
+    backticked name in the description must exist in the table's columns.
+  - JSON is parsed (markdown fences tolerated) and validated before saving;
+  - 3 attempts per table, transient HTTP errors retried.
+- **`reasoning_effort: "none"` added to the request payload** — gemma-4-e4b
+  reasons by default and burns max_tokens on thinking (returns nothing).
+  That's a known LM Studio + Gemma-4-E4B issue (UI "Enable Thinking" toggle
+  is unreliable for the E4B/E2B sizes; API param works). Documented in AGENTS.md.
+- Incremental save: `descriptions.yaml` is rewritten after every successful
+  table, so a long batch can be interrupted/resumed safely.
+- Runs executed in 3 chunks (30-min tool caps) → **91/91 tables described,
+  0 failures**. Then `generate_table_docs.py` re-run + `check_docs.py`:
+  **all 4 checks PASS**, e.g. Sales.Customer.md now shows description,
+  domain, keywords, and "Typical questions".
+
+### Next
+- Define RAG chunking strategy & retrieval layer (embeddings, vector store,
+  QA loop). Possibly commit the enriched docs.
+
+---
+
+## 2026-09-21 ~21:00 — Schema-drift handling in enrichment
+
+### Done
+- You were right: the old check ("has a description?") ignores schema changes.
+  Added staleness detection to `enrich_descriptions.py`:
+  - Every generated entry now stores **`columns_snapshot`** (sorted column list).
+  - On re-run, entries whose snapshot != current columns are **REBUILT**
+    (prints `REBUILD (schema change)`).
+  - Older/human entries without a snapshot are kept UNLESS their description
+    references a now-missing column (backtick check) → rebuilt.
+  - `--force` flag rebuilds everything regardless (also documented in AGENTS.md).
+- Fixed a parsing bug discovered while testing: the column list regex also
+  matched the "Numeric statistics" table rows (duplicate columns in the
+  snapshot). Column parsing is now scoped to the "## Columns" section only.
+- Verified: normal run skips cleanly (1 skipped, 0 rebuilt), `--force` rebuilds,
+  drift detector returns correct reasons for removed column / stale reference.
+
+### Next
+- RAG: chunking strategy, embeddings + vector store, retrieval + QA loop.

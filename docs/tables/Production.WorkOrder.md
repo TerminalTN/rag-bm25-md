@@ -1,14 +1,20 @@
 ---
 table: Production.WorkOrder
 schema: Production
-domain: unknown
+domain: production
 rows: 72591
 primary_key: [WorkOrderID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.WorkOrder
+
+One row detailing a specific work order created for a product, tracking quantities ordered (OrderQty), stocked (StockedQty), and scrapped (ScrappedQty).
+
+## Keywords
+
+work order, production, manufacturing, order quantity, scrapped, product ID, date, fabrication, commande, atelier
 
 ## Columns
 
@@ -42,3 +48,8 @@ documented: false
 | `ScrappedQty` | 0 | 673 | 0.15 | 4.81 | 0 |
 | `ScrapReasonID` | 1 | 16 | 8.72 | 4.74 | 9 |
 
+## Typical questions
+
+- What is the total quantity ordered for a specific product?
+- When was the work order started and ended?
+- How many units were scrapped from a given work order?

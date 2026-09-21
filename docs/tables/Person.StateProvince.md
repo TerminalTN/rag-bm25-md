@@ -1,14 +1,20 @@
 ---
 table: Person.StateProvince
 schema: Person
-domain: unknown
+domain: person
 rows: 181
 primary_key: [StateProvinceID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.StateProvince
+
+One row representing a specific state or province within a country, detailing its code, name, and relationship to a territory.
+
+## Keywords
+
+state, province, region, état, région, code, country, territory, location
 
 ## Columns
 
@@ -37,3 +43,8 @@ documented: false
 | `StateProvinceID` | 1 | 181 | 91 | 52.39 | 91 |
 | `TerritoryID` | 1 | 10 | 5.84 | 2.17 | 7 |
 
+## Typical questions
+
+- What is the name associated with a given StateProvinceID?
+- Which CountryRegionCode defines this state province?
+- How many territories are linked to this state?

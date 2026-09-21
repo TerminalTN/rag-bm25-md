@@ -1,14 +1,20 @@
 ---
 table: Purchasing.PurchaseOrderHeader
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 4012
 primary_key: [PurchaseOrderID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.PurchaseOrderHeader
+
+One row represents a header for a purchase order placed with a vendor, detailing the total due, subtotal, tax amount, and shipping information.
+
+## Keywords
+
+purchase order, vendor, buy, commande d'achat, fournisseur, order date, total due, subtotal, ship method
 
 ## Columns
 
@@ -50,3 +56,8 @@ documented: false
 | `Freight` | 0.9269 | 19953.6 | 394.81 | 644.05 | 70.05 |
 | `TotalDue` | 40.9684 | 1097448.0 | 17,567.13 | 31,033.99 | 3,097.27 |
 
+## Typical questions
+
+- What is the total due for a specific purchase order?
+- Which employee created this purchase order?
+- How was this purchase order shipped?

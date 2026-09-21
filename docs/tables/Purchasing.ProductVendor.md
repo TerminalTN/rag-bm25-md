@@ -1,14 +1,20 @@
 ---
 table: Purchasing.ProductVendor
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 460
 primary_key: [ProductID, BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.ProductVendor
+
+One row detailing the purchasing relationship between a product and its vendor, including standard pricing, lead times, and minimum/maximum order quantities.
+
+## Keywords
+
+vendor, product, purchase, supplier, prix standard, lead time, commande minimale, buying, achat
 
 ## Columns
 
@@ -45,3 +51,8 @@ documented: false
 | `MaxOrderQty` | 5 | 15000 | 776.47 | 2,081.80 | 5 |
 | `OnOrderQty` | 3 | 8000 | 660.74 | 1,567.23 | 150 |
 
+## Typical questions
+
+- What is the average lead time for a product from a vendor?
+- How many units are currently on order for a specific product?
+- What is the minimum order quantity required by a vendor?

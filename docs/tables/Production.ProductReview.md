@@ -1,14 +1,20 @@
 ---
 table: Production.ProductReview
 schema: Production
-domain: unknown
+domain: sales
 rows: 4
 primary_key: [ProductReviewID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductReview
+
+One row represents a specific review given by a user for a product, detailing the rating, comments, and reviewer's contact information.
+
+## Keywords
+
+review, rating, comment, critique, avis, feedback, product review, user feedback
 
 ## Columns
 
@@ -35,3 +41,8 @@ documented: false
 | `ProductID` | 709 | 937 | 845.25 | 112.00 | 868 |
 | `Rating` | 2 | 5 | 4 | 1.41 | 4 |
 
+## Typical questions
+
+- What is the average rating for a given ProductID?
+- Which ProductID has received the most reviews?
+- When was the latest review submitted?

@@ -1,14 +1,20 @@
 ---
 table: Purchasing.ShipMethod
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 5
 primary_key: [ShipMethodID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.ShipMethod
+
+One row details a specific shipping method used for orders, including its name and associated base rates (shipBase and shipRate).
+
+## Keywords
+
+shipping, method, transport, expédition, livraison, rate, base, purchase order
 
 ## Columns
 
@@ -34,3 +40,8 @@ documented: false
 | `ShipBase` | 3.95 | 29.95 | 14.96 | 10.67 | 9.95 |
 | `ShipRate` | 0.99 | 2.99 | 1.75 | 0.78 | 1.49 |
 
+## Typical questions
+
+- What is the base rate for a specific shipping method?
+- How many different shipping methods are available?
+- Which shipMethodID corresponds to the highest shipRate?

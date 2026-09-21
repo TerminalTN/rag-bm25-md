@@ -1,14 +1,20 @@
 ---
 table: Person.BusinessEntity
 schema: Person
-domain: unknown
+domain: person
 rows: 20777
 primary_key: [BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.BusinessEntity
+
+One row per business entity record, containing identifiers and modification timestamps. The primary key is BusinessEntityID.
+
+## Keywords
+
+business, entity, company, entreprise, organization, identifier, record, client
 
 ## Columns
 
@@ -32,3 +38,8 @@ documented: false
 |---|---|---|---|---|---|
 | `BusinessEntityID` | 1 | 20777 | 10,389 | 5,997.95 | 10,389 |
 
+## Typical questions
+
+- How many unique business entities are recorded?
+- What was the last modified date for a specific entity?
+- Can we retrieve all BusinessEntityIDs?

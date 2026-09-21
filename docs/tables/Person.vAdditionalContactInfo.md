@@ -1,14 +1,20 @@
 ---
 table: Person.vAdditionalContactInfo
 schema: Person
-domain: unknown
+domain: person
 rows: 10
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.vAdditionalContactInfo
+
+One row contains supplementary contact details for a business entity, including various phone numbers, email addresses, and physical location information like city and postal code.
+
+## Keywords
+
+contact, email, phone number, address, business entity, telephone, adresse, contact info, EMailAddress
 
 ## Columns
 
@@ -39,3 +45,8 @@ documented: false
 | `BusinessEntityID` | 291 | 309 | 300 | 6.06 | 300 |
 | `PostalCode` | 98001 | 98431 | 98,161.33 | 234.93 | 98,052 |
 
+## Typical questions
+
+- What is the primary phone number for a given business entity?
+- How can I find the email address associated with a BusinessEntityID?
+- What are the special instructions recorded for an email contact?

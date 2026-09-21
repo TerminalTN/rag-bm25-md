@@ -1,14 +1,20 @@
 ---
 table: Sales.Customer
 schema: Sales
-domain: unknown
+domain: sales
 rows: 19820
 primary_key: [CustomerID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.Customer
+
+One row per customer record, linking the customer to a person (PersonID), store (StoreID), and sales territory (TerritoryID).
+
+## Keywords
+
+customer, client, account, person, territory, store, sales, billing
 
 ## Columns
 
@@ -38,3 +44,8 @@ documented: false
 | `StoreID` | 292 | 2051 | 1,037.65 | 475.91 | 993 |
 | `TerritoryID` | 1 | 10 | 5.82 | 3.04 | 6 |
 
+## Typical questions
+
+- What is the PersonID associated with a given CustomerID?
+- Which SalesTerritory does a customer belong to?
+- How many stores are linked to a specific customer?

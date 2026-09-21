@@ -1,14 +1,20 @@
 ---
 table: dbo.DatabaseLog
 schema: dbo
-domain: unknown
+domain: person
 rows: 1596
 primary_key: [DatabaseLogID]
 tags: []
-documented: false
+documented: true
 ---
 
 # dbo.DatabaseLog
+
+One row records a specific database event, detailing when it occurred (PostTime), which user executed it (DatabaseUser), and the associated schema or object.
+
+## Keywords
+
+database, log, event, transaction, user activity, schema, object, audit, logging
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 |---|---|---|---|---|---|
 | `DatabaseLogID` | 1 | 1596 | 798.50 | 460.87 | 799 |
 
+## Typical questions
+
+- When was a specific event logged?
+- Which user performed an action on an object?
+- What is the recorded event type for a given time?

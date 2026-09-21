@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesPerson
 schema: Sales
-domain: unknown
+domain: sales
 rows: 17
 primary_key: [BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesPerson
+
+One row detailing the sales performance and quotas for a specific salesperson, referencing their employee (BusinessEntityID) and assigned territory (TerritoryID).
+
+## Keywords
+
+salesperson, quota, commission, territory, ventes, commercial, performance, bonus, sales ytd
 
 ## Columns
 
@@ -45,3 +51,8 @@ documented: false
 | `SalesYTD` | 172524.4512 | 4251368.5497 | 2,133,975.99 | 1,243,721.37 | 1,827,066.71 |
 | `SalesLastYear` | 0.0 | 2396539.7601 | 1,393,291.98 | 849,244.47 | 1,635,823.40 |
 
+## Typical questions
+
+- What is the sales quota for a given salesperson?
+- How much commission percentage is assigned to a territory?
+- What are the year-to-date sales figures for an employee?

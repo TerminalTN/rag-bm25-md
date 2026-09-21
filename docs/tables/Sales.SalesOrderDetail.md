@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesOrderDetail
 schema: Sales
-domain: unknown
+domain: sales
 rows: 121317
 primary_key: [SalesOrderDetailID, SalesOrderID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesOrderDetail
+
+One row per order line, containing the quantity of each item and its price.
+
+## Keywords
+
+order, line, quantité, quantity, commande, ligne, item
 
 ## Columns
 
@@ -45,3 +51,7 @@ documented: false
 | `UnitPriceDiscount` | 0.0 | 0.4 | 0.00 | 0.02 | 0 |
 | `LineTotal` | 1.374 | 27893.619 | 905.45 | 1,693.42 | 140.11 |
 
+## Typical questions
+
+- How many items are in a single order?
+- What is the price of an individual item?

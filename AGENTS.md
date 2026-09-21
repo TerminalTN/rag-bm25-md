@@ -38,6 +38,7 @@ use the CSV mirror above.
 extract_adventureworks.py   # pipeline: GitHub CSV -> DuckDB
 generate_table_docs.py      # DuckDB -> one .md file per table (docs/tables/)
 fetch_relationships.py      # CTU MariaDB PK/FK -> docs/relationships.yaml
+enrich_descriptions.py      # local LLM (LM Studio) -> docs/descriptions.yaml
 check_docs.py               # validation of generated docs (4 checks, exit code)
 data/adventureworks.duckdb  # DuckDB database (gitignored)
 data/raw/adventureworks/    # downloaded CSV cache (gitignored)
@@ -64,6 +65,14 @@ AGENTS.md                   # this file
 # re-fetch PK/FK relationships from CTU MariaDB (see version caveat below)
 .\.venv\Scripts\python.exe fetch_relationships.py
 
+# describe undocumented tables via local LLM (LM Studio, default model = google/gemma-4-e4b)
+#   optional single table:     python enrich_descriptions.py "Person.Address"
+#   optional batch limit:      python enrich_descriptions.py --limit 20
+#   force rebuild all entries: python enrich_descriptions.py --force
+#   stale entries (columns changed/removed, old column referenced) are
+#   regenerated automatically thanks to the stored columns_snapshot.
+.\.venv\Scripts\python.exe enrich_descriptions.py
+
 # validate the generated docs (exit code 0 = all good)
 .\.venv\Scripts\python.exe check_docs.py
 ```
@@ -83,5 +92,9 @@ which CTU excludes), so the FK graph is considered accurate but may miss
 - **DuckDB is single-process**: only one process may open the DB file at a time.
   Close the DuckDB CLI (or any connection) before running scripts — otherwise
   scripts fail with "file already open in ..." (file lock on Windows).
+- **gemma-4-e4b reasons by default** and burns the whole `max_tokens` budget on
+  reasoning (returns nothing). `enrich_descriptions.py` already sends
+  `"reasoning_effort": "none"`; if the UI is used, set per-model
+  Reasoning → Enable Thinking = Off.
 - Never commit `.venv\`, `data\`, or `__pycache__\`.
 - Windows / PowerShell host: use quoted paths and `.\.venv\Scripts\python.exe`.

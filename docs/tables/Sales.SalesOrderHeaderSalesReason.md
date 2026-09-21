@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesOrderHeaderSalesReason
 schema: Sales
-domain: unknown
+domain: sales
 rows: 27647
 primary_key: [SalesOrderID, SalesReasonID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesOrderHeaderSalesReason
+
+One row records the reason for a specific sales order, linking the SalesOrderID to the corresponding SalesReasonID.
+
+## Keywords
+
+sales order, reason, cause, raison, transaction, order header, SalesOrderID, SalesReasonID
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 | `SalesOrderID` | 43697 | 75123 | 60,458.86 | 8,950.26 | 60,849 |
 | `SalesReasonID` | 1 | 10 | 2.59 | 2.77 | 1 |
 
+## Typical questions
+
+- What is the recorded sales reason for a given SalesOrderID?
+- How many different sales reasons are associated with orders?
+- Can I find all orders marked with a specific SalesReasonID?

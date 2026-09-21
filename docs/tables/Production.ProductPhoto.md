@@ -1,14 +1,20 @@
 ---
 table: Production.ProductPhoto
 schema: Production
-domain: unknown
+domain: production
 rows: 101
 primary_key: [ProductPhotoID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductPhoto
+
+One row per photo associated with a product, containing file names for both thumbnail and large versions.
+
+## Keywords
+
+photo, image, picture, produit, visuel, thumbnail, large photo, media
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ProductPhotoID` | 1 | 181 | 125.77 | 34.90 | 128 |
 
+## Typical questions
+
+- What are the file names for a specific product's photos?
+- How recently was a product photo modified?
+- Can I list all available photo IDs?

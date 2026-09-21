@@ -1,14 +1,20 @@
 ---
 table: HumanResources.Employee
 schema: HumanResources
-domain: unknown
+domain: HumanResources
 rows: 290
 primary_key: [BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.Employee
+
+This table represents employee information within the HumanResources system.
+
+## Keywords
+
+employee, human resources, job title, salary, vacation, sick leave
 
 ## Columns
 
@@ -51,3 +57,9 @@ documented: false
 | `VacationHours` | 0 | 99 | 50.61 | 28.79 | 51 |
 | `SickLeaveHours` | 20 | 80 | 45.31 | 14.54 | 46 |
 
+## Typical questions
+
+- What is the current salary of an employee?
+- How many vacation hours does an employee have?
+- Can I see a list of all employees by national ID number?
+- What are the different types of job titles available?

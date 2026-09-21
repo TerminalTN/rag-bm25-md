@@ -1,14 +1,20 @@
 ---
 table: Purchasing.vVendorWithAddresses
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 104
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.vVendorWithAddresses
+
+One row containing the address details for a vendor, including name and location information.
+
+## Keywords
+
+vendor, supplier, address, adresse, fournisseur, location, city, postal code, business entity
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 |---|---|---|---|---|---|
 | `BusinessEntityID` | 1492 | 1698 | 1,595 | 60.33 | 1,595 |
 
+## Typical questions
+
+- What is the primary address line for a given vendor?
+- Which country region does a vendor operate in?
+- How can I find all addresses associated with a specific business entity ID?

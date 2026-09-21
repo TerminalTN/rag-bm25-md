@@ -1,14 +1,20 @@
 ---
 table: Person.Person
 schema: Person
-domain: unknown
+domain: person
 rows: 19972
 primary_key: [BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.Person
+
+One row per individual person record, containing their name components (FirstName, MiddleName, LastName) and contact details.
+
+## Keywords
+
+person, name, contact, email, individual, nom, prénom, dernière
 
 ## Columns
 
@@ -46,3 +52,8 @@ documented: false
 | `BusinessEntityID` | 1 | 20777 | 10,763.08 | 5,814.13 | 10,791 |
 | `EmailPromotion` | 0 | 2 | 0.63 | 0.78 | 0 |
 
+## Typical questions
+
+- How many people share the same last name?
+- What is the most common title among individuals?
+- Can we find a person by their email promotion status?

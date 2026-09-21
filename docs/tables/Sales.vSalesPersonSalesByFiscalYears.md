@@ -1,14 +1,20 @@
 ---
 table: Sales.vSalesPersonSalesByFiscalYears
 schema: Sales
-domain: unknown
+domain: sales
 rows: 14
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vSalesPersonSalesByFiscalYears
+
+One row summarizes a salesperson's sales performance across multiple fiscal years, detailing their name, job title, and sales figures for each year.
+
+## Keywords
+
+salesperson, sales, performance, yearly, fiscal year, ventes, commercial, revenue, job title
 
 ## Columns
 
@@ -28,3 +34,8 @@ documented: false
 |---|---|---|---|---|---|
 | `SalesPersonID` | 275 | 290 | 282 | 4.88 | 282 |
 
+## Typical questions
+
+- What was the total sales revenue for a specific salesperson across all recorded years?
+- How does a salesperson's performance change between 2003 and 2004?
+- Which job titles are associated with high sales figures?

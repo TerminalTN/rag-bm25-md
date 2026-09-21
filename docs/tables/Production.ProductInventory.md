@@ -1,14 +1,20 @@
 ---
 table: Production.ProductInventory
 schema: Production
-domain: unknown
+domain: production
 rows: 1069
 primary_key: [ProductID, LocationID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductInventory
+
+One row details the current stock level of a specific product at a given location and shelf, showing the quantity available.
+
+## Keywords
+
+inventory, stock, quantity, product, location, shelf, stock level, inventaire, quantité, stockage
 
 ## Columns
 
@@ -36,3 +42,8 @@ documented: false
 | `Bin` | 0 | 61 | 8.90 | 11.32 | 5 |
 | `Quantity` | 0 | 924 | 314.29 | 189.85 | 299 |
 
+## Typical questions
+
+- What is the current stock of ProductID 1 at LocationID 1?
+- How many different locations store products?
+- Which product has the highest quantity in inventory?

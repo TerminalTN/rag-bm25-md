@@ -1,14 +1,20 @@
 ---
 table: Production.vProductModelInstructions
 schema: Production
-domain: unknown
+domain: production
 rows: 131
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.vProductModelInstructions
+
+One row details the instructions and resource requirements for a specific step within a product model, referencing ProductModelID and LocationID.
+
+## Keywords
+
+product model, instructions, setup hours, machine hours, labor hours, process step, manufacturing, production
 
 ## Columns
 
@@ -37,3 +43,8 @@ documented: false
 | `LaborHours` | 0.5 | 4.0 | 2.11 | 1.13 | 2 |
 | `LotSize` | 1 | 100 | 21.75 | 37.76 | 1 |
 
+## Typical questions
+
+- What are the required setup hours for a specific product model?
+- How many machine hours are needed for a given process step?
+- Which location is associated with these production instructions?

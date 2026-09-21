@@ -1,14 +1,20 @@
 ---
 table: Person.CountryRegion
 schema: Person
-domain: unknown
+domain: person
 rows: 238
 primary_key: [CountryRegionCode]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.CountryRegion
+
+One row representing a distinct country region, identified by its code and name.
+
+## Keywords
+
+country, region, pays, nationalité, code pays, name, location, geography
 
 ## Columns
 
@@ -24,3 +30,8 @@ documented: false
 - referenced by `Sales.CountryRegionCurrency.CountryRegionCode`
 - referenced by `Sales.SalesTerritory.CountryRegionCode`
 
+## Typical questions
+
+- What is the full name for a given CountryRegionCode?
+- How many distinct country regions are recorded?
+- When was the record for a specific country last modified?

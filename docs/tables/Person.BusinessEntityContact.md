@@ -1,14 +1,20 @@
 ---
 table: Person.BusinessEntityContact
 schema: Person
-domain: unknown
+domain: person
 rows: 909
 primary_key: [BusinessEntityID, PersonID, ContactTypeID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.BusinessEntityContact
+
+One row linking a person to a business entity with specific contact details, identified by the combination of BusinessEntityID, PersonID, and ContactTypeID.
+
+## Keywords
+
+contact, business entity, person, contact type, lien, relation, details, communication
 
 ## Columns
 
@@ -34,3 +40,8 @@ documented: false
 | `PersonID` | 291 | 2090 | 1,211.33 | 540.77 | 1,199 |
 | `ContactTypeID` | 2 | 19 | 13.75 | 2.85 | 14 |
 
+## Typical questions
+
+- What is the primary contact type for a given person?
+- Which business entities are associated with a specific person?
+- How can we find all contacts for a particular BusinessEntityID?

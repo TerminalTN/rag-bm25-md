@@ -1,14 +1,20 @@
 ---
 table: Person.BusinessEntityAddress
 schema: Person
-domain: unknown
+domain: person
 rows: 19614
 primary_key: [BusinessEntityID, AddressID, AddressTypeID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.BusinessEntityAddress
+
+One row linking a business entity to one of its physical addresses, specifying the type of address used.
+
+## Keywords
+
+business address, entity, adresse commerciale, location professionnelle, address link, business unit, site, physical location
 
 ## Columns
 
@@ -34,3 +40,8 @@ documented: false
 | `AddressID` | 1 | 32521 | 19,516.28 | 6,961.70 | 20,099 |
 | `AddressTypeID` | 2 | 5 | 2.05 | 0.23 | 2 |
 
+## Typical questions
+
+- What is the primary address for a given business entity?
+- How many different address types can be associated with an entity?
+- Which addresses are linked to a specific business entity ID?

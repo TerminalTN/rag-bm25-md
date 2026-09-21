@@ -1,14 +1,20 @@
 ---
 table: Sales.vStoreWithDemographics
 schema: Sales
-domain: unknown
+domain: sales
 rows: 701
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vStoreWithDemographics
+
+One row contains demographic and sales information for a specific business entity, detailing its annual sales, revenue, and operational size (square feet, employees).
+
+## Keywords
+
+business, demographics, annual sales, revenue, client, customer data, ventes annuelles, revenu, entity
 
 ## Columns
 
@@ -38,3 +44,8 @@ documented: false
 | `SquareFeet` | 6000 | 80000 | 40,014.27 | 24,445.62 | 37,000 |
 | `NumberEmployees` | 2 | 100 | 40.51 | 29.47 | 35 |
 
+## Typical questions
+
+- What is the annual revenue for a given business entity?
+- How many employees does a business have based on its record?
+- Which year was the business entity opened?

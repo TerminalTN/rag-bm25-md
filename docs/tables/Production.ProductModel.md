@@ -1,14 +1,20 @@
 ---
 table: Production.ProductModel
 schema: Production
-domain: unknown
+domain: production
 rows: 128
 primary_key: [ProductModelID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductModel
+
+One row per product model, detailing its name and catalog description. The primary identifier for this record is ProductModelID.
+
+## Keywords
+
+product model, catalog, model, produit modèle, name, description, instructions, ProductModelID
 
 ## Columns
 
@@ -33,3 +39,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ProductModelID` | 1 | 128 | 64.50 | 37.09 | 64 |
 
+## Typical questions
+
+- What are the names of all product models?
+- How many instructions are associated with a product model?
+- Which ProductModelID has no catalog description?

@@ -1,14 +1,20 @@
 ---
 table: Production.ProductSubcategory
 schema: Production
-domain: unknown
+domain: production
 rows: 37
 primary_key: [ProductSubcategoryID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductSubcategory
+
+One row represents a specific grouping or classification of products within a larger category, linking the subcategory name to its parent ProductCategoryID.
+
+## Keywords
+
+subcategory, product, category, classification, sous-catégorie, produit
 
 ## Columns
 
@@ -32,3 +38,7 @@ documented: false
 | `ProductSubcategoryID` | 1 | 37 | 19 | 10.82 | 19 |
 | `ProductCategoryID` | 1 | 4 | 2.78 | 1.00 | 3 |
 
+## Typical questions
+
+- What are all the available product subcategories?
+- How many subcategories belong to a specific main category?

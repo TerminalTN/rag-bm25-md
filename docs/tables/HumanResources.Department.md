@@ -1,14 +1,20 @@
 ---
 table: HumanResources.Department
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 16
 primary_key: [DepartmentID]
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.Department
+
+One row per department within the company structure, detailing its name and associated group.
+
+## Keywords
+
+department, hr, service, groupe, name, division, structure, employee
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 |---|---|---|---|---|---|
 | `DepartmentID` | 1 | 16 | 8.50 | 4.76 | 8 |
 
+## Typical questions
+
+- What is the name of a specific department?
+- How many departments belong to a certain groupName?
+- When was the department record last modified?

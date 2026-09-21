@@ -1,14 +1,20 @@
 ---
 table: Sales.SpecialOffer
 schema: Sales
-domain: unknown
+domain: sales
 rows: 16
 primary_key: [SpecialOfferID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SpecialOffer
+
+One row details a specific promotional offer applied to products, including the discount percentage (DiscountPct) and applicable quantity ranges (MinQty, MaxQty).
+
+## Keywords
+
+special offer, discount, promotion, offre spéciale, rabais, sale, marketing, category
 
 ## Columns
 
@@ -39,3 +45,8 @@ documented: false
 | `MinQty` | 0 | 61 | 9.56 | 18.09 | 0 |
 | `MaxQty` | 14 | 60 | 34.50 | 20.09 | 32 |
 
+## Typical questions
+
+- What is the maximum discount available for a product?
+- When does a specific special offer expire?
+- Which categories are eligible for promotions?

@@ -1,14 +1,20 @@
 ---
 table: HumanResources.vEmployeeDepartment
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 290
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.vEmployeeDepartment
+
+One row represents an employee's department assignment, detailing their name (FirstName, LastName) and job title within a specific department.
+
+## Keywords
+
+employee, department, job title, hr, personnel, staff, employment, start date
 
 ## Columns
 
@@ -31,3 +37,8 @@ documented: false
 |---|---|---|---|---|---|
 | `BusinessEntityID` | 1 | 290 | 145.50 | 83.86 | 146 |
 
+## Typical questions
+
+- What is the start date for an employee in a certain department?
+- How many employees share the same jobTitle?
+- Which departments have multiple employees assigned?

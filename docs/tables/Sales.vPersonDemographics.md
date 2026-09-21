@@ -1,14 +1,20 @@
 ---
 table: Sales.vPersonDemographics
 schema: Sales
-domain: unknown
+domain: person
 rows: 19972
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vPersonDemographics
+
+One row containing demographic and purchasing data for a business entity, including total purchases year to date (TotalPurchaseYTD) and personal details like gender and education.
+
+## Keywords
+
+demographics, purchase history, income, gender, birthdate, education, marital status, business entity
 
 ## Columns
 
@@ -38,3 +44,8 @@ documented: false
 | `NumberChildrenAtHome` | 0 | 5 | 1.00 | 1.52 | 0 |
 | `NumberCarsOwned` | 0 | 4 | 1.50 | 1.14 | 2 |
 
+## Typical questions
+
+- What is the total purchase year to date for a specific business entity?
+- How can I find the birth date associated with an entity?
+- Which demographic fields are available for analysis?

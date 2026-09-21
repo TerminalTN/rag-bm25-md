@@ -1,14 +1,20 @@
 ---
 table: Purchasing.Vendor
 schema: Purchasing
-domain: unknown
+domain: purchasing
 rows: 104
 primary_key: [BusinessEntityID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Purchasing.Vendor
+
+One row for each vendor that supplies goods or services, detailing their account number, name, and credit rating.
+
+## Keywords
+
+vendor, supplier, fournisseur, achats, account number, credit rating, business entity, purchase
 
 ## Columns
 
@@ -36,3 +42,8 @@ documented: false
 | `BusinessEntityID` | 1492 | 1698 | 1,595 | 60.33 | 1,595 |
 | `CreditRating` | 1 | 5 | 1.36 | 0.85 | 1 |
 
+## Typical questions
+
+- What is the preferred vendor status of a given vendor?
+- How many vendors are currently active?
+- Which business entity ID corresponds to this vendor?

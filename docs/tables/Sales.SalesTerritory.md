@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesTerritory
 schema: Sales
-domain: unknown
+domain: sales
 rows: 10
 primary_key: [TerritoryID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesTerritory
+
+One row representing a defined sales territory, detailing its name, associated country region (CountryRegionCode), and year-to-date/last year's sales and cost figures.
+
+## Keywords
+
+territory, sales, region, country, vente, zone de vente, revenue, cost, geography, market
 
 ## Columns
 
@@ -44,3 +50,8 @@ documented: false
 | `CostYTD` | 0 | 0 | 0 | 0 | 0 |
 | `CostLastYear` | 0 | 0 | 0 | 0 | 0 |
 
+## Typical questions
+
+- What is the total sales year-to-date for a specific territory?
+- Which country region code is associated with this territory?
+- How does the cost compare between this year and last year for a given territory?

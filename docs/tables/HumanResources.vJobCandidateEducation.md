@@ -1,14 +1,20 @@
 ---
 table: HumanResources.vJobCandidateEducation
 schema: HumanResources
-domain: unknown
+domain: human-resources
 rows: 16
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.vJobCandidateEducation
+
+One row details the educational background for a specific job candidate, recording degree information, dates, and GPA.
+
+## Keywords
+
+education, job candidate, degree, major, GPA, school, études, diplôme, formation, academic
 
 ## Columns
 
@@ -35,3 +41,8 @@ documented: false
 | `JobCandidateID` | 1 | 13 | 6.75 | 3.75 | 6 |
 | `Edu.GPAScale` | 4 | 4 | 4 | 0 | 4 |
 
+## Typical questions
+
+- What is the highest level of education achieved by a candidate?
+- Which schools are listed in the educational records?
+- Can we find the start and end dates for a specific degree?

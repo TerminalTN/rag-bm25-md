@@ -1,14 +1,20 @@
 ---
 table: Production.Culture
 schema: Production
-domain: unknown
+domain: production
 rows: 8
 primary_key: [CultureID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.Culture
+
+One row contains details about a specific culture, including its name and the last time it was modified.
+
+## Keywords
+
+culture, country, origine, nationalité, name, modified date, location, region
 
 ## Columns
 
@@ -22,3 +28,8 @@ documented: false
 
 - referenced by `Production.ProductModelProductDescriptionCulture.CultureID`
 
+## Typical questions
+
+- What is the name associated with CultureID 'USA'?
+- When was the record for a specific culture last updated?
+- How many distinct cultures are recorded in the system?

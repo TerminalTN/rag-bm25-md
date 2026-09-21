@@ -1,14 +1,20 @@
 ---
 table: Person.PhoneNumberType
 schema: Person
-domain: unknown
+domain: person
 rows: 3
 primary_key: [PhoneNumberTypeID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Person.PhoneNumberType
+
+One row defining the type of phone number, such as work or home, identified by its name.
+
+## Keywords
+
+phone number, type, contact, telephone, téléphone, communication, work, home
 
 ## Columns
 
@@ -28,3 +34,8 @@ documented: false
 |---|---|---|---|---|---|
 | `PhoneNumberTypeID` | 1 | 3 | 2 | 1 | 2 |
 
+## Typical questions
+
+- What are the available phone number types?
+- When was a specific phone type last modified?
+- How many distinct phone number types exist?

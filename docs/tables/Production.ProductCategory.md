@@ -1,14 +1,20 @@
 ---
 table: Production.ProductCategory
 schema: Production
-domain: unknown
+domain: production
 rows: 4
 primary_key: [ProductCategoryID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.ProductCategory
+
+One row describing a category of products, identified by ProductCategoryID and named in the Name column.
+
+## Keywords
+
+category, product group, catégorie, groupe produit, name, ProductCategoryID, classification, produit
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ProductCategoryID` | 1 | 4 | 2.50 | 1.29 | 2 |
 
+## Typical questions
+
+- How many product categories are defined?
+- What is the name associated with a specific ProductCategoryID?
+- Can I find all products belonging to a certain category?

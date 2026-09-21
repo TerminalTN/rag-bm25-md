@@ -1,14 +1,20 @@
 ---
 table: Production.vProductAndDescription
 schema: Production
-domain: unknown
+domain: production
 rows: 1764
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.vProductAndDescription
+
+One row containing the description details for a specific product, linking it via ProductID to its name and model.
+
+## Keywords
+
+product, description, name, model, produit, décrire, details, vProductAndDescription
 
 ## Columns
 
@@ -26,3 +32,8 @@ documented: false
 |---|---|---|---|---|---|
 | `ProductID` | 680 | 999 | 851.73 | 85.43 | 851 |
 
+## Typical questions
+
+- What is the full description for a given ProductID?
+- How many different product models are listed?
+- Can I find the name associated with a specific CultureID?

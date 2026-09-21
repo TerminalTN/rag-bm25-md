@@ -1,14 +1,20 @@
 ---
 table: Sales.vStoreWithAddresses
 schema: Sales
-domain: unknown
+domain: sales
 rows: 712
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vStoreWithAddresses
+
+One row detailing a specific store's address information, linking the business entity (BusinessEntityID) to its physical location details like city and postal code.
+
+## Keywords
+
+store, address, location, magasin, adresse, city, postal code, business entity, vStore
 
 ## Columns
 
@@ -30,3 +36,8 @@ documented: false
 |---|---|---|---|---|---|
 | `BusinessEntityID` | 292 | 2051 | 1,034.07 | 476.54 | 993 |
 
+## Typical questions
+
+- What is the address for a specific BusinessEntityID?
+- How many stores are located in a certain city?
+- Which country region contains the most store addresses?

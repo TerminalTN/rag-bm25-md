@@ -1,14 +1,20 @@
 ---
 table: Production.vProductModelCatalogDescription
 schema: Production
-domain: unknown
+domain: production
 rows: 6
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Production.vProductModelCatalogDescription
+
+One row containing detailed descriptive information for a specific product model, including its name, manufacturer, and various component details like wheel or saddle.
+
+## Keywords
+
+product model, description, manufacturer, bike frame, component, details, catalog, model
 
 ## Columns
 
@@ -48,3 +54,8 @@ documented: false
 | `Copyright` | 2002 | 2002 | 2,002 | 0 | 2,002 |
 | `ProductPhotoID` | 1 | 126 | 88.33 | 45.70 | 99 |
 
+## Typical questions
+
+- What is the warranty period for a given product model?
+- Which material is used in a specific bike frame?
+- How many different components (wheel, saddle, pedal) are listed for a model?

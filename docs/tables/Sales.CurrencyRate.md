@@ -1,14 +1,20 @@
 ---
 table: Sales.CurrencyRate
 schema: Sales
-domain: unknown
+domain: sales
 rows: 13532
 primary_key: [CurrencyRateID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.CurrencyRate
+
+One row represents the exchange rate between two currencies on a specific date, detailing both an average and end-of-day rate.
+
+## Keywords
+
+exchange rate, currency, rate, taux de change, forex, average rate, end of day, conversion, monnaie
 
 ## Columns
 
@@ -36,3 +42,8 @@ documented: false
 | `AverageRate` | 0.6046 | 1500.0 | 79.24 | 234.92 | 1.99 |
 | `EndOfDayRate` | 0.6041 | 1499.95 | 79.24 | 234.92 | 1.98 |
 
+## Typical questions
+
+- What was the average exchange rate between USD and EUR on a given date?
+- How did the end-of-day rate compare to the average rate for a specific currency pair?
+- Which currencies have recorded exchange rates in this table?

@@ -1,14 +1,20 @@
 ---
 table: Sales.SalesReason
 schema: Sales
-domain: unknown
+domain: sales
 rows: 10
 primary_key: [SalesReasonID]
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.SalesReason
+
+One row represents a predefined reason code explaining why a sale transaction occurred, detailing the name (Name) and classification type (ReasonType).
+
+## Keywords
+
+sale reason, reason code, raison de vente, cause, transaction, selling, vente, sales data, SalesReasonID
 
 ## Columns
 
@@ -29,3 +35,8 @@ documented: false
 |---|---|---|---|---|---|
 | `SalesReasonID` | 1 | 10 | 5.50 | 3.03 | 6 |
 
+## Typical questions
+
+- What are the available reasons for a sale?
+- How many different types of sales reasons exist?
+- When was a specific sales reason last modified?

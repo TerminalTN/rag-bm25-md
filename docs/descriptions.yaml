@@ -1,49 +1,1768 @@
 # Human-readable metadata for AdventureWorks tables.
-# Structure:
-#   "<schema>.<table>":
-#     description: "optional table description"
-#     columns:
-#       "<ColumnName>": "optional column description"
-#
-# Entries are merged into each table's generated .md file. Any table/column
-# not listed here is still documented (structure + stats), just without a
-# description. Add entries here as you curate the docs.
-
-"Person.Address":
-  description: "Street addresses for businesses, employees, and customers."
+#   description: what the table holds (one row = ?)
+#   domain: sales / production / purchasing / human-resources / person
+#   keywords / questions: RAG search + QA helpers
+#   source: 'llm' (auto-generated) -> change to 'human' when corrected
+# Entries are merged into each table's generated .md file.
+Person.Address:
+  description: Street addresses for businesses, employees, and customers.
   columns:
-    "AddressID": "Primary key."
-    "AddressLine1": "First line of the street address."
-    "AddressLine2": "Second line of the street address (optional)."
-    "City": "City of the address."
-    "StateProvinceID": "FK to Person.StateProvince."
-    "PostalCode": "Postal / ZIP code."
-    "ModifiedDate": "Date the row was last modified."
-
-"Production.Product":
-  description: "Products sold or used in the manufacturing of goods."
+    AddressID: Primary key.
+    AddressLine1: First line of the street address.
+    AddressLine2: Second line of the street address (optional).
+    City: City of the address.
+    StateProvinceID: FK to Person.StateProvince.
+    PostalCode: Postal / ZIP code.
+    ModifiedDate: Date the row was last modified.
+Production.Product:
+  description: Products sold or used in the manufacturing of goods.
   columns:
-    "ProductID": "Primary key."
-    "Name": "Product name."
-    "ProductNumber": "Unique product number."
-    "Color": "Product color."
-    "StandardCost": "Standard cost of the product."
-    "ListPrice": "Selling price."
-    "Size": "Product size."
-    "Weight": "Product weight."
-    "ProductSubcategoryID": "FK to Production.ProductSubcategory."
-    "ProductModelID": "FK to Production.ProductModel."
-
-"Sales.SalesOrderHeader":
-  description: "Sales order header: one row per order, with customer, dates, and totals."
+    ProductID: Primary key.
+    Name: Product name.
+    ProductNumber: Unique product number.
+    Color: Product color.
+    StandardCost: Standard cost of the product.
+    ListPrice: Selling price.
+    Size: Product size.
+    Weight: Product weight.
+    ProductSubcategoryID: FK to Production.ProductSubcategory.
+    ProductModelID: FK to Production.ProductModel.
+Sales.SalesOrderHeader:
+  description: 'Sales order header: one row per order, with customer, dates, and totals.'
   columns:
-    "SalesOrderID": "Primary key."
-    "OrderDate": "Date the order was placed."
-    "DueDate": "Due date for the order."
-    "ShipDate": "Date the order was shipped."
-    "CustomerID": "FK to Sales.Customer."
-    "SubTotal": "Order subtotal excluding tax and freight."
-    "TaxAmt": "Tax amount."
-    "Freight": "Freight cost."
-    "TotalDue": "Total order amount (subtotal + tax + freight)."
-    "Status": "Order status (1 = In process, 2 = Approved, 3 = Backordered, 4 = Rejected, 5 = Shipped, 6 = Cancelled)."
+    SalesOrderID: Primary key.
+    OrderDate: Date the order was placed.
+    DueDate: Due date for the order.
+    ShipDate: Date the order was shipped.
+    CustomerID: FK to Sales.Customer.
+    SubTotal: Order subtotal excluding tax and freight.
+    TaxAmt: Tax amount.
+    Freight: Freight cost.
+    TotalDue: Total order amount (subtotal + tax + freight).
+    Status: Order status (1 = In process, 2 = Approved, 3 = Backordered, 4 = Rejected,
+      5 = Shipped, 6 = Cancelled).
+HumanResources.Employee:
+  description: This table represents employee information within the HumanResources
+    system.
+  domain: HumanResources
+  keywords:
+  - employee
+  - human resources
+  - job title
+  - salary
+  - vacation
+  - sick leave
+  questions:
+  - What is the current salary of an employee?
+  - How many vacation hours does an employee have?
+  - Can I see a list of all employees by national ID number?
+  - What are the different types of job titles available?
+  source: llm
+  model: google/gemma-3-1b
+Sales.SalesOrderDetail:
+  description: One row per order line, containing the quantity of each item and its
+    price.
+  domain: sales
+  keywords:
+  - order
+  - line
+  - quantité
+  - quantity
+  - commande
+  - ligne
+  - item
+  questions:
+  - How many items are in a single order?
+  - What is the price of an individual item?
+  source: llm
+  model: google/gemma-3-1b
+Production.ProductSubcategory:
+  description: One row represents a specific grouping or classification of products
+    within a larger category, linking the subcategory name to its parent ProductCategoryID.
+  domain: production
+  keywords:
+  - subcategory
+  - product
+  - category
+  - classification
+  - sous-catégorie
+  - produit
+  questions:
+  - What are all the available product subcategories?
+  - How many subcategories belong to a specific main category?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesReason:
+  description: One row represents a predefined reason code explaining why a sale transaction
+    occurred, detailing the name (Name) and classification type (ReasonType).
+  domain: sales
+  keywords:
+  - sale reason
+  - reason code
+  - raison de vente
+  - cause
+  - transaction
+  - selling
+  - vente
+  - sales data
+  - SalesReasonID
+  questions:
+  - What are the available reasons for a sale?
+  - How many different types of sales reasons exist?
+  - When was a specific sales reason last modified?
+  source: llm
+  model: google/gemma-4-e4b
+dbo.DatabaseLog:
+  description: One row records a specific database event, detailing when it occurred
+    (PostTime), which user executed it (DatabaseUser), and the associated schema or
+    object.
+  domain: person
+  keywords:
+  - database
+  - log
+  - event
+  - transaction
+  - user activity
+  - schema
+  - object
+  - audit
+  - logging
+  questions:
+  - When was a specific event logged?
+  - Which user performed an action on an object?
+  - What is the recorded event type for a given time?
+  source: llm
+  model: google/gemma-4-e4b
+dbo.AWBuildVersion:
+  description: One row containing the build version details for the database, including
+    the database version string and modification dates.
+  domain: production
+  keywords:
+  - build
+  - version
+  - database
+  - system information
+  - release
+  - date
+  - schema
+  - update
+  questions:
+  - What is the current database version?
+  - When was this build last modified?
+  - Does the system record a specific SystemInformationID?
+  source: llm
+  model: google/gemma-4-e4b
+dbo.ErrorLog:
+  description: One row per recorded error event, containing a descriptive message
+    in column0.
+  domain: person
+  keywords:
+  - error
+  - log
+  - bug
+  - faute
+  - message
+  - system
+  - logging
+  - troubleshooting
+  questions:
+  - How many errors were logged?
+  - What was the last recorded error message?
+  - Are there any entries for a specific type of error?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.Department:
+  description: One row per department within the company structure, detailing its
+    name and associated group.
+  domain: human-resources
+  keywords:
+  - department
+  - hr
+  - service
+  - groupe
+  - name
+  - division
+  - structure
+  - employee
+  questions:
+  - What is the name of a specific department?
+  - How many departments belong to a certain groupName?
+  - When was the department record last modified?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.EmployeeDepartmentHistory:
+  description: One row tracks the historical assignment of an employee to a department
+    and shift, noting the start date, end date, and associated DepartmentID and ShiftID.
+  domain: human-resources
+  keywords:
+  - employee history
+  - department change
+  - shift assignment
+  - historique
+  - departement
+  - changement
+  - emploi
+  - HR
+  questions:
+  - What was an employee's department on a specific date?
+  - How many times has an employee changed departments?
+  - What is the earliest recorded shift for any employee?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.EmployeePayHistory:
+  description: One row records a historical pay rate change for an employee, detailing
+    the new rate and the date it became effective (RateChangeDate).
+  domain: human-resources
+  keywords:
+  - pay history
+  - salary
+  - rate
+  - paie
+  - compensation
+  - employee
+  - business entity
+  - remuneration
+  questions:
+  - What was an employee's pay rate on a specific date?
+  - How many pay frequency types are recorded?
+  - Which business entity has the most pay history records?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.JobCandidate:
+  description: One row represents a job candidate associated with a specific business
+    entity, containing resume details and modification timestamps.
+  domain: human-resources
+  keywords:
+  - job candidate
+  - resume
+  - candidat
+  - emploi
+  - hr
+  - business entity
+  - application
+  - recruitment
+  questions:
+  - What is the resume for a given jobCandidateID?
+  - Which business entity does this candidate belong to?
+  - When was the record for this job candidate last modified?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.Shift:
+  description: One row defining a specific work shift, detailing its name and the
+    start and end times for that period.
+  domain: human-resources
+  keywords:
+  - shift
+  - work schedule
+  - horaire
+  - temps de travail
+  - start time
+  - end time
+  - planning
+  - rotation
+  questions:
+  - What are the defined work shifts?
+  - How long is the shift named 'Day'?
+  - When was the last modification to the shift records?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.vEmployee:
+  description: One row per employee record, containing personal details such as name
+    (FirstName, LastName), job title (JobTitle), and contact information (EmailAddress).
+  domain: human-resources
+  keywords:
+  - employee
+  - staff
+  - employé
+  - personnel
+  - job title
+  - contact
+  - email
+  - HR
+  - vEmployee
+  questions:
+  - What is the phone number for an employee with a specific job title?
+  - How many employees are located in a particular city?
+  - Which employee has a defined suffix?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.vEmployeeDepartment:
+  description: One row represents an employee's department assignment, detailing their
+    name (FirstName, LastName) and job title within a specific department.
+  domain: human-resources
+  keywords:
+  - employee
+  - department
+  - job title
+  - hr
+  - personnel
+  - staff
+  - employment
+  - start date
+  questions:
+  - What is the start date for an employee in a certain department?
+  - How many employees share the same jobTitle?
+  - Which departments have multiple employees assigned?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.vEmployeeDepartmentHistory:
+  description: One row tracks the historical assignment of an employee to a department,
+    recording the title, dates (StartDate, EndDate), and associated group information.
+  domain: human-resources
+  keywords:
+  - employee history
+  - department change
+  - job title
+  - employment record
+  - transfer
+  - ancienneté
+  - poste
+  - departement
+  questions:
+  - What was an employee's last recorded department?
+  - How long did an employee hold a specific title?
+  - Which departments have records of recent changes?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.vJobCandidate:
+  description: One row represents a job candidate associated with a business entity,
+    detailing their personal information, skills, and contact address details.
+  domain: person
+  keywords:
+  - job candidate
+  - HR
+  - candidat
+  - emploi
+  - skills
+  - contact
+  - address
+  - human resources
+  questions:
+  - What is the email address for a specific job candidate?
+  - Which country region is associated with a candidate's address?
+  - How many skills are listed for a given JobCandidateID?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.vJobCandidateEducation:
+  description: One row details the educational background for a specific job candidate,
+    recording degree information, dates, and GPA.
+  domain: human-resources
+  keywords:
+  - education
+  - job candidate
+  - degree
+  - major
+  - GPA
+  - school
+  - études
+  - diplôme
+  - formation
+  - academic
+  questions:
+  - What is the highest level of education achieved by a candidate?
+  - Which schools are listed in the educational records?
+  - Can we find the start and end dates for a specific degree?
+  source: llm
+  model: google/gemma-4-e4b
+HumanResources.vJobCandidateEmployment:
+  description: One row detailing a specific employment period for a job candidate,
+    recording start/end dates and organizational details like job title and location.
+  domain: human-resources
+  keywords:
+  - employment
+  - job candidate
+  - career
+  - emploi
+  - poste
+  - start date
+  - end date
+  - responsibilities
+  - HR
+  questions:
+  - What was the job title for a specific candidate?
+  - When did an employee start and end their tenure at a location?
+  - Which industry category is associated with this employment record?
+  source: llm
+  model: google/gemma-4-e4b
+Person.AddressType:
+  description: One row defining the type of address, such as billing or shipping.
+    The primary identifier is AddressTypeID.
+  domain: person
+  keywords:
+  - address type
+  - billing
+  - shipping
+  - type
+  - adresse de facturation
+  - livraison
+  - location
+  - identifier
+  questions:
+  - What are the available types of addresses?
+  - How many address types are defined in the system?
+  - Which address type has an ID of 1?
+  source: llm
+  model: google/gemma-4-e4b
+Person.BusinessEntity:
+  description: One row per business entity record, containing identifiers and modification
+    timestamps. The primary key is BusinessEntityID.
+  domain: person
+  keywords:
+  - business
+  - entity
+  - company
+  - entreprise
+  - organization
+  - identifier
+  - record
+  - client
+  questions:
+  - How many unique business entities are recorded?
+  - What was the last modified date for a specific entity?
+  - Can we retrieve all BusinessEntityIDs?
+  source: llm
+  model: google/gemma-4-e4b
+Person.BusinessEntityAddress:
+  description: One row linking a business entity to one of its physical addresses,
+    specifying the type of address used.
+  domain: person
+  keywords:
+  - business address
+  - entity
+  - adresse commerciale
+  - location professionnelle
+  - address link
+  - business unit
+  - site
+  - physical location
+  questions:
+  - What is the primary address for a given business entity?
+  - How many different address types can be associated with an entity?
+  - Which addresses are linked to a specific business entity ID?
+  source: llm
+  model: google/gemma-4-e4b
+Person.BusinessEntityContact:
+  description: One row linking a person to a business entity with specific contact
+    details, identified by the combination of BusinessEntityID, PersonID, and ContactTypeID.
+  domain: person
+  keywords:
+  - contact
+  - business entity
+  - person
+  - contact type
+  - lien
+  - relation
+  - details
+  - communication
+  questions:
+  - What is the primary contact type for a given person?
+  - Which business entities are associated with a specific person?
+  - How can we find all contacts for a particular BusinessEntityID?
+  source: llm
+  model: google/gemma-4-e4b
+Person.ContactType:
+  description: One row defining a specific method of contact, such as email or phone
+    number. The primary identifier is ContactTypeID and the name describes the type.
+  domain: person
+  keywords:
+  - contact
+  - type
+  - email
+  - phone
+  - telephone
+  - communication
+  - mode
+  - method
+  questions:
+  - What are all available contact types?
+  - How many different contact methods are recorded?
+  - Which contact type was last modified?
+  source: llm
+  model: google/gemma-4-e4b
+Person.CountryRegion:
+  description: One row representing a distinct country region, identified by its code
+    and name.
+  domain: person
+  keywords:
+  - country
+  - region
+  - pays
+  - nationalité
+  - code pays
+  - name
+  - location
+  - geography
+  questions:
+  - What is the full name for a given CountryRegionCode?
+  - How many distinct country regions are recorded?
+  - When was the record for a specific country last modified?
+  source: llm
+  model: google/gemma-4-e4b
+Person.EmailAddress:
+  description: One row per email address associated with a business entity, containing
+    the actual emailAddress and linking back to the owner via BusinessEntityID.
+  domain: person
+  keywords:
+  - email
+  - address
+  - contact
+  - courriel
+  - mail
+  - business entity
+  - communication
+  - email address
+  questions:
+  - What is the primary email for a given business entity?
+  - How many emails are associated with one person?
+  - Can I find all email addresses modified recently?
+  source: llm
+  model: google/gemma-4-e4b
+Person.Password:
+  description: One row per business entity's password credentials, storing the hash
+    and salt used for authentication.
+  domain: person
+  keywords:
+  - password
+  - hash
+  - salt
+  - credential
+  - authentication
+  - security
+  - login
+  - business entity
+  questions:
+  - What is the password hash for a given BusinessEntityID?
+  - When was the password record last modified?
+  - How many passwords are stored in this table?
+  source: llm
+  model: google/gemma-4-e4b
+Person.Person:
+  description: One row per individual person record, containing their name components
+    (FirstName, MiddleName, LastName) and contact details.
+  domain: person
+  keywords:
+  - person
+  - name
+  - contact
+  - email
+  - individual
+  - nom
+  - prénom
+  - dernière
+  questions:
+  - How many people share the same last name?
+  - What is the most common title among individuals?
+  - Can we find a person by their email promotion status?
+  source: llm
+  model: google/gemma-4-e4b
+Person.PersonPhone:
+  description: One row records a phone number associated with a person or business
+    entity, specifying the number itself and its type.
+  domain: person
+  keywords:
+  - phone number
+  - contact
+  - telephone
+  - téléphone
+  - number
+  - business entity
+  - communication
+  - contact info
+  questions:
+  - What is the primary phone number for an entity?
+  - How many different phone types are recorded?
+  - Which business entity has a specific phone number?
+  source: llm
+  model: google/gemma-4-e4b
+Person.PhoneNumberType:
+  description: One row defining the type of phone number, such as work or home, identified
+    by its name.
+  domain: person
+  keywords:
+  - phone number
+  - type
+  - contact
+  - telephone
+  - téléphone
+  - communication
+  - work
+  - home
+  questions:
+  - What are the available phone number types?
+  - When was a specific phone type last modified?
+  - How many distinct phone number types exist?
+  source: llm
+  model: google/gemma-4-e4b
+Person.StateProvince:
+  description: One row representing a specific state or province within a country,
+    detailing its code, name, and relationship to a territory.
+  domain: person
+  keywords:
+  - state
+  - province
+  - region
+  - état
+  - région
+  - code
+  - country
+  - territory
+  - location
+  questions:
+  - What is the name associated with a given StateProvinceID?
+  - Which CountryRegionCode defines this state province?
+  - How many territories are linked to this state?
+  source: llm
+  model: google/gemma-4-e4b
+Person.vAdditionalContactInfo:
+  description: One row contains supplementary contact details for a business entity,
+    including various phone numbers, email addresses, and physical location information
+    like city and postal code.
+  domain: person
+  keywords:
+  - contact
+  - email
+  - phone number
+  - address
+  - business entity
+  - telephone
+  - adresse
+  - contact info
+  - EMailAddress
+  questions:
+  - What is the primary phone number for a given business entity?
+  - How can I find the email address associated with a BusinessEntityID?
+  - What are the special instructions recorded for an email contact?
+  source: llm
+  model: google/gemma-4-e4b
+Person.vStateProvinceCountryRegion:
+  description: One row containing the relationship between a state/province and its
+    country region, detailing names and codes for geographical grouping.
+  domain: person
+  keywords:
+  - state
+  - province
+  - country
+  - region
+  - geography
+  - état
+  - région
+  - code pays
+  - location
+  questions:
+  - What is the name of a state province?
+  - How can I find all regions associated with a specific country code?
+  - Does this table indicate if a state province is unique to its territory?
+  source: llm
+  model: google/gemma-4-e4b
+Production.BillOfMaterials:
+  description: One row detailing the components required to build a specific product
+    assembly, specifying quantities and levels of assembly.
+  domain: production
+  keywords:
+  - bill of materials
+  - bom
+  - component
+  - assembly
+  - produit
+  - composition
+  - quantity
+  - manufacturing
+  - recipe
+  questions:
+  - What are all the components needed for a given ProductAssemblyID?
+  - How many units of a component are required per assembly?
+  - Which BOMLevel represents the top-level product?
+  source: llm
+  model: google/gemma-4-e4b
+Production.Culture:
+  description: One row contains details about a specific culture, including its name
+    and the last time it was modified.
+  domain: production
+  keywords:
+  - culture
+  - country
+  - origine
+  - nationalité
+  - name
+  - modified date
+  - location
+  - region
+  questions:
+  - What is the name associated with CultureID 'USA'?
+  - When was the record for a specific culture last updated?
+  - How many distinct cultures are recorded in the system?
+  source: llm
+  model: google/gemma-4-e4b
+Production.Document:
+  description: One row representing a document record, detailing its title, owner
+    (Owner), and revision history.
+  domain: production
+  keywords:
+  - document
+  - file
+  - revision
+  - title
+  - owner
+  - fichier
+  - documentaire
+  - révision
+  - metadata
+  questions:
+  - Who owns the document with the specified DocumentNode?
+  - What is the latest revision number for a given file?
+  - How many documents are associated with a specific owner?
+  source: llm
+  model: google/gemma-4-e4b
+Production.Illustration:
+  description: One row representing a specific diagram illustration used in product
+    documentation, noting its ID and last modification date.
+  domain: production
+  keywords:
+  - illustration
+  - diagram
+  - drawing
+  - image
+  - modification date
+  - technical drawing
+  - plan
+  - visual
+  questions:
+  - What is the latest modified date for an illustration?
+  - How many illustrations are recorded in the system?
+  - Which diagram name corresponds to a specific IllustrationID?
+  source: llm
+  model: google/gemma-4-e4b
+Production.Location:
+  description: One row representing a specific physical location used in production,
+    detailing its name and associated cost rate.
+  domain: production
+  keywords:
+  - location
+  - site
+  - facility
+  - emplacement
+  - cost rate
+  - coût
+  - availability
+  - usine
+  - plant
+  questions:
+  - What is the cost rate for LocationID 1?
+  - How many locations are defined in the system?
+  - Which location has an availability of zero?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductCategory:
+  description: One row describing a category of products, identified by ProductCategoryID
+    and named in the Name column.
+  domain: production
+  keywords:
+  - category
+  - product group
+  - catégorie
+  - groupe produit
+  - name
+  - ProductCategoryID
+  - classification
+  - produit
+  questions:
+  - How many product categories are defined?
+  - What is the name associated with a specific ProductCategoryID?
+  - Can I find all products belonging to a certain category?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductCostHistory:
+  description: One row records the historical standard cost for a specific product
+    over a given time period, referencing the ProductID and detailing the cost change.
+  domain: production
+  keywords:
+  - cost history
+  - standard cost
+  - product cost
+  - coût standard
+  - historical data
+  - production tracking
+  - price change
+  - inventory
+  questions:
+  - What was the standard cost of a product on a specific date?
+  - How many times has a product's cost been updated?
+  - Which products have the longest recorded cost history?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductDescription:
+  description: One row provides a specific description for a product, containing the
+    description text and modification date.
+  domain: production
+  keywords:
+  - product
+  - description
+  - details
+  - produit
+  - description
+  - modification
+  - text
+  - info
+  questions:
+  - What is the most recently modified product description?
+  - How many unique descriptions are stored?
+  - Can I find a description based on its ProductDescriptionID?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductDocument:
+  description: One row documenting a specific change or document associated with a
+    product, noting the product ID and the document node.
+  domain: production
+  keywords:
+  - product
+  - document
+  - change
+  - modification
+  - update
+  - revision
+  - history
+  - ProductDocument
+  questions:
+  - What is the latest modification date for a given ProductID?
+  - Which DocumentNode is associated with a specific product change?
+  - How many documents are linked to a single ProductID?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductInventory:
+  description: One row details the current stock level of a specific product at a
+    given location and shelf, showing the quantity available.
+  domain: production
+  keywords:
+  - inventory
+  - stock
+  - quantity
+  - product
+  - location
+  - shelf
+  - stock level
+  - inventaire
+  - quantité
+  - stockage
+  questions:
+  - What is the current stock of ProductID 1 at LocationID 1?
+  - How many different locations store products?
+  - Which product has the highest quantity in inventory?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductListPriceHistory:
+  description: One row records the historical list price for a specific product, detailing
+    when the price was effective (StartDate to EndDate) and what it was.
+  domain: production
+  keywords:
+  - price history
+  - list price
+  - product
+  - prix historique
+  - date de début
+  - date de fin
+  - pricing
+  - cost
+  questions:
+  - What was the list price of a product on a specific date?
+  - How many times has a product's list price changed?
+  - What is the earliest recorded list price for a product?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductModel:
+  description: One row per product model, detailing its name and catalog description.
+    The primary identifier for this record is ProductModelID.
+  domain: production
+  keywords:
+  - product model
+  - catalog
+  - model
+  - produit modèle
+  - name
+  - description
+  - instructions
+  - ProductModelID
+  questions:
+  - What are the names of all product models?
+  - How many instructions are associated with a product model?
+  - Which ProductModelID has no catalog description?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductModelIllustration:
+  description: One row linking a specific product model to one of its illustrations,
+    recording when the link was last modified.
+  domain: production
+  keywords:
+  - illustration
+  - product model
+  - link
+  - image
+  - visual
+  - modèle produit
+  - illustration
+  - modification date
+  questions:
+  - Which illustration is linked to ProductModelID 7?
+  - What was the modification date for this link?
+  - How many illustrations are associated with a product model?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductModelProductDescriptionCulture:
+  description: One row linking a product model to its description within a specific
+    culture, recording when the link was last modified.
+  domain: production
+  keywords:
+  - product model
+  - product description
+  - culture
+  - lien
+  - association
+  - modified date
+  - ProductModelID
+  - ProductDescriptionID
+  questions:
+  - What is the latest modification date for a given product model and description?
+  - How many cultures are associated with a specific product description?
+  - Which ProductModelIDs share the same ProductDescriptionID?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductPhoto:
+  description: One row per photo associated with a product, containing file names
+    for both thumbnail and large versions.
+  domain: production
+  keywords:
+  - photo
+  - image
+  - picture
+  - produit
+  - visuel
+  - thumbnail
+  - large photo
+  - media
+  questions:
+  - What are the file names for a specific product's photos?
+  - How recently was a product photo modified?
+  - Can I list all available photo IDs?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductProductPhoto:
+  description: One row linking a specific product to one of its associated photos,
+    indicating if that photo is the primary image for the product.
+  domain: production
+  keywords:
+  - product photo
+  - image
+  - photo ID
+  - primary
+  - picture
+  - visuel
+  - photo produit
+  - media
+  questions:
+  - What is the primary photo ID for a given ProductID?
+  - How many photos are associated with a specific ProductID?
+  - Which products do not have any linked photos?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ProductReview:
+  description: One row represents a specific review given by a user for a product,
+    detailing the rating, comments, and reviewer's contact information.
+  domain: sales
+  keywords:
+  - review
+  - rating
+  - comment
+  - critique
+  - avis
+  - feedback
+  - product review
+  - user feedback
+  questions:
+  - What is the average rating for a given ProductID?
+  - Which ProductID has received the most reviews?
+  - When was the latest review submitted?
+  source: llm
+  model: google/gemma-4-e4b
+Production.ScrapReason:
+  description: One row detailing a specific reason why a product was scrapped during
+    production, identified by its name.
+  domain: production
+  keywords:
+  - scrap
+  - reason
+  - defect
+  - rebut
+  - waste
+  - production issue
+  - cause
+  - failure
+  questions:
+  - What are the available scrap reasons?
+  - When was a specific scrap reason last modified?
+  - How many unique scrap reasons are recorded?
+  source: llm
+  model: google/gemma-4-e4b
+Production.TransactionHistory:
+  description: One row records a historical change or transaction for a specific product,
+    detailing the quantity and actual cost at the time of the event (TransactionDate).
+  domain: production
+  keywords:
+  - transaction
+  - history
+  - product
+  - cost
+  - quantity
+  - change
+  - historical
+  - inventory
+  questions:
+  - What was the recorded quantity change for a product?
+  - When did a specific transaction occur?
+  - How much was the actual cost during a historical transaction?
+  source: llm
+  model: google/gemma-4-e4b
+Production.TransactionHistoryArchive:
+  description: One row records the historical changes or transactions for a specific
+    product, referencing an original order via ReferenceOrderID and ReferenceOrderLineID.
+  domain: production
+  keywords:
+  - transaction
+  - history
+  - product
+  - cost
+  - archive
+  - modification date
+  - quantity
+  - actual cost
+  - inventory change
+  questions:
+  - What was the quantity changed for a product on a specific date?
+  - How can I track the historical cost of a product?
+  - Which order references are associated with transaction history records?
+  source: llm
+  model: google/gemma-4-e4b
+Production.UnitMeasure:
+  description: One row defines a unit of measure used in production, specifying its
+    code and name.
+  domain: production
+  keywords:
+  - unit measure
+  - measure
+  - unité de mesure
+  - code
+  - name
+  - dimension
+  - measurement
+  - produit
+  questions:
+  - What is the full name associated with a given UnitMeasureCode?
+  - How many different units of measure are defined?
+  - When was the unit measure record last modified?
+  source: llm
+  model: google/gemma-4-e4b
+Production.vProductAndDescription:
+  description: One row containing the description details for a specific product,
+    linking it via ProductID to its name and model.
+  domain: production
+  keywords:
+  - product
+  - description
+  - name
+  - model
+  - produit
+  - décrire
+  - details
+  - vProductAndDescription
+  questions:
+  - What is the full description for a given ProductID?
+  - How many different product models are listed?
+  - Can I find the name associated with a specific CultureID?
+  source: llm
+  model: google/gemma-4-e4b
+Production.vProductModelCatalogDescription:
+  description: One row containing detailed descriptive information for a specific
+    product model, including its name, manufacturer, and various component details
+    like wheel or saddle.
+  domain: production
+  keywords:
+  - product model
+  - description
+  - manufacturer
+  - bike frame
+  - component
+  - details
+  - catalog
+  - model
+  questions:
+  - What is the warranty period for a given product model?
+  - Which material is used in a specific bike frame?
+  - How many different components (wheel, saddle, pedal) are listed for a model?
+  source: llm
+  model: google/gemma-4-e4b
+Production.vProductModelInstructions:
+  description: One row details the instructions and resource requirements for a specific
+    step within a product model, referencing ProductModelID and LocationID.
+  domain: production
+  keywords:
+  - product model
+  - instructions
+  - setup hours
+  - machine hours
+  - labor hours
+  - process step
+  - manufacturing
+  - production
+  questions:
+  - What are the required setup hours for a specific product model?
+  - How many machine hours are needed for a given process step?
+  - Which location is associated with these production instructions?
+  source: llm
+  model: google/gemma-4-e4b
+Production.WorkOrder:
+  description: One row detailing a specific work order created for a product, tracking
+    quantities ordered (OrderQty), stocked (StockedQty), and scrapped (ScrappedQty).
+  domain: production
+  keywords:
+  - work order
+  - production
+  - manufacturing
+  - order quantity
+  - scrapped
+  - product ID
+  - date
+  - fabrication
+  - commande
+  - atelier
+  questions:
+  - What is the total quantity ordered for a specific product?
+  - When was the work order started and ended?
+  - How many units were scrapped from a given work order?
+  source: llm
+  model: google/gemma-4-e4b
+Production.WorkOrderRouting:
+  description: One row detailing the routing steps for a specific work order and product,
+    including planned and actual start/end dates and associated costs.
+  domain: production
+  keywords:
+  - work order
+  - routing
+  - operation
+  - cost
+  - planned cost
+  - actual cost
+  - production schedule
+  - location
+  - process step
+  questions:
+  - What is the scheduled duration for an operation at a specific location?
+  - How does the actual resource time compare to the planned cost for a work order?
+  - Which product has the most operations defined in its routing?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.ProductVendor:
+  description: One row detailing the purchasing relationship between a product and
+    its vendor, including standard pricing, lead times, and minimum/maximum order
+    quantities.
+  domain: purchasing
+  keywords:
+  - vendor
+  - product
+  - purchase
+  - supplier
+  - prix standard
+  - lead time
+  - commande minimale
+  - buying
+  - achat
+  questions:
+  - What is the average lead time for a product from a vendor?
+  - How many units are currently on order for a specific product?
+  - What is the minimum order quantity required by a vendor?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.PurchaseOrderDetail:
+  description: One row detailing a specific product line item within a purchase order,
+    showing ordered quantity (OrderQty), unit price (UnitPrice), and total line cost
+    (LineTotal).
+  domain: purchasing
+  keywords:
+  - purchase order
+  - line item
+  - order quantity
+  - unit price
+  - commande d'achat
+  - article
+  - quantité commandée
+  - coût unitaire
+  - achats
+  questions:
+  - What was the total line cost for a specific product on an order?
+  - How many units were received versus ordered for a product?
+  - Which purchase order contains records for ProductID 1?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.PurchaseOrderHeader:
+  description: One row represents a header for a purchase order placed with a vendor,
+    detailing the total due, subtotal, tax amount, and shipping information.
+  domain: purchasing
+  keywords:
+  - purchase order
+  - vendor
+  - buy
+  - commande d'achat
+  - fournisseur
+  - order date
+  - total due
+  - subtotal
+  - ship method
+  questions:
+  - What is the total due for a specific purchase order?
+  - Which employee created this purchase order?
+  - How was this purchase order shipped?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.ShipMethod:
+  description: One row details a specific shipping method used for orders, including
+    its name and associated base rates (shipBase and shipRate).
+  domain: purchasing
+  keywords:
+  - shipping
+  - method
+  - transport
+  - expédition
+  - livraison
+  - rate
+  - base
+  - purchase order
+  questions:
+  - What is the base rate for a specific shipping method?
+  - How many different shipping methods are available?
+  - Which shipMethodID corresponds to the highest shipRate?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.Vendor:
+  description: One row for each vendor that supplies goods or services, detailing
+    their account number, name, and credit rating.
+  domain: purchasing
+  keywords:
+  - vendor
+  - supplier
+  - fournisseur
+  - achats
+  - account number
+  - credit rating
+  - business entity
+  - purchase
+  questions:
+  - What is the preferred vendor status of a given vendor?
+  - How many vendors are currently active?
+  - Which business entity ID corresponds to this vendor?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.vVendorWithAddresses:
+  description: One row containing the address details for a vendor, including name
+    and location information.
+  domain: purchasing
+  keywords:
+  - vendor
+  - supplier
+  - address
+  - adresse
+  - fournisseur
+  - location
+  - city
+  - postal code
+  - business entity
+  questions:
+  - What is the primary address line for a given vendor?
+  - Which country region does a vendor operate in?
+  - How can I find all addresses associated with a specific business entity ID?
+  source: llm
+  model: google/gemma-4-e4b
+Purchasing.vVendorWithContacts:
+  description: One row containing contact details for a vendor, linking the vendor
+    (BusinessEntityID) to specific contact information like phone number or email.
+  domain: purchasing
+  keywords:
+  - vendor
+  - contact
+  - phone number
+  - email
+  - supplier
+  - fournisseur
+  - business entity
+  - contact details
+  - personnel
+  questions:
+  - What is the primary phone number for a vendor?
+  - How can I find the email address associated with a business entity?
+  - Which contact types are recorded for vendors?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.CountryRegionCurrency:
+  description: One row defining the currency associated with a specific country region,
+    tracking when this relationship was last modified.
+  domain: sales
+  keywords:
+  - currency
+  - country region
+  - code
+  - monnaie
+  - devise
+  - transaction
+  - billing
+  - finance
+  - exchange
+  questions:
+  - What is the currency code for a given CountryRegionCode?
+  - How do CurrencyCode and CountryRegionCode relate?
+  - When was the last modification recorded for this currency pairing?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.CreditCard:
+  description: One row per credit card record, detailing the card type, number, and
+    expiration date (ExpMonth, ExpYear).
+  domain: sales
+  keywords:
+  - credit card
+  - payment
+  - carte de crédit
+  - paiement
+  - card number
+  - expiration
+  - billing
+  - transaction
+  - finance
+  questions:
+  - What is the card type associated with a given CardNumber?
+  - How can I find cards expiring in a specific month and year?
+  - Which records show the most recent ModifiedDate?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.Currency:
+  description: One row represents a specific currency used in transactions, detailing
+    its code and full name.
+  domain: sales
+  keywords:
+  - currency
+  - code
+  - monnaie
+  - devise
+  - transaction
+  - financial
+  - billing
+  - exchange rate
+  questions:
+  - What is the full name associated with USD?
+  - Which currencies have been modified recently?
+  - How many distinct currency codes are recorded?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.CurrencyRate:
+  description: One row represents the exchange rate between two currencies on a specific
+    date, detailing both an average and end-of-day rate.
+  domain: sales
+  keywords:
+  - exchange rate
+  - currency
+  - rate
+  - taux de change
+  - forex
+  - average rate
+  - end of day
+  - conversion
+  - monnaie
+  questions:
+  - What was the average exchange rate between USD and EUR on a given date?
+  - How did the end-of-day rate compare to the average rate for a specific currency
+    pair?
+  - Which currencies have recorded exchange rates in this table?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.Customer:
+  description: One row per customer record, linking the customer to a person (PersonID),
+    store (StoreID), and sales territory (TerritoryID).
+  domain: sales
+  keywords:
+  - customer
+  - client
+  - account
+  - person
+  - territory
+  - store
+  - sales
+  - billing
+  questions:
+  - What is the PersonID associated with a given CustomerID?
+  - Which SalesTerritory does a customer belong to?
+  - How many stores are linked to a specific customer?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.PersonCreditCard:
+  description: One row records a credit card used by a business entity, linking the
+    business to a specific credit card ID.
+  domain: sales
+  keywords:
+  - credit card
+  - payment
+  - carte de crédit
+  - paiement
+  - transaction
+  - billing
+  - card ID
+  - business entity
+  - finance
+  questions:
+  - Which credit cards are associated with a business?
+  - What is the latest modification date for a payment method?
+  - How many credit cards have been recorded for a specific business?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesOrderHeaderSalesReason:
+  description: One row records the reason for a specific sales order, linking the
+    SalesOrderID to the corresponding SalesReasonID.
+  domain: sales
+  keywords:
+  - sales order
+  - reason
+  - cause
+  - raison
+  - transaction
+  - order header
+  - SalesOrderID
+  - SalesReasonID
+  questions:
+  - What is the recorded sales reason for a given SalesOrderID?
+  - How many different sales reasons are associated with orders?
+  - Can I find all orders marked with a specific SalesReasonID?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesPerson:
+  description: One row detailing the sales performance and quotas for a specific salesperson,
+    referencing their employee (BusinessEntityID) and assigned territory (TerritoryID).
+  domain: sales
+  keywords:
+  - salesperson
+  - quota
+  - commission
+  - territory
+  - ventes
+  - commercial
+  - performance
+  - bonus
+  - sales ytd
+  questions:
+  - What is the sales quota for a given salesperson?
+  - How much commission percentage is assigned to a territory?
+  - What are the year-to-date sales figures for an employee?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesPersonQuotaHistory:
+  description: One row records the historical sales quota assigned to a salesperson
+    on a specific date, referencing the salesperson via BusinessEntityID.
+  domain: sales
+  keywords:
+  - quota
+  - salesperson
+  - historical
+  - target
+  - objectif
+  - commission
+  - business entity
+  - sales goal
+  questions:
+  - What was the sales quota for a given salesperson on a specific date?
+  - How has a salesperson's quota changed over time?
+  - Which business entities have recorded quota history?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesTaxRate:
+  description: One row defines a specific sales tax rate applicable in a given state
+    province and for a particular tax type, showing the actual tax rate.
+  domain: sales
+  keywords:
+  - tax rate
+  - sales tax
+  - taux de taxe
+  - impôt
+  - state province
+  - rate
+  - tax type
+  - billing
+  questions:
+  - What is the sales tax rate for a specific StateProvinceID?
+  - How does TaxType affect the applicable tax rate?
+  - Which StateProvinceIDs have defined tax rates?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesTerritory:
+  description: One row representing a defined sales territory, detailing its name,
+    associated country region (CountryRegionCode), and year-to-date/last year's sales
+    and cost figures.
+  domain: sales
+  keywords:
+  - territory
+  - sales
+  - region
+  - country
+  - vente
+  - zone de vente
+  - revenue
+  - cost
+  - geography
+  - market
+  questions:
+  - What is the total sales year-to-date for a specific territory?
+  - Which country region code is associated with this territory?
+  - How does the cost compare between this year and last year for a given territory?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SalesTerritoryHistory:
+  description: One row tracks the history of a business entity's assigned sales territory,
+    showing when it started and ended in that specific territory (BusinessEntityID,
+    TerritoryID).
+  domain: sales
+  keywords:
+  - territory
+  - history
+  - salesperson
+  - assigned area
+  - territoire
+  - vente
+  - business entity
+  - start date
+  - end date
+  questions:
+  - What was the initial sales territory for a given business entity?
+  - How long did a specific territory assignment last?
+  - Which salespersons have changed territories over time?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.ShoppingCartItem:
+  description: One row representing a specific product item added to a shopping cart,
+    detailing the quantity and linking to the product via ProductID.
+  domain: sales
+  keywords:
+  - shopping cart
+  - item
+  - product
+  - quantity
+  - panier
+  - achat
+  - vente
+  - e-commerce
+  questions:
+  - What is the total quantity of items in a specific shopping cart?
+  - Which products are currently listed in a cart?
+  - When was a particular item added to the shopping cart?
+  source: llm
+  model: google/gemma-4-e4b
+  columns_snapshot:
+  - DateCreated
+  - ModifiedDate
+  - ProductID
+  - Quantity
+  - ShoppingCartID
+  - ShoppingCartItemID
+Sales.SpecialOffer:
+  description: One row details a specific promotional offer applied to products, including
+    the discount percentage (DiscountPct) and applicable quantity ranges (MinQty,
+    MaxQty).
+  domain: sales
+  keywords:
+  - special offer
+  - discount
+  - promotion
+  - offre spéciale
+  - rabais
+  - sale
+  - marketing
+  - category
+  questions:
+  - What is the maximum discount available for a product?
+  - When does a specific special offer expire?
+  - Which categories are eligible for promotions?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.SpecialOfferProduct:
+  description: One row details a special offer applied to a specific product, linking
+    the special offer ID and the product ID.
+  domain: sales
+  keywords:
+  - special offer
+  - promotion
+  - discount
+  - offre spéciale
+  - reduction
+  - product link
+  - sale
+  - marketing
+  questions:
+  - Which products are currently on special offer?
+  - What is the relationship between a SpecialOfferID and ProductID?
+  - How many special offers exist for a given product?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.Store:
+  description: One row representing a physical store location where sales occur, linking
+    to the owner (BusinessEntityID) and assigned salesperson (SalesPersonID).
+  domain: sales
+  keywords:
+  - store
+  - retail
+  - vente
+  - magasin
+  - location
+  - business entity
+  - salesperson
+  - point of sale
+  questions:
+  - Which salesperson is assigned to a specific store?
+  - How many stores are linked to a particular business entity?
+  - What is the name associated with a given BusinessEntityID?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vIndividualCustomer:
+  description: One row per individual customer, containing personal details like name
+    (FirstName, LastName), contact information (PhoneNumber, EmailAddress), and address
+    details.
+  domain: person
+  keywords:
+  - customer
+  - individual
+  - contact
+  - email
+  - phone number
+  - client
+  - adresse
+  - nom
+  - personne
+  questions:
+  - What is the email address for a given BusinessEntityID?
+  - How many phone numbers are associated with an individual?
+  - Which country region does a customer reside in?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vPersonDemographics:
+  description: One row containing demographic and purchasing data for a business entity,
+    including total purchases year to date (TotalPurchaseYTD) and personal details
+    like gender and education.
+  domain: person
+  keywords:
+  - demographics
+  - purchase history
+  - income
+  - gender
+  - birthdate
+  - education
+  - marital status
+  - business entity
+  questions:
+  - What is the total purchase year to date for a specific business entity?
+  - How can I find the birth date associated with an entity?
+  - Which demographic fields are available for analysis?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vSalesPerson:
+  description: One row per sales representative, containing personal details, contact
+    information, and performance metrics like sales quota (SalesQuota) and year-to-date
+    sales (SalesYTD).
+  domain: sales
+  keywords:
+  - salesperson
+  - representative
+  - vSalesPerson
+  - quota
+  - sales ytd
+  - commercial
+  - vente
+  - représentant
+  - commission
+  - performance
+  questions:
+  - What is the total sales year-to-date for a salesperson?
+  - Which salesperson has the highest sales quota?
+  - How can I find the email address of a specific salesperson?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vSalesPersonSalesByFiscalYears:
+  description: One row summarizes a salesperson's sales performance across multiple
+    fiscal years, detailing their name, job title, and sales figures for each year.
+  domain: sales
+  keywords:
+  - salesperson
+  - sales
+  - performance
+  - yearly
+  - fiscal year
+  - ventes
+  - commercial
+  - revenue
+  - job title
+  questions:
+  - What was the total sales revenue for a specific salesperson across all recorded
+    years?
+  - How does a salesperson's performance change between 2003 and 2004?
+  - Which job titles are associated with high sales figures?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vStoreWithAddresses:
+  description: One row detailing a specific store's address information, linking the
+    business entity (BusinessEntityID) to its physical location details like city
+    and postal code.
+  domain: sales
+  keywords:
+  - store
+  - address
+  - location
+  - magasin
+  - adresse
+  - city
+  - postal code
+  - business entity
+  - vStore
+  questions:
+  - What is the address for a specific BusinessEntityID?
+  - How many stores are located in a certain city?
+  - Which country region contains the most store addresses?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vStoreWithContacts:
+  description: One row representing a contact associated with a business entity, detailing
+    the contact's name, phone number, and email address.
+  domain: sales
+  keywords:
+  - contact
+  - business entity
+  - email
+  - phone number
+  - client
+  - customer
+  - personnel
+  - vstore
+  questions:
+  - What is the primary phone number for a business?
+  - How many contacts are associated with a specific BusinessEntityID?
+  - Can we retrieve the email address and title of a contact?
+  source: llm
+  model: google/gemma-4-e4b
+Sales.vStoreWithDemographics:
+  description: One row contains demographic and sales information for a specific business
+    entity, detailing its annual sales, revenue, and operational size (square feet,
+    employees).
+  domain: sales
+  keywords:
+  - business
+  - demographics
+  - annual sales
+  - revenue
+  - client
+  - customer data
+  - ventes annuelles
+  - revenu
+  - entity
+  questions:
+  - What is the annual revenue for a given business entity?
+  - How many employees does a business have based on its record?
+  - Which year was the business entity opened?
+  source: llm
+  model: google/gemma-4-e4b

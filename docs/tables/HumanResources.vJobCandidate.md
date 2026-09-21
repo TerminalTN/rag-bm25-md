@@ -1,14 +1,20 @@
 ---
 table: HumanResources.vJobCandidate
 schema: HumanResources
-domain: unknown
+domain: person
 rows: 13
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # HumanResources.vJobCandidate
+
+One row represents a job candidate associated with a business entity, detailing their personal information, skills, and contact address details.
+
+## Keywords
+
+job candidate, HR, candidat, emploi, skills, contact, address, human resources
 
 ## Columns
 
@@ -39,3 +45,8 @@ documented: false
 | `BusinessEntityID` | 212 | 274 | 243 | 43.84 | 243 |
 | `Addr.PostalCode` | 10170 | 98052 | 53,001.23 | 35,055.14 | 53,900 |
 
+## Typical questions
+
+- What is the email address for a specific job candidate?
+- Which country region is associated with a candidate's address?
+- How many skills are listed for a given JobCandidateID?

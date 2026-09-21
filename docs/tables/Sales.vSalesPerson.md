@@ -1,14 +1,20 @@
 ---
 table: Sales.vSalesPerson
 schema: Sales
-domain: unknown
+domain: sales
 rows: 17
 primary_key: []
 tags: []
-documented: false
+documented: true
 ---
 
 # Sales.vSalesPerson
+
+One row per sales representative, containing personal details, contact information, and performance metrics like sales quota (SalesQuota) and year-to-date sales (SalesYTD).
+
+## Keywords
+
+salesperson, representative, vSalesPerson, quota, sales ytd, commercial, vente, représentant, commission, performance
 
 ## Columns
 
@@ -47,3 +53,8 @@ documented: false
 | `SalesYTD` | 172524.4512 | 4251368.5497 | 2,133,975.99 | 1,243,721.37 | 1,827,066.71 |
 | `SalesLastYear` | 0.0 | 2396539.7601 | 1,393,291.98 | 849,244.47 | 1,635,823.40 |
 
+## Typical questions
+
+- What is the total sales year-to-date for a salesperson?
+- Which salesperson has the highest sales quota?
+- How can I find the email address of a specific salesperson?

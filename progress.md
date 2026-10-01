@@ -313,3 +313,85 @@ timestamped with date + time.
 ### Next
 - Commit this phase (includes the uncommitted views/index/BM25/ask work).
 - RAG: chunking strategy, embeddings + vector store, retrieval quality tuning.
+
+---
+
+## 2026-10-01 22:45 — Repo published on GitHub + one-command pipeline
+
+### Done — GitHub
+- Published the project as **public** repo `TerminalTN/rag-bm25-md`
+  (https://github.com/TerminalTN/rag-bm25-md), created empty by the user.
+- Local branch `master` renamed to `main` (matches the GitHub default).
+- `origin` = `https://TerminalTN@github.com/TerminalTN/rag-bm25-md.git` — the
+  username is in the URL **on purpose**: Git Credential Manager keys stored
+  credentials per URL, and the machine already had a token stored for
+  `https://github.com` belonging to a **different account** (`veritasflux`).
+  With the username in the URL, GCM asks for a separate TerminalTN login.
+- Pushed 3 commits (`8707324` + the two foundation commits). `data/`, `.venv/`,
+  `__pycache__/` stayed ignored.
+
+### Done — `scripts/pipeline.py` (one-command workflow, for the video)
+- Orchestrates **everything after the CSV ingest** as subprocesses of the
+  existing stage scripts (each keeps its own DuckDB connection lifetime, so the
+  single-process file lock can't bite across stages; output streams live).
+  Stages: preflight → enrich → generate_table_docs → **generate_table_docs
+  again** → index → check_docs (gate) → `bm25 --build` → optional `ask.py` demo.
+- Why doc generation runs **twice**: `enrich_descriptions.py` *parses*
+  `docs/tables/*.md` (it has no DuckDB access), so the docs must be re-rendered
+  to carry the new descriptions/domains/keywords/questions.
+- `fetch_relationships.py` is **not** a stage: `docs/relationships.yaml` is
+  committed, so the pipeline is offline (no network except the local LLM).
+  Preflight fails with an explicit hint if that YAML is ever missing.
+- Preflight: DB file exists, relationships YAML exists, and (when the LLM is
+  needed) `GET {LLM_BASE}/v1/models` answers. The base URL is parsed out of
+  `enrich_descriptions.py` at runtime so the probe can't drift from the real
+  endpoint.
+- Flags: `--limit N` (default **5** tables), `--full` (all 91, 1-2h+),
+  `--force-enrich` (re-describe already-described tables — needed to *see* the
+  LLM work live), `--skip-enrich` (offline), `--clean` (delete generated docs
+  first, keeping the expensive YAML), `--demo-question [Q]`, `--dry-run`.
+- Ends with a per-stage timing summary; on failure it stops at that stage and
+  prints the DuckDB single-process-lock hint.
+
+### Verified
+- `--dry-run` (both default and `--full --demo-question`) prints the right plan.
+- `--skip-enrich` full run: 91 docs regenerated, index (91 tables / 6 domains),
+  **6/6 checks PASS**, BM25 index rebuilt — **~13s total**.
+- `--clean --skip-enrich`: removed 92 generated files, rebuilt them
+  **byte-identical** to what is committed (`git status` clean) → the pipeline is
+  deterministic and re-runnable.
+- Preflight guard: with LM Studio down it exits 1 with an actionable message.
+- The LLM stages (`enrich`, `--demo-question`) are **untested** — LM Studio was
+  not running during this session.
+
+### Done — human-edited descriptions are now protected
+- Found a real data-loss hazard: `enrich_descriptions.py` replaced the whole
+  entry dict (`output[key] = entry`) for anything it re-described, so
+  `source: human` entries were destroyed by `--force`, by `--views`, and by a
+  `columns_snapshot` drift rebuild. On Windows `sorted()` is case-insensitive,
+  so `dbo.AWBuildVersion` / `dbo.DatabaseLog` / `dbo.ErrorLog` — the three
+  hand-edited entries — are the **first three** files any `--limit N` run
+  touches. A `--force-enrich --limit 5` demo run would have wiped them.
+- Added `is_human(meta)` + the guard in `enrich_descriptions.py`, checked
+  **before** the drift check so every re-description path is covered:
+  `source: human` → `SKIP (source=human, hand-edited; --force-human to
+  override)`, counted as skipped. New flag `--force-human` overrides it.
+  `pipeline.py --force-human` passes it through.
+- Verified all five paths (LM Studio was up, so the override test really did
+  call the model — `dbo.AWBuildVersion` was restored from git afterwards):
+  - `--limit 3` → 3 human skipped, no LLM call
+  - `--force --limit 3` → still 3 human skipped (the point of the guard)
+  - `--force --force-human --limit 1` → REBUILD (forced), entry replaced
+  - `--views` with `HumanResources.vEmployee` temporarily marked human → skipped,
+    other 19 views rebuilt
+  - stale `columns_snapshot` on human `dbo.ErrorLog` → still skipped
+- Also confirmed a no-op enrichment run rewrites `descriptions.yaml`
+  **byte-identically** (no reformatting churn). After restoring,
+  `generate_table_docs.py` + `generate_index.py` + `check_docs.py` → **6/6 PASS**,
+  `git status` clean: the 3 human entries are intact.
+
+### Next
+- Test the LLM path once LM Studio is up: `--force-enrich --limit 1`, then
+  `--demo-question`.
+- Add a `README.md` (the repo currently has only `AGENTS.md`).
+- Commit + push this phase.

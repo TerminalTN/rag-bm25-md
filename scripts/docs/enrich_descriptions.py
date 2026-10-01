@@ -13,6 +13,10 @@ references a column that no longer exists (backticks) or `--force` is used.
 Use `--force` to regenerate every table regardless, or `--views` to rebuild
 only the AW view objects (v* naming).
 
+Hand-edited entries are protected: an entry whose `source` is "human" is NEVER
+overwritten (not by `--force`, not by `--views`, not by a schema-drift rebuild).
+Pass `--force-human` to let the LLM replace them too.
+
 Entry format written for each new table:
     "<Schema>.<Table>":
         description: "..."
@@ -24,6 +28,9 @@ Entry format written for each new table:
 
 Usage:
     python scripts/docs/enrich_descriptions.py
+    python scripts/docs/enrich_descriptions.py --limit 5
+    python scripts/docs/enrich_descriptions.py --force --limit 3
+    python scripts/docs/enrich_descriptions.py --force-human   # override human entries too
 """
 
 import json
@@ -297,6 +304,12 @@ def save_descriptions(data: dict) -> None:
         )
 
 
+def is_human(meta: dict) -> bool:
+    """True for entries a human edited by hand (source: human). Those are never
+    replaced by the LLM unless --force-human is given."""
+    return str(meta.get("source") or "").strip().lower() == "human"
+
+
 def schema_drift(meta: dict, table: dict, current_cols: list[str], force: bool = False) -> str | None:
     """Return a reason string if the stored entry is stale vs the current schema, else None."""
     if force:
@@ -325,7 +338,8 @@ def main() -> int:
     limit = None
     force = "--force" in args
     views_only = "--views" in args
-    args = [a for a in args if a not in ("--force", "--views")]
+    force_human = "--force-human" in args
+    args = [a for a in args if a not in ("--force", "--views", "--force-human")]
     if args and not args[0].startswith("--"):
         only_table = args[0]
     if "--limit" in args:
@@ -343,7 +357,7 @@ def main() -> int:
         print(f"ERROR: no .md files found in {OUT_DIR}. Run generate_table_docs.py first.")
         return 1
 
-    skipped, added, failed, rebuilt = 0, 0, 0, 0
+    skipped, added, failed, rebuilt, human = 0, 0, 0, 0, 0
     output = dict(existing)
 
     for path in files:
@@ -353,6 +367,11 @@ def main() -> int:
         current_cols = sorted(c[0] for c in table["columns"])
 
         if isinstance(meta, dict) and meta.get("description"):
+            if is_human(meta) and not force_human:
+                human += 1
+                skipped += 1
+                print(f"  * {key}: SKIP (source=human, hand-edited; --force-human to override)", flush=True)
+                continue
             drift_reason = schema_drift(meta, table, current_cols, force=force or views_only)
             if drift_reason is None:
                 skipped += 1
@@ -380,7 +399,8 @@ def main() -> int:
         save_descriptions(output)
         print(f"\nWrote {DESCRIPTIONS_FILE}")
 
-    print(f"\nSummary: {skipped} already described, {rebuilt} rebuilt (schema drift/force), {added} added, {failed} failed.")
+    print(f"\nSummary: {skipped} already described ({human} hand-edited, kept), "
+          f"{rebuilt} rebuilt (schema drift/force), {added} added, {failed} failed.")
     return 1 if failed else 0
 
 

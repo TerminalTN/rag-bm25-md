@@ -35,11 +35,14 @@ use the CSV mirror above.
 ## Layout
 
 Scripts live in `scripts\`, grouped by pipeline stage, and are always run from
-the repo root (each script resolves `ROOT = Path(__file__).resolve().parents[2]`).
+the repo root (`scripts\<stage>\<file>.py` resolve
+`ROOT = Path(__file__).resolve().parents[2]`; `scripts\pipeline.py` uses
+`parents[1]`).
 
 ```
-scripts/ingest/extract_adventureworks.py   # pipeline: GitHub CSV -> DuckDB
-scripts/ingest/fetch_relationships.py      # CTU MariaDB PK/FK -> docs/relationships.yaml
+scripts/pipeline.py                    # ONE-COMMAND pipeline: everything after the CSV ingest
+scripts/ingest/extract_adventureworks.py   # prerequisite (once): GitHub CSV -> DuckDB
+scripts/ingest/fetch_relationships.py      # prerequisite (once): CTU MariaDB PK/FK -> docs/relationships.yaml
 scripts/docs/generate_table_docs.py        # DuckDB -> one .md file per table (docs/tables/)
 scripts/docs/generate_index.py             # descriptions.yaml -> docs/index.md (domain-grouped index)
 scripts/docs/enrich_descriptions.py        # local LLM (LM Studio) -> docs/descriptions.yaml
@@ -61,6 +64,20 @@ AGENTS.md                   # this file
 ## Commands
 
 ```powershell
+# ONE-COMMAND pipeline (everything after the CSV ingest; see pipeline notes below)
+.\.venv\Scripts\python.exe scripts\pipeline.py
+#   --full                  describe all 91 tables with the LLM (1-2h+)
+#   --limit N               max tables described this run (default 5)
+#   --force-enrich          re-describe already-described tables (to see the LLM work)
+#   --force-human           ... and also hand-edited (source: human) entries
+#   --skip-enrich           reuse docs/descriptions.yaml, no LLM call (fully offline)
+#   --clean                 delete docs/tables/*.md + docs/index.md first
+#   --demo-question [Q]     finish with an ask.py Q&A (default question if omitted)
+#   --dry-run               print the stage plan and exit
+.\.venv\Scripts\python.exe scripts\pipeline.py --skip-enrich
+.\.venv\Scripts\python.exe scripts\pipeline.py --full
+.\.venv\Scripts\python.exe scripts\pipeline.py --demo-question
+
 # run the DB build pipeline (idempotent, caches CSVs locally)
 .\.venv\Scripts\python.exe scripts\ingest\extract_adventureworks.py
 
@@ -83,6 +100,8 @@ AGENTS.md                   # this file
 #   force rebuild all entries:  python scripts/docs/enrich_descriptions.py --force
 #   stale entries (columns changed/removed, old column referenced) are
 #   regenerated automatically thanks to the stored columns_snapshot.
+#   hand-edited entries (source: human) are NEVER overwritten — not by --force,
+#   --views or a drift rebuild — unless --force-human is passed.
 .\.venv\Scripts\python.exe scripts\docs\enrich_descriptions.py
 
 # validate the generated docs (exit code 0 = all good)
@@ -104,6 +123,30 @@ CTU publishes AdventureWorks **2014** OLTP only. Our CSV dump is AW **2019**.
 The 71 base tables match 1:1 by name (the extra 20 tables in our DB are views,
 which CTU excludes), so the FK graph is considered accurate but may miss
 2019-only changes. Re-run `fetch_relationships.py` after any DB refresh.
+
+## Pipeline notes (`scripts\pipeline.py`)
+
+- The two `scripts/ingest/` scripts are **one-off prerequisites, not stages**:
+  `extract_adventureworks.py` builds `data/adventureworks.duckdb`, and
+  `fetch_relationships.py` builds `docs/relationships.yaml` from CTU MariaDB.
+  Both outputs are committed, so `pipeline.py` never hits the network except
+  the local LLM.
+- `generate_table_docs.py` runs **twice on purpose**: `enrich_descriptions.py`
+  parses the generated `docs/tables/*.md`, so the docs must then be re-rendered
+  to carry the new descriptions / domain / keywords / questions.
+- `--limit` counts *files taken from the sorted doc list*, and already-described
+  tables are skipped, not described. On a repo where `docs/descriptions.yaml` is
+  already complete, a plain run enriches **nothing** — pass `--force-enrich`
+  (with `--limit 3`) to actually watch the LLM work.
+- Each stage runs as a **subprocess** of `sys.executable`, so every DuckDB
+  connection is released on stage exit (no single-process lock across stages)
+  and stage output streams live.
+- **Hand-edited descriptions are protected**: `source: human` entries in
+  `docs/descriptions.yaml` are never replaced by the LLM — not by `--force`,
+  `--views`, or a `columns_snapshot` drift rebuild. `--force-human` overrides.
+  Note that on Windows `sorted()` is case-insensitive, so `dbo.*` comes first:
+  `--force-enrich --limit 5` targets `dbo.AWBuildVersion`, `dbo.DatabaseLog`,
+  `dbo.ErrorLog` (the human-marked ones) before any LLM entry.
 
 ## Conventions / gotchas
 

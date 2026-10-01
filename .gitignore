@@ -2,3 +2,7 @@
 __pycache__/
 data/
 *.duckdb
+
+# local-only: agent instructions + session log, not part of the published project
+AGENTS.md
+progress.md

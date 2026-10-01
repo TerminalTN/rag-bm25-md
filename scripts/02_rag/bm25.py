@@ -14,9 +14,9 @@ Query: tokenize the question, score every indexed doc with Okapi BM25
 (k1 = 1.5, b = 0.75), return the top-n (default 5) docs.
 
 Usage:
-    python scripts/rag/bm25.py                # build / refresh the index explicitly
-    python scripts/rag/bm25.py "question..."  # retrieve top-5
-    python scripts/rag/bm25.py --top 10 "question..."
+    python scripts/02_rag/bm25.py                # build / refresh the index explicitly
+    python scripts/02_rag/bm25.py "question..."  # retrieve top-5
+    python scripts/02_rag/bm25.py --top 10 "question..."
 """
 
 import argparse

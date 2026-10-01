@@ -27,10 +27,10 @@ Entry format written for each new table:
         model: <model name>
 
 Usage:
-    python scripts/docs/enrich_descriptions.py
-    python scripts/docs/enrich_descriptions.py --limit 5
-    python scripts/docs/enrich_descriptions.py --force --limit 3
-    python scripts/docs/enrich_descriptions.py --force-human   # override human entries too
+    python scripts/01_docs/02_enrich_descriptions.py
+    python scripts/01_docs/02_enrich_descriptions.py --limit 5
+    python scripts/01_docs/02_enrich_descriptions.py --force --limit 3
+    python scripts/01_docs/02_enrich_descriptions.py --force-human   # override human entries too
 """
 
 import json
@@ -354,7 +354,7 @@ def main() -> int:
     if limit:
         files = files[:limit]
     if not files:
-        print(f"ERROR: no .md files found in {OUT_DIR}. Run generate_table_docs.py first.")
+        print(f"ERROR: no .md files found in {OUT_DIR}. Run scripts/01_docs/01_generate_table_docs.py first.")
         return 1
 
     skipped, added, failed, rebuilt, human = 0, 0, 0, 0, 0

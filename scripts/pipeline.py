@@ -18,10 +18,16 @@ carry the new descriptions, domains, keywords and questions. Hand-edited
 descriptions (source: human) are never overwritten by the enrichment stage
 unless --force-human is passed.
 
-Not part of this pipeline (both are one-off prerequisites, committed to git):
-  - scripts/ingest/extract_adventureworks.py  (CSV dump -> data/adventureworks.duckdb)
-  - scripts/ingest/fetch_relationships.py     (CTU MariaDB -> docs/relationships.yaml)
+Not part of this pipeline (both are one-off prerequisites, committed to git,
+in scripts/00_ingest/):
+  - 01_extract_adventureworks.py  (CSV dump -> data/adventureworks.duckdb)
+  - 02_fetch_relationships.py     (CTU MariaDB -> docs/relationships.yaml)
 The pipeline therefore never touches the network except the local LLM.
+
+The stage scripts are numbered in workflow order under scripts/:
+  00_ingest/  one-off prerequisites
+  01_docs/    01 generate -> 02 enrich -> (01 again) -> 03 index -> 04 check
+  02_rag/     bm25.py (retrieval library) + ask.py (QA loop)
 
 Usage:
     python scripts/pipeline.py                             # 5 tables enriched, then index + checks + bm25
@@ -51,12 +57,12 @@ DESCRIPTIONS_FILE = ROOT / "docs" / "descriptions.yaml"
 TABLES_DIR = ROOT / "docs" / "tables"
 INDEX_FILE = ROOT / "docs" / "index.md"
 
-DOCS_SCRIPT = "scripts/docs/generate_table_docs.py"
-ENRICH_SCRIPT = "scripts/docs/enrich_descriptions.py"
-INDEX_SCRIPT = "scripts/docs/generate_index.py"
-CHECK_SCRIPT = "scripts/docs/check_docs.py"
-BM25_SCRIPT = "scripts/rag/bm25.py"
-ASK_SCRIPT = "scripts/rag/ask.py"
+DOCS_SCRIPT = "scripts/01_docs/01_generate_table_docs.py"
+ENRICH_SCRIPT = "scripts/01_docs/02_enrich_descriptions.py"
+INDEX_SCRIPT = "scripts/01_docs/03_generate_index.py"
+CHECK_SCRIPT = "scripts/01_docs/04_check_docs.py"
+BM25_SCRIPT = "scripts/02_rag/bm25.py"
+ASK_SCRIPT = "scripts/02_rag/ask.py"
 
 LLM_BASE_FALLBACK = "http://127.0.0.1:1234"
 DEFAULT_LIMIT = 5
@@ -78,11 +84,11 @@ def preflight(needs_llm: bool) -> list[str]:
     errors = []
     if not DB_PATH.exists():
         errors.append(
-            f"missing database {DB_PATH} - run scripts/ingest/extract_adventureworks.py once"
+            f"missing database {DB_PATH} - run scripts/00_ingest/01_extract_adventureworks.py once"
         )
     if not RELATIONSHIPS_FILE.exists():
         errors.append(
-            f"missing {RELATIONSHIPS_FILE} - run scripts/ingest/fetch_relationships.py once (needs network)"
+            f"missing {RELATIONSHIPS_FILE} - run scripts/00_ingest/02_fetch_relationships.py once (needs network)"
         )
     if needs_llm:
         url = f"{llm_base()}/v1/models"

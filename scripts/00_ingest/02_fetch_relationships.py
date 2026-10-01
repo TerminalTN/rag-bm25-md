@@ -13,7 +13,7 @@ Column/table names are identical, but 2014 vs 2019 may differ in edge
 cases — the mapping is reconciled against our DuckDB by name.
 
 Usage:
-    python scripts/ingest/fetch_relationships.py
+    python scripts/00_ingest/02_fetch_relationships.py
 """
 
 import pymysql

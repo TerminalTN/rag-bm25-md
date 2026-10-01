@@ -12,7 +12,7 @@ Checks:
 Exit code is 0 when all checks pass, 1 otherwise.
 
 Usage:
-    python scripts/docs/check_docs.py
+    python scripts/01_docs/04_check_docs.py
 """
 
 import re
@@ -133,7 +133,7 @@ def check_index() -> list[str]:
     link target must exist in docs/tables/."""
     index_path = ROOT / "docs" / "index.md"
     if not index_path.exists():
-        return ["docs/index.md does not exist — run generate_index.py"]
+        return ["docs/index.md does not exist — run scripts/01_docs/03_generate_index.py"]
 
     text = index_path.read_text(encoding="utf-8")
     links = re.findall(r"\[`([^`]+)`\]\(([^)]+)\)", text)

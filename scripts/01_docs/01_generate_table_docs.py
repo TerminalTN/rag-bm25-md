@@ -8,7 +8,7 @@ For each table emit:
     min/max/avg/std/median (via DuckDB SUMMARIZE)
 
 Usage:
-    python scripts/docs/generate_table_docs.py
+    python scripts/01_docs/01_generate_table_docs.py
 """
 
 import math

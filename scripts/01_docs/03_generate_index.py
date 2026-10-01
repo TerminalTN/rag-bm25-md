@@ -5,7 +5,7 @@ Data comes from docs/descriptions.yaml (domain + first sentence of the
 description). Within each domain, tables are sorted by name.
 
 Usage:
-    python scripts/docs/generate_index.py
+    python scripts/01_docs/03_generate_index.py
 """
 
 import re

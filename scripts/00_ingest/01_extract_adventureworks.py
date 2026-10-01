@@ -7,7 +7,7 @@ Every table from the AdventureWorks DB is loaded into
 data/adventureworks.duckdb, organised by schema (e.g. HumanResources.Employee).
 
 Usage:
-    python scripts/ingest/extract_adventureworks.py
+    python scripts/00_ingest/01_extract_adventureworks.py
 """
 
 import json

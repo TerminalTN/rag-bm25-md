@@ -6,9 +6,9 @@ prompt with the top-5 documents -> local LLM (LM Studio, OpenAI-compatible
 server) answers only from that context -> answer + used sources are printed.
 
 Usage:
-    python scripts/rag/ask.py "how many vacation hours does an employee have"
-    python scripts/rag/ask.py --top 10 "list prices by product category"
-    python scripts/rag/ask.py --model <model> "question"
+    python scripts/02_rag/ask.py "how many vacation hours does an employee have"
+    python scripts/02_rag/ask.py --top 10 "list prices by product category"
+    python scripts/02_rag/ask.py --model <model> "question"
 
 Requires the LM Studio server to be running (http://127.0.0.1:1234).
 """
@@ -95,7 +95,7 @@ def main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
 
     if not args.query:
-        print("Give a question as argument, e.g. python scripts/rag/ask.py \"why is... ?\"")
+        print("Give a question as argument, e.g. python scripts/02_rag/ask.py \"why is... ?\"")
         return 0
 
     index = bm25.load_or_build()

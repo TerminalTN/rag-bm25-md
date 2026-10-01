@@ -1,7 +1,8 @@
 ---
 table: Sales.SalesOrderHeader
 schema: Sales
-domain: unknown
+kind: table
+domain: sales
 rows: 31465
 primary_key: [SalesOrderID]
 tags: []

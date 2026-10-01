@@ -1,6 +1,7 @@
 ---
 table: Purchasing.PurchaseOrderDetail
 schema: Purchasing
+kind: table
 domain: purchasing
 rows: 8845
 primary_key: [PurchaseOrderDetailID, PurchaseOrderID]

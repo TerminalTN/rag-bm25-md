@@ -1,6 +1,7 @@
 ---
 table: Production.Culture
 schema: Production
+kind: table
 domain: production
 rows: 8
 primary_key: [CultureID]

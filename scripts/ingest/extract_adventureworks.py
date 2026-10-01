@@ -7,7 +7,7 @@ Every table from the AdventureWorks DB is loaded into
 data/adventureworks.duckdb, organised by schema (e.g. HumanResources.Employee).
 
 Usage:
-    python extract_adventureworks.py
+    python scripts/ingest/extract_adventureworks.py
 """
 
 import json
@@ -24,7 +24,7 @@ BRANCH = "main"
 RAW_BASE = f"https://raw.githubusercontent.com/{REPO}/{BRANCH}/"
 API_CONTENTS = f"https://api.github.com/repos/{REPO}/contents/"
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data"
 RAW_DIR = DATA_DIR / "raw" / "adventureworks"
 DB_PATH = DATA_DIR / "adventureworks.duckdb"

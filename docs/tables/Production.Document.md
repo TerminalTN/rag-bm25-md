@@ -1,6 +1,7 @@
 ---
 table: Production.Document
 schema: Production
+kind: table
 domain: production
 rows: 13
 primary_key: [DocumentNode]

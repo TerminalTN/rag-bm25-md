@@ -1,6 +1,7 @@
 ---
 table: Purchasing.ShipMethod
 schema: Purchasing
+kind: table
 domain: purchasing
 rows: 5
 primary_key: [ShipMethodID]

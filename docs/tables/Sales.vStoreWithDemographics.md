@@ -1,6 +1,7 @@
 ---
 table: Sales.vStoreWithDemographics
 schema: Sales
+kind: view
 domain: sales
 rows: 701
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vStoreWithDemographics
 
-One row contains demographic and sales information for a specific business entity, detailing its annual sales, revenue, and operational size (square feet, employees).
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over sales data representing a business entity, summarizing key metrics like annual sales, revenue, and employee count for each BusinessEntityID.
 
 ## Keywords
 
-business, demographics, annual sales, revenue, client, customer data, ventes annuelles, revenu, entity
+business, sales, annual revenue, demographics, client, customer, ventes, revenu annuel, entity
 
 ## Columns
 
@@ -46,6 +52,6 @@ business, demographics, annual sales, revenue, client, customer data, ventes ann
 
 ## Typical questions
 
-- What is the annual revenue for a given business entity?
-- How many employees does a business have based on its record?
-- Which year was the business entity opened?
+- What is the total annual revenue for a specific business?
+- How many employees does a business with a certain specialty have?
+- Which businesses opened in a particular year?

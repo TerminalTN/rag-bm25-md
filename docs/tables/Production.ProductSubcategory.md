@@ -1,6 +1,7 @@
 ---
 table: Production.ProductSubcategory
 schema: Production
+kind: table
 domain: production
 rows: 37
 primary_key: [ProductSubcategoryID]

@@ -1,6 +1,7 @@
 ---
 table: Production.ProductInventory
 schema: Production
+kind: table
 domain: production
 rows: 1069
 primary_key: [ProductID, LocationID]

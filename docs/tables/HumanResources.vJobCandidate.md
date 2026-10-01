@@ -1,7 +1,8 @@
 ---
 table: HumanResources.vJobCandidate
 schema: HumanResources
-domain: person
+kind: view
+domain: human-resources
 rows: 13
 primary_key: []
 tags: []
@@ -10,11 +11,16 @@ documented: true
 
 # HumanResources.vJobCandidate
 
-One row represents a job candidate associated with a business entity, detailing their personal information, skills, and contact address details.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over job candidate information, representing a single individual's application details including name, skills, and location.
 
 ## Keywords
 
-job candidate, HR, candidat, emploi, skills, contact, address, human resources
+job candidate, HR, candidat, emploi, skills, application, personnel, recruitment
 
 ## Columns
 
@@ -48,5 +54,5 @@ job candidate, HR, candidat, emploi, skills, contact, address, human resources
 ## Typical questions
 
 - What is the email address for a specific job candidate?
-- Which country region is associated with a candidate's address?
-- How many skills are listed for a given JobCandidateID?
+- Which country region is associated with a candidate's location?
+- How are skills listed for a job candidate?

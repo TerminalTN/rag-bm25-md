@@ -1,7 +1,8 @@
 ---
 table: HumanResources.Employee
 schema: HumanResources
-domain: HumanResources
+kind: table
+domain: human-resources
 rows: 290
 primary_key: [BusinessEntityID]
 tags: []

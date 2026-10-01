@@ -1,6 +1,7 @@
 ---
 table: Production.ScrapReason
 schema: Production
+kind: table
 domain: production
 rows: 16
 primary_key: [ScrapReasonID]

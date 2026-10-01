@@ -1,6 +1,7 @@
 ---
 table: Sales.SalesTerritory
 schema: Sales
+kind: table
 domain: sales
 rows: 10
 primary_key: [TerritoryID]

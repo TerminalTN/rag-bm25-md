@@ -1,6 +1,7 @@
 ---
 table: Production.ProductCostHistory
 schema: Production
+kind: table
 domain: production
 rows: 395
 primary_key: [ProductID, StartDate]

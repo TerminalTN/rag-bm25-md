@@ -1,6 +1,7 @@
 ---
 table: Person.vAdditionalContactInfo
 schema: Person
+kind: view
 domain: person
 rows: 10
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Person.vAdditionalContactInfo
 
-One row contains supplementary contact details for a business entity, including various phone numbers, email addresses, and physical location information like city and postal code.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over contact information, providing various ways to reach a business entity using fields like TelephoneNumber and EMailAddress.
 
 ## Keywords
 
-contact, email, phone number, address, business entity, telephone, adresse, contact info, EMailAddress
+contact, phone number, email, telephone, adresse, contact info, communication, EMailAddress, view
 
 ## Columns
 
@@ -48,5 +54,5 @@ contact, email, phone number, address, business entity, telephone, adresse, cont
 ## Typical questions
 
 - What is the primary phone number for a given business entity?
-- How can I find the email address associated with a BusinessEntityID?
-- What are the special instructions recorded for an email contact?
+- How can I find an email address associated with a record?
+- Which fields are used to store special instructions for contact methods?

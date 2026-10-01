@@ -1,6 +1,7 @@
 ---
 table: Sales.CreditCard
 schema: Sales
+kind: table
 domain: sales
 rows: 19118
 primary_key: [CreditCardID]

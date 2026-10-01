@@ -1,6 +1,7 @@
 ---
 table: HumanResources.Department
 schema: HumanResources
+kind: table
 domain: human-resources
 rows: 16
 primary_key: [DepartmentID]

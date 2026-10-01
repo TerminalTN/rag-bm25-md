@@ -1,6 +1,7 @@
 ---
 table: Production.UnitMeasure
 schema: Production
+kind: table
 domain: production
 rows: 38
 primary_key: [UnitMeasureCode]

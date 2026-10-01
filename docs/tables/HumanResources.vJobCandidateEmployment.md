@@ -1,6 +1,7 @@
 ---
 table: HumanResources.vJobCandidateEmployment
 schema: HumanResources
+kind: view
 domain: human-resources
 rows: 30
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # HumanResources.vJobCandidateEmployment
 
-One row detailing a specific employment period for a job candidate, recording start/end dates and organizational details like job title and location.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over job candidate employment history, detailing start/end dates and organizational details for each record.
 
 ## Keywords
 
-employment, job candidate, career, emploi, poste, start date, end date, responsibilities, HR
+job candidate, employment, history, emploi, candidat, start date, end date, responsibilities, HR
 
 ## Columns
 
@@ -40,6 +46,6 @@ employment, job candidate, career, emploi, poste, start date, end date, responsi
 
 ## Typical questions
 
-- What was the job title for a specific candidate?
-- When did an employee start and end their tenure at a location?
-- Which industry category is associated with this employment record?
+- What was the job title of a candidate in a specific year?
+- Which country region is associated with an employment record?
+- How many distinct organizations are listed for candidates?

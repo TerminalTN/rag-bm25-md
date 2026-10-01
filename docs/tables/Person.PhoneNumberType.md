@@ -1,6 +1,7 @@
 ---
 table: Person.PhoneNumberType
 schema: Person
+kind: table
 domain: person
 rows: 3
 primary_key: [PhoneNumberTypeID]

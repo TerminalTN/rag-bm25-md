@@ -1,6 +1,7 @@
 ---
 table: Person.StateProvince
 schema: Person
+kind: table
 domain: person
 rows: 181
 primary_key: [StateProvinceID]

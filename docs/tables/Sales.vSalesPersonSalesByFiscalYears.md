@@ -1,6 +1,7 @@
 ---
 table: Sales.vSalesPersonSalesByFiscalYears
 schema: Sales
+kind: view
 domain: sales
 rows: 14
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vSalesPersonSalesByFiscalYears
 
-One row summarizes a salesperson's sales performance across multiple fiscal years, detailing their name, job title, and sales figures for each year.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over sales performance data, showing the total sales amount for a salesperson across different fiscal years (SalesPersonID, FullName, JobTitle).
 
 ## Keywords
 
-salesperson, sales, performance, yearly, fiscal year, ventes, commercial, revenue, job title
+salesperson, sales, yearly, fiscal year, performance, vSalesPersonSalesByFiscalYears, revenue, ventes
 
 ## Columns
 
@@ -36,6 +42,6 @@ salesperson, sales, performance, yearly, fiscal year, ventes, commercial, revenu
 
 ## Typical questions
 
-- What was the total sales revenue for a specific salesperson across all recorded years?
-- How does a salesperson's performance change between 2003 and 2004?
-- Which job titles are associated with high sales figures?
+- What was the total sales for a specific salesperson in 2003?
+- How does a salesperson's performance compare across multiple fiscal years?
+- Which job title has the highest recorded sales across all years?

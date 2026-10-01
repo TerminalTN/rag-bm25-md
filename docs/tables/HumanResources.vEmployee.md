@@ -1,6 +1,7 @@
 ---
 table: HumanResources.vEmployee
 schema: HumanResources
+kind: view
 domain: human-resources
 rows: 290
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # HumanResources.vEmployee
 
-One row per employee record, containing personal details such as name (FirstName, LastName), job title (JobTitle), and contact information (EmailAddress).
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over employee details, providing comprehensive contact and job information for each person (BusinessEntityID).
 
 ## Keywords
 
-employee, staff, employé, personnel, job title, contact, email, HR, vEmployee
+employee, job title, contact info, personnel, RH, titre, employé, email, phone number, vEmployee
 
 ## Columns
 
@@ -48,6 +54,6 @@ employee, staff, employé, personnel, job title, contact, email, HR, vEmployee
 
 ## Typical questions
 
-- What is the phone number for an employee with a specific job title?
-- How many employees are located in a particular city?
-- Which employee has a defined suffix?
+- What is the job title for a given employee?
+- How can I find an employee's phone number and email?
+- Which fields are available for an employee's address?

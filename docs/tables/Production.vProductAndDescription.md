@@ -1,6 +1,7 @@
 ---
 table: Production.vProductAndDescription
 schema: Production
+kind: view
 domain: production
 rows: 1764
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Production.vProductAndDescription
 
-One row containing the description details for a specific product, linking it via ProductID to its name and model.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+This is a read-only view that combines product identification details with their descriptions, showing the ProductID and associated name/description.
 
 ## Keywords
 
-product, description, name, model, produit, décrire, details, vProductAndDescription
+product, view, description, name, produit, modèle, identification, details, vProductAndDescription
 
 ## Columns
 
@@ -34,6 +40,6 @@ product, description, name, model, produit, décrire, details, vProductAndDescri
 
 ## Typical questions
 
-- What is the full description for a given ProductID?
-- How many different product models are listed?
-- Can I find the name associated with a specific CultureID?
+- What is the description for a given ProductID?
+- How many unique product models are visible in this view?
+- Can I find the name and description together for all products?

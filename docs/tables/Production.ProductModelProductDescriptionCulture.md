@@ -1,6 +1,7 @@
 ---
 table: Production.ProductModelProductDescriptionCulture
 schema: Production
+kind: table
 domain: production
 rows: 762
 primary_key: [ProductModelID, ProductDescriptionID, CultureID]

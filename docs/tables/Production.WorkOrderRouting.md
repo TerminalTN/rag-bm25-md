@@ -1,6 +1,7 @@
 ---
 table: Production.WorkOrderRouting
 schema: Production
+kind: table
 domain: production
 rows: 67131
 primary_key: [WorkOrderID, ProductID, OperationSequence]

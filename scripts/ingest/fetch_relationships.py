@@ -13,7 +13,7 @@ Column/table names are identical, but 2014 vs 2019 may differ in edge
 cases — the mapping is reconciled against our DuckDB by name.
 
 Usage:
-    python fetch_relationships.py
+    python scripts/ingest/fetch_relationships.py
 """
 
 import pymysql
@@ -22,7 +22,7 @@ from pathlib import Path
 
 import duckdb
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = ROOT / "data" / "adventureworks.duckdb"
 OUT_FILE = ROOT / "docs" / "relationships.yaml"
 

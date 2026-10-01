@@ -1,6 +1,7 @@
 ---
 table: Production.ProductProductPhoto
 schema: Production
+kind: table
 domain: production
 rows: 504
 primary_key: [ProductID, ProductPhotoID]

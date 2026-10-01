@@ -1,7 +1,8 @@
 ---
 table: Person.Address
 schema: Person
-domain: unknown
+kind: table
+domain: person
 rows: 19614
 primary_key: [AddressID]
 tags: []

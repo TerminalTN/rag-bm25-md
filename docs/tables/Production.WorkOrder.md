@@ -1,6 +1,7 @@
 ---
 table: Production.WorkOrder
 schema: Production
+kind: table
 domain: production
 rows: 72591
 primary_key: [WorkOrderID]

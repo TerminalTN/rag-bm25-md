@@ -1,6 +1,7 @@
 ---
 table: HumanResources.vEmployeeDepartment
 schema: HumanResources
+kind: view
 domain: human-resources
 rows: 290
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # HumanResources.vEmployeeDepartment
 
-One row represents an employee's department assignment, detailing their name (FirstName, LastName) and job title within a specific department.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over employee department assignments, detailing an employee's name (FirstName, LastName), job title, and assigned department.
 
 ## Keywords
 
-employee, department, job title, hr, personnel, staff, employment, start date
+employee, department, job title, titre de poste, departement, personnel, hr, staff
 
 ## Columns
 
@@ -39,6 +45,6 @@ employee, department, job title, hr, personnel, staff, employment, start date
 
 ## Typical questions
 
-- What is the start date for an employee in a certain department?
-- How many employees share the same jobTitle?
-- Which departments have multiple employees assigned?
+- What is the job title associated with a specific employee?
+- How can I find an employee's department name?
+- Which employees started in the most recent year?

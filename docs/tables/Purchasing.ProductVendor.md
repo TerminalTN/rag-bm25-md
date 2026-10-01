@@ -1,6 +1,7 @@
 ---
 table: Purchasing.ProductVendor
 schema: Purchasing
+kind: table
 domain: purchasing
 rows: 460
 primary_key: [ProductID, BusinessEntityID]

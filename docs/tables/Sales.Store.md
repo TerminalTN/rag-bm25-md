@@ -1,6 +1,7 @@
 ---
 table: Sales.Store
 schema: Sales
+kind: table
 domain: sales
 rows: 701
 primary_key: [BusinessEntityID]

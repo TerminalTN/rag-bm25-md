@@ -1,6 +1,7 @@
 ---
 table: Person.BusinessEntityContact
 schema: Person
+kind: table
 domain: person
 rows: 909
 primary_key: [BusinessEntityID, PersonID, ContactTypeID]

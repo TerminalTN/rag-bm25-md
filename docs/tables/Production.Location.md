@@ -1,6 +1,7 @@
 ---
 table: Production.Location
 schema: Production
+kind: table
 domain: production
 rows: 14
 primary_key: [LocationID]

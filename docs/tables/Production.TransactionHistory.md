@@ -1,6 +1,7 @@
 ---
 table: Production.TransactionHistory
 schema: Production
+kind: table
 domain: production
 rows: 113443
 primary_key: [TransactionID]

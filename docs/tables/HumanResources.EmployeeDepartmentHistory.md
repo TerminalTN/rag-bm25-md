@@ -1,6 +1,7 @@
 ---
 table: HumanResources.EmployeeDepartmentHistory
 schema: HumanResources
+kind: table
 domain: human-resources
 rows: 296
 primary_key: [BusinessEntityID, StartDate, DepartmentID, ShiftID]

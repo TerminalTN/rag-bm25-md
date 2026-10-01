@@ -6,11 +6,13 @@ Checks:
   2. YAML front matter of every .md file parses without error.
   3. Every table cited in docs/relationships.yaml exists as a .md file.
   4. No stray "None" / "nan" literals in the generated text.
+  5. Front-matter `kind` (view/table) matches the AW v* naming convention.
+  6. docs/index.md lists every documented table exactly once and links resolve.
 
 Exit code is 0 when all checks pass, 1 otherwise.
 
 Usage:
-    python check_docs.py
+    python scripts/docs/check_docs.py
 """
 
 import re
@@ -20,10 +22,11 @@ from pathlib import Path
 import duckdb
 import yaml
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = ROOT / "data" / "adventureworks.duckdb"
 OUT_DIR = ROOT / "docs" / "tables"
 RELATIONSHIPS_FILE = ROOT / "docs" / "relationships.yaml"
+DESCRIPTIONS_FILE = ROOT / "docs" / "descriptions.yaml"
 
 NONE_RE = re.compile(r"\bNone\b")
 NAN_RE = re.compile(r"\bnan\b", re.IGNORECASE)
@@ -96,6 +99,61 @@ def check_text_clean() -> list[str]:
     return errors
 
 
+def check_view_kinds() -> list[str]:
+    """kind (view/table) in the front matter must match the AW source naming
+    convention. DuckDB can't tell (CSV mirror imports everything as a physical
+    BASE TABLE), so views are identified by the v* name pattern, consistent
+    with generate_table_docs.py."""
+    con = duckdb.connect(str(DB_PATH), read_only=True)
+    try:
+        rows = con.execute(
+            "SELECT table_schema, table_name FROM information_schema.tables "
+            "WHERE table_schema NOT IN ('information_schema')"
+        ).fetchall()
+    finally:
+        con.close()
+
+    errors = []
+    for schema, name in rows:
+        key = f"{schema}.{name}"
+        kind = "view" if re.match(r"^v[A-Z]", name) else "table"
+        path = OUT_DIR / f"{key}.md"
+        if not path.exists():
+            continue  # counted by check 1
+        meta = parse_front_matter(path.read_text(encoding="utf-8"))
+        if meta is None:
+            continue  # counted by check 2
+        if meta.get("kind") != kind:
+            errors.append(f"{key}.md: front-matter kind={meta.get('kind')!r} but expected {kind}")
+    return errors
+
+
+def check_index() -> list[str]:
+    """docs/index.md must list every documented table exactly once, and every
+    link target must exist in docs/tables/."""
+    index_path = ROOT / "docs" / "index.md"
+    if not index_path.exists():
+        return ["docs/index.md does not exist — run generate_index.py"]
+
+    text = index_path.read_text(encoding="utf-8")
+    links = re.findall(r"\[`([^`]+)`\]\(([^)]+)\)", text)
+    duplicated = sorted({key for key, _ in links if sum(1 for k, _ in links if k == key) > 1})
+    errors = [f"index.md: table listed more than once: {key}" for key in duplicated]
+
+    descriptions = yaml.safe_load(DESCRIPTIONS_FILE.read_text(encoding="utf-8")) or {}
+    documented = {k for k, v in descriptions.items() if isinstance(v, dict) and v.get("description")}
+    listed = {key for key, _ in links}
+    missing = sorted(documented - listed)
+    unexpected = sorted(listed - documented)
+    errors.extend(f"index.md: missing documented table {t}" for t in missing)
+    errors.extend(f"index.md: listed table has no description {t}" for t in unexpected)
+
+    for _, target in links:
+        if not (ROOT / "docs" / target).exists():
+            errors.append(f"index.md: broken link target {target}")
+    return errors
+
+
 def main() -> int:
     try:
         n_tables = db_table_count()
@@ -108,6 +166,8 @@ def main() -> int:
         ("2. YAML front matter parses", check_front_matter()),
         ("3. relationships cited have .md files", check_relationships()),
         ("4. no stray None/nan in docs", check_text_clean()),
+        ("5. view/table kind matches DB catalog", check_view_kinds()),
+        ("6. index.md complete and links resolve", check_index()),
     ]
 
     failed = 0

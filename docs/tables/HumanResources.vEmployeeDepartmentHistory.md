@@ -1,6 +1,7 @@
 ---
 table: HumanResources.vEmployeeDepartmentHistory
 schema: HumanResources
+kind: view
 domain: human-resources
 rows: 296
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # HumanResources.vEmployeeDepartmentHistory
 
-One row tracks the historical assignment of an employee to a department, recording the title, dates (StartDate, EndDate), and associated group information.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over employee department history, detailing an employee's title, name, and departmental assignment (Department) across time periods.
 
 ## Keywords
 
-employee history, department change, job title, employment record, transfer, ancienneté, poste, departement
+employee, department, history, job title, transfer, departement, poste, employment record, HR
 
 ## Columns
 
@@ -40,6 +46,6 @@ employee history, department change, job title, employment record, transfer, anc
 
 ## Typical questions
 
-- What was an employee's last recorded department?
-- How long did an employee hold a specific title?
-- Which departments have records of recent changes?
+- What was an employee's department on a specific date?
+- How many job titles have been recorded for an employee?
+- When did an employee change their assigned group?

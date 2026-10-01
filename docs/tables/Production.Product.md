@@ -1,7 +1,8 @@
 ---
 table: Production.Product
 schema: Production
-domain: unknown
+kind: table
+domain: production
 rows: 504
 primary_key: [ProductID]
 tags: []

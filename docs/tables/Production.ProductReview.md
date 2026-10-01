@@ -1,6 +1,7 @@
 ---
 table: Production.ProductReview
 schema: Production
+kind: table
 domain: sales
 rows: 4
 primary_key: [ProductReviewID]

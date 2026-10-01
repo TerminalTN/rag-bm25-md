@@ -1,7 +1,8 @@
 ---
 table: dbo.ErrorLog
 schema: dbo
-domain: person
+kind: table
+domain: system
 rows: 0
 primary_key: [ErrorLogID]
 tags: []

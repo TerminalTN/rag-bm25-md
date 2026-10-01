@@ -8,10 +8,11 @@ For each table emit:
     min/max/avg/std/median (via DuckDB SUMMARIZE)
 
 Usage:
-    python generate_table_docs.py
+    python scripts/docs/generate_table_docs.py
 """
 
 import math
+import re
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -19,7 +20,7 @@ import duckdb
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = ROOT / "data" / "adventureworks.duckdb"
 DOCS_DIR = ROOT / "docs"
 OUT_DIR = DOCS_DIR / "tables"
@@ -84,11 +85,18 @@ def quote_ident(ident: str) -> str:
 
 def get_tables(con) -> list:
     rows = con.execute(
-        "SELECT table_schema, table_name FROM information_schema.tables "
+        "SELECT table_schema, table_name, table_type FROM information_schema.tables "
         "WHERE table_schema NOT IN ('information_schema') "
         "ORDER BY table_schema, table_name"
     ).fetchall()
-    return [(schema, name) for schema, name in rows]
+    return [(schema, name, table_type) for schema, name, table_type in rows]
+
+
+def kind_for(name: str) -> str:
+    """View-like objects are identifiable only by name: in AdventureWorks the
+    v* tables (e.g. vEmployee, vPersonDemographics) are views. DuckDB cannot
+    tell: the CSV mirror imported every object as a physical BASE TABLE."""
+    return "view" if re.match(r"^v[A-Z]", name) else "table"
 
 
 def build_key_map(relationships: dict) -> tuple[dict, dict, dict]:
@@ -119,7 +127,7 @@ def build_key_map(relationships: dict) -> tuple[dict, dict, dict]:
     return key_map, referenced_by, fk_by_table
 
 
-def analyze_table(con, schema: str, table: str, descriptions: dict, relationships: dict) -> dict:
+def analyze_table(con, schema: str, table: str, kind: str, descriptions: dict, relationships: dict) -> dict:
     qualified = f"{quote_ident(schema)}.{quote_ident(table)}"
     key = f"{schema}.{table}"
 
@@ -166,6 +174,7 @@ def analyze_table(con, schema: str, table: str, descriptions: dict, relationship
     return {
         "schema": schema,
         "name": table,
+        "kind": kind,
         "row_count": row_count,
         "column_count": col_count,
         "domain": meta.get("domain"),
@@ -200,8 +209,8 @@ def main() -> None:
 
     tables = get_tables(con)
     written = 0
-    for schema, table in tables:
-        info = analyze_table(con, schema, table, descriptions, relationships)
+    for schema, table, table_type in tables:
+        info = analyze_table(con, schema, table, kind_for(table), descriptions, relationships)
         target = OUT_DIR / f"{schema}.{table}.md"
         target.write_text(template.render(table=info), encoding="utf-8")
         written += 1

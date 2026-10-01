@@ -165,3 +165,151 @@ timestamped with date + time.
 
 ### Next
 - RAG: chunking strategy, embeddings + vector store, retrieval + QA loop.
+
+---
+
+## 2026-09-21 ~22:15 — Views now explicit (kind field + read-only note)
+
+### Done
+- View descriptions did NOT mention they were views. Fixed via discussion:
+  - **`generate_table_docs.py`**: front matter now carries `kind: view|table`.
+    Detection is by name convention `^v[A-Z]` — NOT the DuckDB catalog:
+    `duckdb_views()` shows zero user views and all 91 objects are physical
+    BASE TABLES (CSV mirror materializes views as tables). AGENTS.md gotcha
+    updated accordingly.
+  - **Template**: view docs render a "View (AdventureWorks)" blockquote note
+    explaining it's a read-only projection in the source, imported as a table.
+  - **`enrich_descriptions.py`**: `build_prompt` now adds a view hint telling
+    the model to say explicitly that it's a view; new `--views` flag rebuilds
+    only the 20 v* tables.
+  - **`check_docs.py`**: new check 5 — front-matter `kind` matches the v* rule.
+- Rebuilt all 20 view descriptions (`--views`): every description now starts
+  with "A read-only view over ...". Re-generated docs. All 5 checks PASS.
+
+### Notes / gotchas hit
+- First `--views` run failed with WinError 10061: LM Studio was not running.
+  Existing entries were preserved (no data loss) — re-ran after starting LM
+  Studio, 20/20 OK.
+- Transient `DLL load failed (application control policy blocked)` on duckdb
+  import — resolved on retry; not reproducible.
+- DuckDB was locked by `duckdb.exe` (PID 12496) as expected; closed before re-run.
+
+### Next
+- Commit this phase (lang: "views explicit").
+- RAG: chunking strategy, embeddings + vector store, retrieval + QA loop.
+
+---
+
+## 2026-09-21 ~23:00 — docs/index.md (domain-grouped index)
+
+### Done
+- **`generate_index.py`**: reads `docs/descriptions.yaml`, groups tables by
+  `domain` (lowercased, sorted), takes the first sentence of each description,
+  writes `docs/index.md` at the docs root (links `tables/<name>.md`).
+- **`check_docs.py`**: new check 6 — index lists every documented table exactly
+  once, links resolve, no missing/unexpected tables. 6/6 PASS.
+- Data fixes in descriptions.yaml:
+  - Seeded entries had no `domain`: Person.Address→person,
+    Production.Product→production, Sales.SalesOrderHeader→sales.
+  - HumanResources.Employee had mis-cased `HumanResources` → human-resources.
+  - **LLM had mislabeled the dbo tables**: DatabaseLog/ErrorLog→`person`,
+    AWBuildVersion→`production`. Reclassified to `system` and marked
+    `source: human` (they're database-internals objects, not business domains).
+- Dropped the auto-"..." suffix: index shows the first sentence only
+  (Person.AddressType no longer shows a dangling ellipsis).
+
+### Next
+- Commit this phase (index + kind + drift handling), then RAG chunking strategy,
+  embeddings + vector store, retrieval + QA loop.
+
+---
+
+## 2026-09-22 ~00:10 — BM25 retrieval step
+
+### Done
+- **`bm25.py`**: Okapi BM25 (k1=1.5, b=0.75) retrieval over the 91 full
+  `docs/tables/*.md` files — NOT docs/index.md (that stays a human summary).
+  - Tokenizer: splits camelCase / acronym boundaries (`SalesOrderHeader` ->
+    `sales order header`), lowercases, keeps letters (incl. accents) + digits,
+    drops punctuation and single-char tokens.
+  - Build: per-doc term frequencies, doc lengths, avg doc length, term doc
+    frequency; cached to `data/bm25_index.json` with a size+mtime signature of
+    the .md files → auto-rebuilds whenever a .md changes.
+  - Query: tokenizes only the question, scores every doc, returns top-5
+    (`--top N` to change, `--build` to force rebuild).
+- Verified: cache round-trip fix (JSON turns tuples into lists — signature now
+  uses lists), snippet extraction (skip the view blockquote note). Sample
+  queries rank correctly:
+  - "how many vacation hours does an employee have" → HumanResources.Employee
+  - "product list price and standard cost" → Production.Product, *ListPriceHistory, *CostHistory
+  - "when was a purchase order approved" → Purchasing.PurchaseOrder*
+  - "shipping address of a customer in a city" → v*WithAddresses + Person.Address
+
+### Next
+- Commit this phase. Then: retrieval unit check / QA loop on top of BM25
+  (LLM answer grounded on the top-5 docs), later optional embeddings.
+
+---
+
+## 2026-09-22 ~00:40 — ask.py (BM25 -> local LLM QA loop)
+
+### Done
+- **`ask.py`**: retrieves top-5 via bm25.py, builds a grounded prompt
+  (question + up to 3000 chars of each doc), calls LM Studio
+  `google/gemma-4-e4b` (system prompt: answer ONLY from context, answer in the
+  question's language, cite Sources, say when info is not in docs).
+  Options: `--top N`, `--model <m>`.
+- Non-streaming first version repeatedly hit the 300s total timeout
+  (5-doc prompts are slow on local gemma-4-e4b). Switched to **streaming**
+  (`stream: true`, SSE parsing): tokens appear as generated, and urllib only
+  times out per-read, so long generations no longer die.
+- Verified: French question "combien d'unités en stock pour chaque produit ?"
+  -> French answer, correctly grounded on Production.ProductInventory
+  (Quantity per product, location). English questions also work.
+
+### Next
+- Commit this phase. Consider: `--top` quality tuning, grounding-answer
+  evaluation, later optional embeddings (nomic-embed + vector store).
+
+---
+
+## 2026-10-01 22:29 — Scripts reorganised into `scripts/` (by pipeline stage)
+
+### Done
+- The 8 Python scripts no longer live at the repo root; they are grouped by
+  pipeline stage (git history preserved via `git mv` for the 6 tracked ones):
+  ```
+  scripts/ingest/extract_adventureworks.py   GitHub CSV -> DuckDB
+  scripts/ingest/fetch_relationships.py      CTU MariaDB PK/FK -> docs/relationships.yaml
+  scripts/docs/generate_table_docs.py        DuckDB -> docs/tables/*.md
+  scripts/docs/generate_index.py             descriptions.yaml -> docs/index.md
+  scripts/docs/enrich_descriptions.py        local LLM -> docs/descriptions.yaml
+  scripts/docs/check_docs.py                 doc validation (6 checks)
+  scripts/rag/bm25.py                        BM25 retrieval over docs/tables/*.md
+  scripts/rag/ask.py                         BM25 -> local LLM QA loop
+  ```
+- Every script resolved repo paths as `Path(__file__).resolve().parent`, which
+  broke at depth 2 — all 8 now use `parents[2]` (repo root), so scripts are
+  still run from the repo root. `ask.py` keeps working with its plain
+  `import bm25` (same directory on `sys.path`).
+- Usage docstrings updated to the new paths (`python scripts/<stage>/<file>.py`),
+  and AGENTS.md Layout + Commands sections rewritten.
+- Verified after the move: `generate_table_docs.py` (91 docs),
+  `generate_index.py` (91 tables, 6 domains), `check_docs.py` **6/6 PASS**,
+  `bm25.py` (index rebuilt, correct hits, accented query tokens fine),
+  `ask.py --help` (import chain OK), `py_compile` on the 3 non-executed scripts.
+
+### Gotcha hit (Windows PowerShell 5.1)
+- Rewriting docstrings with `Set-Content -Encoding UTF8` **corrupted every
+  non-ASCII character**: files were read back as ANSI (cp1252) and re-written as
+  UTF-8, so em dashes became `â€"` and — worse — the BM25 tokenizer regex
+  `r"[a-zà-ÿ0-9]+"` became `r"[a-zÃ -Ã¿0-9]+"` (accented letters would have
+  been silently dropped). A BOM was also added to all 8 files.
+  Both were repaired (cp1252 round-trip inverse, BOM stripped, LF endings
+  preserved) and verified byte-wise. **Rule for this repo: never use
+  `Set-Content`/`Get-Content` for editing source files — use the Edit tool or a
+  Python script with explicit `encoding="utf-8"`.**
+
+### Next
+- Commit this phase (includes the uncommitted views/index/BM25/ask work).
+- RAG: chunking strategy, embeddings + vector store, retrieval quality tuning.

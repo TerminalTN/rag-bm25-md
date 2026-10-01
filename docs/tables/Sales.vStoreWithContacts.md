@@ -1,6 +1,7 @@
 ---
 table: Sales.vStoreWithContacts
 schema: Sales
+kind: view
 domain: sales
 rows: 753
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vStoreWithContacts
 
-One row representing a contact associated with a business entity, detailing the contact's name, phone number, and email address.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+This is a read-only view over customer and business contact information, providing details like name (FirstName, LastName), phone number (PhoneNumber), and email address (EmailAddress) for various contacts.
 
 ## Keywords
 
-contact, business entity, email, phone number, client, customer, personnel, vstore
+contact, customer, business entity, email, phone number, client, contact details, vstore
 
 ## Columns
 
@@ -42,6 +48,6 @@ contact, business entity, email, phone number, client, customer, personnel, vsto
 
 ## Typical questions
 
-- What is the primary phone number for a business?
-- How many contacts are associated with a specific BusinessEntityID?
-- Can we retrieve the email address and title of a contact?
+- What is the primary contact method listed for a business?
+- How many different contact types are recorded in this view?
+- Can I find an email address associated with a specific BusinessEntityID?

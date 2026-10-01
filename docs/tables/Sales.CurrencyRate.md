@@ -1,6 +1,7 @@
 ---
 table: Sales.CurrencyRate
 schema: Sales
+kind: table
 domain: sales
 rows: 13532
 primary_key: [CurrencyRateID]

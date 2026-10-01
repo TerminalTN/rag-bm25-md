@@ -1,7 +1,8 @@
 ---
 table: dbo.DatabaseLog
 schema: dbo
-domain: person
+kind: table
+domain: system
 rows: 1596
 primary_key: [DatabaseLogID]
 tags: []

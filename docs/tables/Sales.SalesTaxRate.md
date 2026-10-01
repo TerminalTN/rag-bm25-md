@@ -1,6 +1,7 @@
 ---
 table: Sales.SalesTaxRate
 schema: Sales
+kind: table
 domain: sales
 rows: 29
 primary_key: [SalesTaxRateID]

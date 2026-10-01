@@ -1,6 +1,7 @@
 ---
 table: Production.vProductModelInstructions
 schema: Production
+kind: view
 domain: production
 rows: 131
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Production.vProductModelInstructions
 
-One row details the instructions and resource requirements for a specific step within a product model, referencing ProductModelID and LocationID.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over product model instructions, detailing setup time, machine hours, labor hours, and lot size for specific steps.
 
 ## Keywords
 
-product model, instructions, setup hours, machine hours, labor hours, process step, manufacturing, production
+instructions, product model, setup hours, machine hours, labor hours, process step, manufacturing process, view
 
 ## Columns
 
@@ -45,6 +51,6 @@ product model, instructions, setup hours, machine hours, labor hours, process st
 
 ## Typical questions
 
-- What are the required setup hours for a specific product model?
-- How many machine hours are needed for a given process step?
-- Which location is associated with these production instructions?
+- What are the required setup hours for a product model?
+- How many machine hours are needed per lot size?
+- Which steps have labor hours defined?

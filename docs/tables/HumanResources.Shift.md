@@ -1,6 +1,7 @@
 ---
 table: HumanResources.Shift
 schema: HumanResources
+kind: table
 domain: human-resources
 rows: 3
 primary_key: [ShiftID]

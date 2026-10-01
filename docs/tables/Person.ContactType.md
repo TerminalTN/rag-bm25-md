@@ -1,6 +1,7 @@
 ---
 table: Person.ContactType
 schema: Person
+kind: table
 domain: person
 rows: 20
 primary_key: [ContactTypeID]

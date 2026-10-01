@@ -1,6 +1,7 @@
 ---
 table: Person.vStateProvinceCountryRegion
 schema: Person
+kind: view
 domain: person
 rows: 181
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Person.vStateProvinceCountryRegion
 
-One row containing the relationship between a state/province and its country region, detailing names and codes for geographical grouping.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over the state province and country region tables, providing combined geographical information including name and codes.
 
 ## Keywords
 
-state, province, country, region, geography, état, région, code pays, location
+state, province, country, region, geography, état, région, code pays, view
 
 ## Columns
 
@@ -37,6 +43,6 @@ state, province, country, region, geography, état, région, code pays, location
 
 ## Typical questions
 
-- What is the name of a state province?
-- How can I find all regions associated with a specific country code?
-- Does this table indicate if a state province is unique to its territory?
+- What is the full name of a state province?
+- How can I find all records associated with a specific country region code?
+- Which states are marked as only state provinces?

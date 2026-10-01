@@ -1,6 +1,7 @@
 ---
 table: Sales.SpecialOfferProduct
 schema: Sales
+kind: table
 domain: sales
 rows: 538
 primary_key: [SpecialOfferID, ProductID]

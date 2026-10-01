@@ -1,6 +1,7 @@
 ---
 table: Sales.CountryRegionCurrency
 schema: Sales
+kind: table
 domain: sales
 rows: 109
 primary_key: [CountryRegionCode, CurrencyCode]

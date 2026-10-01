@@ -1,6 +1,7 @@
 ---
 table: Sales.SalesTerritoryHistory
 schema: Sales
+kind: table
 domain: sales
 rows: 17
 primary_key: [BusinessEntityID, StartDate, TerritoryID]

@@ -1,6 +1,7 @@
 ---
 table: Sales.vSalesPerson
 schema: Sales
+kind: view
 domain: sales
 rows: 17
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vSalesPerson
 
-One row per sales representative, containing personal details, contact information, and performance metrics like sales quota (SalesQuota) and year-to-date sales (SalesYTD).
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over sales representative details, containing contact information and performance metrics like sales quota (SalesQuota) and year-to-date sales (SalesYTD).
 
 ## Keywords
 
-salesperson, representative, vSalesPerson, quota, sales ytd, commercial, vente, représentant, commission, performance
+salesperson, representative, vSalesPerson, quota, sales ytd, contact, commercial, agent, territory
 
 ## Columns
 
@@ -55,6 +61,6 @@ salesperson, representative, vSalesPerson, quota, sales ytd, commercial, vente, 
 
 ## Typical questions
 
-- What is the total sales year-to-date for a salesperson?
-- Which salesperson has the highest sales quota?
-- How can I find the email address of a specific salesperson?
+- What is the total sales year-to-date for a specific salesperson?
+- How can I find the phone number and email address of a representative?
+- Which territory group does a salesperson belong to?

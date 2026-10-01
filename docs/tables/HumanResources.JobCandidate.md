@@ -1,6 +1,7 @@
 ---
 table: HumanResources.JobCandidate
 schema: HumanResources
+kind: table
 domain: human-resources
 rows: 13
 primary_key: [JobCandidateID]

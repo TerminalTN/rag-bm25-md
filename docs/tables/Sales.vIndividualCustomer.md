@@ -1,7 +1,8 @@
 ---
 table: Sales.vIndividualCustomer
 schema: Sales
-domain: person
+kind: view
+domain: sales
 rows: 18508
 primary_key: []
 tags: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vIndividualCustomer
 
-One row per individual customer, containing personal details like name (FirstName, LastName), contact information (PhoneNumber, EmailAddress), and address details.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over customer contact information, providing a consolidated view of individual customers including their name components (FirstName, LastName) and contact details like EmailAddress.
 
 ## Keywords
 
-customer, individual, contact, email, phone number, client, adresse, nom, personne
+customer, contact, email, address, client, adresse, nom, phone number, view, individual
 
 ## Columns
 
@@ -48,6 +54,6 @@ customer, individual, contact, email, phone number, client, adresse, nom, person
 
 ## Typical questions
 
-- What is the email address for a given BusinessEntityID?
-- How many phone numbers are associated with an individual?
-- Which country region does a customer reside in?
+- What is the primary email address for a customer?
+- How can I find a customer by their full name?
+- Which fields are available in this view?

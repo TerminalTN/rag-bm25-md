@@ -1,7 +1,8 @@
 ---
 table: dbo.AWBuildVersion
 schema: dbo
-domain: production
+kind: table
+domain: system
 rows: 1
 primary_key: [SystemInformationID]
 tags: []

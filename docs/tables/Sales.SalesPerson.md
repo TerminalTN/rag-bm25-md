@@ -1,6 +1,7 @@
 ---
 table: Sales.SalesPerson
 schema: Sales
+kind: table
 domain: sales
 rows: 17
 primary_key: [BusinessEntityID]

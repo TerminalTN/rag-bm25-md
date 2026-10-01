@@ -2,6 +2,7 @@
 ---
 table: {{ table.schema }}.{{ table.name }}
 schema: {{ table.schema }}
+kind: {{ table.kind }}
 domain: {{ table.domain or "unknown" }}
 rows: {{ table.row_count }}
 primary_key: [{{ (table.primary_key or []) | join(", ") }}]
@@ -11,6 +12,13 @@ documented: {{ "true" if table.description else "false" }}
 
 # {{ table.schema }}.{{ table.name }}
 
+{% if table.kind == "view" %}
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+{% endif %}
 {% if table.description %}
 {{ table.description }}
 

@@ -1,6 +1,7 @@
 ---
 table: HumanResources.EmployeePayHistory
 schema: HumanResources
+kind: table
 domain: human-resources
 rows: 316
 primary_key: [BusinessEntityID, RateChangeDate]

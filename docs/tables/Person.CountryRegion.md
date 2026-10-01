@@ -1,6 +1,7 @@
 ---
 table: Person.CountryRegion
 schema: Person
+kind: table
 domain: person
 rows: 238
 primary_key: [CountryRegionCode]

@@ -1,6 +1,7 @@
 ---
 table: Production.vProductModelCatalogDescription
 schema: Production
+kind: view
 domain: production
 rows: 6
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Production.vProductModelCatalogDescription
 
-One row containing detailed descriptive information for a specific product model, including its name, manufacturer, and various component details like wheel or saddle.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over product model catalog descriptions, providing detailed specifications like manufacturer, material, and style for each product model.
 
 ## Keywords
 
-product model, description, manufacturer, bike frame, component, details, catalog, model
+product model, catalog, description, specifications, manufacturer, material, style, bike, vélo
 
 ## Columns
 
@@ -56,6 +62,6 @@ product model, description, manufacturer, bike frame, component, details, catalo
 
 ## Typical questions
 
-- What is the warranty period for a given product model?
-- Which material is used in a specific bike frame?
-- How many different components (wheel, saddle, pedal) are listed for a model?
+- What is the warranty period listed for a specific product model?
+- How can I find products made of a certain material?
+- Which fields describe the bike's style or rider experience?

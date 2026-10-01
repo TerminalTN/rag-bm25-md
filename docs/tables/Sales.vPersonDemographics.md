@@ -1,6 +1,7 @@
 ---
 table: Sales.vPersonDemographics
 schema: Sales
+kind: view
 domain: person
 rows: 19972
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vPersonDemographics
 
-One row containing demographic and purchasing data for a business entity, including total purchases year to date (TotalPurchaseYTD) and personal details like gender and education.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over person demographics, providing aggregated purchase data (TotalPurchaseYTD) and personal details like birth date, income, and family status for a business entity.
 
 ## Keywords
 
-demographics, purchase history, income, gender, birthdate, education, marital status, business entity
+demographics, purchase total, income, birth date, gender, marital status, view, client profile
 
 ## Columns
 
@@ -46,6 +52,6 @@ demographics, purchase history, income, gender, birthdate, education, marital st
 
 ## Typical questions
 
-- What is the total purchase year to date for a specific business entity?
-- How can I find the birth date associated with an entity?
-- Which demographic fields are available for analysis?
+- What is the average TotalPurchaseYTD by gender?
+- Which occupation has the highest NumberChildrenAtHome?
+- How many records have a null BirthDate?

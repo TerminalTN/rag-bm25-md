@@ -34,15 +34,23 @@ use the CSV mirror above.
 
 ## Layout
 
+Scripts live in `scripts\`, grouped by pipeline stage, and are always run from
+the repo root (each script resolves `ROOT = Path(__file__).resolve().parents[2]`).
+
 ```
-extract_adventureworks.py   # pipeline: GitHub CSV -> DuckDB
-generate_table_docs.py      # DuckDB -> one .md file per table (docs/tables/)
-fetch_relationships.py      # CTU MariaDB PK/FK -> docs/relationships.yaml
-enrich_descriptions.py      # local LLM (LM Studio) -> docs/descriptions.yaml
-check_docs.py               # validation of generated docs (4 checks, exit code)
+scripts/ingest/extract_adventureworks.py   # pipeline: GitHub CSV -> DuckDB
+scripts/ingest/fetch_relationships.py      # CTU MariaDB PK/FK -> docs/relationships.yaml
+scripts/docs/generate_table_docs.py        # DuckDB -> one .md file per table (docs/tables/)
+scripts/docs/generate_index.py             # descriptions.yaml -> docs/index.md (domain-grouped index)
+scripts/docs/enrich_descriptions.py        # local LLM (LM Studio) -> docs/descriptions.yaml
+scripts/docs/check_docs.py                 # validation of generated docs (6 checks, exit code)
+scripts/rag/bm25.py                        # BM25 retrieval over docs/tables/*.md (top-5)
+scripts/rag/ask.py                         # QA loop: BM25 top-5 -> local LLM grounded answer
 data/adventureworks.duckdb  # DuckDB database (gitignored)
+data/bm25_index.json        # cached BM25 index (gitignored, auto-rebuilt on .md change)
 data/raw/adventureworks/    # downloaded CSV cache (gitignored)
 docs/tables/                # generated per-table markdown docs
+docs/index.md               # domain-grouped index of the table docs (generated)
 docs/descriptions.yaml      # human metadata (table/column descriptions)
 docs/relationships.yaml     # PK/FK relationships (from CTU, AW2014)
 templates/table.md.j2       # Jinja2 template for table docs
@@ -54,27 +62,40 @@ AGENTS.md                   # this file
 
 ```powershell
 # run the DB build pipeline (idempotent, caches CSVs locally)
-.\.venv\Scripts\python.exe extract_adventureworks.py
+.\.venv\Scripts\python.exe scripts\ingest\extract_adventureworks.py
 
 # ad-hoc query
 .\.venv\Scripts\python.exe -c "import duckdb; c=duckdb.connect(r'data\adventureworks.duckdb', read_only=True); print(c.execute('SELECT COUNT(*) FROM \"Production\".\"Product\"').fetchall())"
 
 # regenerate per-table markdown docs
-.\.venv\Scripts\python.exe generate_table_docs.py
+.\.venv\Scripts\python.exe scripts\docs\generate_table_docs.py
+
+# regenerate docs/index.md (domain-grouped table index)
+.\.venv\Scripts\python.exe scripts\docs\generate_index.py
 
 # re-fetch PK/FK relationships from CTU MariaDB (see version caveat below)
-.\.venv\Scripts\python.exe fetch_relationships.py
+.\.venv\Scripts\python.exe scripts\ingest\fetch_relationships.py
 
 # describe undocumented tables via local LLM (LM Studio, default model = google/gemma-4-e4b)
-#   optional single table:     python enrich_descriptions.py "Person.Address"
-#   optional batch limit:      python enrich_descriptions.py --limit 20
-#   force rebuild all entries: python enrich_descriptions.py --force
+#   optional single table:      python scripts/docs/enrich_descriptions.py "Person.Address"
+#   optional batch limit:       python scripts/docs/enrich_descriptions.py --limit 20
+#   rebuild only AW views (v*): python scripts/docs/enrich_descriptions.py --views
+#   force rebuild all entries:  python scripts/docs/enrich_descriptions.py --force
 #   stale entries (columns changed/removed, old column referenced) are
 #   regenerated automatically thanks to the stored columns_snapshot.
-.\.venv\Scripts\python.exe enrich_descriptions.py
+.\.venv\Scripts\python.exe scripts\docs\enrich_descriptions.py
 
 # validate the generated docs (exit code 0 = all good)
-.\.venv\Scripts\python.exe check_docs.py
+.\.venv\Scripts\python.exe scripts\docs\check_docs.py
+
+# BM25 retrieval over docs/tables/*.md (index auto-rebuilds when a .md changes)
+.\.venv\Scripts\python.exe scripts\rag\bm25.py "how many vacation hours does an employee have"
+#   --top 10     more results          --build     rebuild index and exit
+.\.venv\Scripts\python.exe scripts\rag\bm25.py --top 10 "product list price by vendor"
+
+# QA loop: BM25 top-5 -> local LLM grounded answer (streams; may take minutes)
+.\.venv\Scripts\python.exe scripts\rag\ask.py "combien d'unités en stock pour chaque produit ?"
+#   --top 10       more context        --model <m>  pick another model
 ```
 
 ## Version caveat for relationships
@@ -89,6 +110,11 @@ which CTU excludes), so the FK graph is considered accurate but may miss
 - Tables are schema-qualified, e.g. `Production.Product`, `Person.Person`.
   Always quote identifiers: `"Production"."Product"`.
 - Schema-less CSV dumps (`AWBuildVersion`, `DatabaseLog`, `ErrorLog`) live in `dbo`.
+- **kind field (view vs table)**: front matter carries `kind: view` for AW view
+  objects (v* naming convention). DuckDB cannot distinguish them — the CSV
+  mirror imports every object as a physical BASE TABLE — so view-ness is derived
+  from the name (`^v[A-Z]`), consistent in generate_table_docs.py and check_docs.py.
+  View descriptions and docs carry an explicit "read-only view" note.
 - **DuckDB is single-process**: only one process may open the DB file at a time.
   Close the DuckDB CLI (or any connection) before running scripts — otherwise
   scripts fail with "file already open in ..." (file lock on Windows).

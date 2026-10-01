@@ -1,6 +1,7 @@
 ---
 table: Sales.SalesPersonQuotaHistory
 schema: Sales
+kind: table
 domain: sales
 rows: 163
 primary_key: [BusinessEntityID, QuotaDate]

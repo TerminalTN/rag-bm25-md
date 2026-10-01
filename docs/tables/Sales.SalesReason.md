@@ -1,6 +1,7 @@
 ---
 table: Sales.SalesReason
 schema: Sales
+kind: table
 domain: sales
 rows: 10
 primary_key: [SalesReasonID]

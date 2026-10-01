@@ -1,6 +1,7 @@
 ---
 table: Purchasing.vVendorWithContacts
 schema: Purchasing
+kind: view
 domain: purchasing
 rows: 156
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Purchasing.vVendorWithContacts
 
-One row containing contact details for a vendor, linking the vendor (BusinessEntityID) to specific contact information like phone number or email.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over vendor contact information, providing details like name, title, and various phone/email numbers for a business entity.
 
 ## Keywords
 
-vendor, contact, phone number, email, supplier, fournisseur, business entity, contact details, personnel
+vendor, contact, business entity, supplier, fournisseur, contact info, phone number, email address, vendeur
 
 ## Columns
 
@@ -42,6 +48,6 @@ vendor, contact, phone number, email, supplier, fournisseur, business entity, co
 
 ## Typical questions
 
-- What is the primary phone number for a vendor?
-- How can I find the email address associated with a business entity?
-- Which contact types are recorded for vendors?
+- What is the primary contact email for a vendor?
+- How many phone numbers are associated with a business entity?
+- Can I find the title of a specific vendor contact?

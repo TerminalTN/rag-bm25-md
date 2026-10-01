@@ -1,6 +1,7 @@
 ---
 table: Production.BillOfMaterials
 schema: Production
+kind: table
 domain: production
 rows: 2679
 primary_key: [BillOfMaterialsID]

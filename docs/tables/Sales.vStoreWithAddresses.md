@@ -1,6 +1,7 @@
 ---
 table: Sales.vStoreWithAddresses
 schema: Sales
+kind: view
 domain: sales
 rows: 712
 primary_key: []
@@ -10,11 +11,16 @@ documented: true
 
 # Sales.vStoreWithAddresses
 
-One row detailing a specific store's address information, linking the business entity (BusinessEntityID) to its physical location details like city and postal code.
+> **View (AdventureWorks)** — in the source database this object is a *view*
+> (a read-only projection over one or more base tables). It was imported from
+> the CSV mirror as a physical table, so it is queryable like any table here,
+> but it has no dependencies, keys, or storage of its own.
+
+A read-only view over sales data that combines business entity information with their associated addresses, showing details like name and location.
 
 ## Keywords
 
-store, address, location, magasin, adresse, city, postal code, business entity, vStore
+view, address, business entity, location, adresse, ville, client, customer, vstore
 
 ## Columns
 
@@ -38,6 +44,6 @@ store, address, location, magasin, adresse, city, postal code, business entity, 
 
 ## Typical questions
 
-- What is the address for a specific BusinessEntityID?
-- How many stores are located in a certain city?
-- Which country region contains the most store addresses?
+- What is the primary address for a given business entity?
+- How many distinct countries are represented in this view?
+- Can I find the city and state for a specific BusinessEntityID?

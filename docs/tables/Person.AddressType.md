@@ -1,6 +1,7 @@
 ---
 table: Person.AddressType
 schema: Person
+kind: table
 domain: person
 rows: 6
 primary_key: [AddressTypeID]

@@ -6,6 +6,7 @@
 # Entries are merged into each table's generated .md file.
 Person.Address:
   description: Street addresses for businesses, employees, and customers.
+  domain: person
   columns:
     AddressID: Primary key.
     AddressLine1: First line of the street address.
@@ -16,6 +17,7 @@ Person.Address:
     ModifiedDate: Date the row was last modified.
 Production.Product:
   description: Products sold or used in the manufacturing of goods.
+  domain: production
   columns:
     ProductID: Primary key.
     Name: Product name.
@@ -29,6 +31,7 @@ Production.Product:
     ProductModelID: FK to Production.ProductModel.
 Sales.SalesOrderHeader:
   description: 'Sales order header: one row per order, with customer, dates, and totals.'
+  domain: sales
   columns:
     SalesOrderID: Primary key.
     OrderDate: Date the order was placed.
@@ -44,7 +47,7 @@ Sales.SalesOrderHeader:
 HumanResources.Employee:
   description: This table represents employee information within the HumanResources
     system.
-  domain: HumanResources
+  domain: human-resources
   keywords:
   - employee
   - human resources
@@ -116,7 +119,7 @@ dbo.DatabaseLog:
   description: One row records a specific database event, detailing when it occurred
     (PostTime), which user executed it (DatabaseUser), and the associated schema or
     object.
-  domain: person
+  domain: system
   keywords:
   - database
   - log
@@ -131,12 +134,12 @@ dbo.DatabaseLog:
   - When was a specific event logged?
   - Which user performed an action on an object?
   - What is the recorded event type for a given time?
-  source: llm
+  source: human
   model: google/gemma-4-e4b
 dbo.AWBuildVersion:
   description: One row containing the build version details for the database, including
     the database version string and modification dates.
-  domain: production
+  domain: system
   keywords:
   - build
   - version
@@ -150,12 +153,12 @@ dbo.AWBuildVersion:
   - What is the current database version?
   - When was this build last modified?
   - Does the system record a specific SystemInformationID?
-  source: llm
+  source: human
   model: google/gemma-4-e4b
 dbo.ErrorLog:
   description: One row per recorded error event, containing a descriptive message
     in column0.
-  domain: person
+  domain: system
   keywords:
   - error
   - log
@@ -169,7 +172,7 @@ dbo.ErrorLog:
   - How many errors were logged?
   - What was the last recorded error message?
   - Are there any entries for a specific type of error?
-  source: llm
+  source: human
   model: google/gemma-4-e4b
 HumanResources.Department:
   description: One row per department within the company structure, detailing its
@@ -267,123 +270,209 @@ HumanResources.Shift:
   source: llm
   model: google/gemma-4-e4b
 HumanResources.vEmployee:
-  description: One row per employee record, containing personal details such as name
-    (FirstName, LastName), job title (JobTitle), and contact information (EmailAddress).
+  description: A read-only view over employee details, providing comprehensive contact
+    and job information for each person (BusinessEntityID).
   domain: human-resources
   keywords:
   - employee
-  - staff
-  - employé
-  - personnel
   - job title
-  - contact
+  - contact info
+  - personnel
+  - RH
+  - titre
+  - employé
   - email
-  - HR
+  - phone number
   - vEmployee
   questions:
-  - What is the phone number for an employee with a specific job title?
-  - How many employees are located in a particular city?
-  - Which employee has a defined suffix?
+  - What is the job title for a given employee?
+  - How can I find an employee's phone number and email?
+  - Which fields are available for an employee's address?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - AdditionalContactInfo
+  - AddressLine1
+  - AddressLine2
+  - BusinessEntityID
+  - City
+  - CountryRegionName
+  - EmailAddress
+  - EmailPromotion
+  - FirstName
+  - JobTitle
+  - LastName
+  - MiddleName
+  - PhoneNumber
+  - PhoneNumberType
+  - PostalCode
+  - StateProvinceName
+  - Suffix
+  - Title
 HumanResources.vEmployeeDepartment:
-  description: One row represents an employee's department assignment, detailing their
-    name (FirstName, LastName) and job title within a specific department.
+  description: A read-only view over employee department assignments, detailing an
+    employee's name (FirstName, LastName), job title, and assigned department.
   domain: human-resources
   keywords:
   - employee
   - department
   - job title
-  - hr
+  - titre de poste
+  - departement
   - personnel
+  - hr
   - staff
-  - employment
-  - start date
   questions:
-  - What is the start date for an employee in a certain department?
-  - How many employees share the same jobTitle?
-  - Which departments have multiple employees assigned?
+  - What is the job title associated with a specific employee?
+  - How can I find an employee's department name?
+  - Which employees started in the most recent year?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BusinessEntityID
+  - Department
+  - FirstName
+  - GroupName
+  - JobTitle
+  - LastName
+  - MiddleName
+  - StartDate
+  - Suffix
+  - Title
 HumanResources.vEmployeeDepartmentHistory:
-  description: One row tracks the historical assignment of an employee to a department,
-    recording the title, dates (StartDate, EndDate), and associated group information.
+  description: A read-only view over employee department history, detailing an employee's
+    title, name, and departmental assignment (Department) across time periods.
   domain: human-resources
   keywords:
-  - employee history
-  - department change
+  - employee
+  - department
+  - history
   - job title
-  - employment record
   - transfer
-  - ancienneté
-  - poste
   - departement
+  - poste
+  - employment record
+  - HR
   questions:
-  - What was an employee's last recorded department?
-  - How long did an employee hold a specific title?
-  - Which departments have records of recent changes?
+  - What was an employee's department on a specific date?
+  - How many job titles have been recorded for an employee?
+  - When did an employee change their assigned group?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BusinessEntityID
+  - Department
+  - EndDate
+  - FirstName
+  - GroupName
+  - LastName
+  - MiddleName
+  - Shift
+  - StartDate
+  - Suffix
+  - Title
 HumanResources.vJobCandidate:
-  description: One row represents a job candidate associated with a business entity,
-    detailing their personal information, skills, and contact address details.
-  domain: person
+  description: A read-only view over job candidate information, representing a single
+    individual's application details including name, skills, and location.
+  domain: human-resources
   keywords:
   - job candidate
   - HR
   - candidat
   - emploi
   - skills
-  - contact
-  - address
-  - human resources
+  - application
+  - personnel
+  - recruitment
   questions:
   - What is the email address for a specific job candidate?
-  - Which country region is associated with a candidate's address?
-  - How many skills are listed for a given JobCandidateID?
+  - Which country region is associated with a candidate's location?
+  - How are skills listed for a job candidate?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - Addr.Loc.City
+  - Addr.Loc.CountryRegion
+  - Addr.Loc.State
+  - Addr.PostalCode
+  - Addr.Type
+  - BusinessEntityID
+  - EMail
+  - JobCandidateID
+  - ModifiedDate
+  - Name.First
+  - Name.Last
+  - Name.Middle
+  - Name.Prefix
+  - Name.Suffix
+  - Skills
+  - WebSite
 HumanResources.vJobCandidateEducation:
-  description: One row details the educational background for a specific job candidate,
-    recording degree information, dates, and GPA.
+  description: A read-only view over education records for job candidates, detailing
+    their degree, major, and the educational institution (school) they attended.
   domain: human-resources
   keywords:
   - education
   - job candidate
   - degree
   - major
-  - GPA
-  - school
-  - études
+  - école
   - diplôme
-  - formation
+  - études
+  - gpa
   - academic
   questions:
   - What is the highest level of education achieved by a candidate?
-  - Which schools are listed in the educational records?
-  - Can we find the start and end dates for a specific degree?
+  - Which schools have candidates with a specific major?
+  - Can we find the start and end dates for any listed degree?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - Edu.Degree
+  - Edu.EndDate
+  - Edu.GPA
+  - Edu.GPAScale
+  - Edu.Level
+  - Edu.Loc.City
+  - Edu.Loc.CountryRegion
+  - Edu.Loc.State
+  - Edu.Major
+  - Edu.Minor
+  - Edu.School
+  - Edu.StartDate
+  - JobCandidateID
 HumanResources.vJobCandidateEmployment:
-  description: One row detailing a specific employment period for a job candidate,
-    recording start/end dates and organizational details like job title and location.
+  description: A read-only view over job candidate employment history, detailing start/end
+    dates and organizational details for each record.
   domain: human-resources
   keywords:
-  - employment
   - job candidate
-  - career
+  - employment
+  - history
   - emploi
-  - poste
+  - candidat
   - start date
   - end date
   - responsibilities
   - HR
   questions:
-  - What was the job title for a specific candidate?
-  - When did an employee start and end their tenure at a location?
-  - Which industry category is associated with this employment record?
+  - What was the job title of a candidate in a specific year?
+  - Which country region is associated with an employment record?
+  - How many distinct organizations are listed for candidates?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - Emp.EndDate
+  - Emp.FunctionCategory
+  - Emp.IndustryCategory
+  - Emp.JobTitle
+  - Emp.Loc.City
+  - Emp.Loc.CountryRegion
+  - Emp.Loc.State
+  - Emp.OrgName
+  - Emp.Responsibility
+  - Emp.StartDate
+  - JobCandidateID
 Person.AddressType:
   description: One row defining the type of address, such as billing or shipping.
     The primary identifier is AddressTypeID.
@@ -614,29 +703,46 @@ Person.StateProvince:
   source: llm
   model: google/gemma-4-e4b
 Person.vAdditionalContactInfo:
-  description: One row contains supplementary contact details for a business entity,
-    including various phone numbers, email addresses, and physical location information
-    like city and postal code.
+  description: A read-only view over contact information, providing various ways to
+    reach a business entity using fields like TelephoneNumber and EMailAddress.
   domain: person
   keywords:
   - contact
-  - email
   - phone number
-  - address
-  - business entity
+  - email
   - telephone
   - adresse
   - contact info
+  - communication
   - EMailAddress
+  - view
   questions:
   - What is the primary phone number for a given business entity?
-  - How can I find the email address associated with a BusinessEntityID?
-  - What are the special instructions recorded for an email contact?
+  - How can I find an email address associated with a record?
+  - Which fields are used to store special instructions for contact methods?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BusinessEntityID
+  - City
+  - CountryRegion
+  - EMailAddress
+  - EMailSpecialInstructions
+  - EMailTelephoneNumber
+  - FirstName
+  - HomeAddressSpecialInstructions
+  - LastName
+  - MiddleName
+  - ModifiedDate
+  - PostalCode
+  - StateProvince
+  - Street
+  - TelephoneNumber
+  - TelephoneSpecialInstructions
+  - rowguid
 Person.vStateProvinceCountryRegion:
-  description: One row containing the relationship between a state/province and its
-    country region, detailing names and codes for geographical grouping.
+  description: A read-only view over the state province and country region tables,
+    providing combined geographical information including name and codes.
   domain: person
   keywords:
   - state
@@ -647,13 +753,21 @@ Person.vStateProvinceCountryRegion:
   - état
   - région
   - code pays
-  - location
+  - view
   questions:
-  - What is the name of a state province?
-  - How can I find all regions associated with a specific country code?
-  - Does this table indicate if a state province is unique to its territory?
+  - What is the full name of a state province?
+  - How can I find all records associated with a specific country region code?
+  - Which states are marked as only state provinces?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - CountryRegionCode
+  - CountryRegionName
+  - IsOnlyStateProvinceFlag
+  - StateProvinceCode
+  - StateProvinceID
+  - StateProvinceName
+  - TerritoryID
 Production.BillOfMaterials:
   description: One row detailing the components required to build a specific product
     assembly, specifying quantities and levels of assembly.
@@ -1060,63 +1174,109 @@ Production.UnitMeasure:
   source: llm
   model: google/gemma-4-e4b
 Production.vProductAndDescription:
-  description: One row containing the description details for a specific product,
-    linking it via ProductID to its name and model.
+  description: This is a read-only view that combines product identification details
+    with their descriptions, showing the ProductID and associated name/description.
   domain: production
   keywords:
   - product
+  - view
   - description
   - name
-  - model
   - produit
-  - décrire
+  - modèle
+  - identification
   - details
   - vProductAndDescription
   questions:
-  - What is the full description for a given ProductID?
-  - How many different product models are listed?
-  - Can I find the name associated with a specific CultureID?
+  - What is the description for a given ProductID?
+  - How many unique product models are visible in this view?
+  - Can I find the name and description together for all products?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - CultureID
+  - Description
+  - Name
+  - ProductID
+  - ProductModel
 Production.vProductModelCatalogDescription:
-  description: One row containing detailed descriptive information for a specific
-    product model, including its name, manufacturer, and various component details
-    like wheel or saddle.
+  description: A read-only view over product model catalog descriptions, providing
+    detailed specifications like manufacturer, material, and style for each product
+    model.
   domain: production
   keywords:
   - product model
-  - description
-  - manufacturer
-  - bike frame
-  - component
-  - details
   - catalog
-  - model
+  - description
+  - specifications
+  - manufacturer
+  - material
+  - style
+  - bike
+  - vélo
   questions:
-  - What is the warranty period for a given product model?
-  - Which material is used in a specific bike frame?
-  - How many different components (wheel, saddle, pedal) are listed for a model?
+  - What is the warranty period listed for a specific product model?
+  - How can I find products made of a certain material?
+  - Which fields describe the bike's style or rider experience?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BikeFrame
+  - Color
+  - Copyright
+  - Crankset
+  - MaintenanceDescription
+  - Manufacturer
+  - Material
+  - ModifiedDate
+  - Name
+  - NoOfYears
+  - Pedal
+  - PictureAngle
+  - PictureSize
+  - ProductLine
+  - ProductModelID
+  - ProductPhotoID
+  - ProductURL
+  - RiderExperience
+  - Saddle
+  - Style
+  - Summary
+  - WarrantyDescription
+  - WarrantyPeriod
+  - Wheel
+  - rowguid
 Production.vProductModelInstructions:
-  description: One row details the instructions and resource requirements for a specific
-    step within a product model, referencing ProductModelID and LocationID.
+  description: A read-only view over product model instructions, detailing setup time,
+    machine hours, labor hours, and lot size for specific steps.
   domain: production
   keywords:
-  - product model
   - instructions
+  - product model
   - setup hours
   - machine hours
   - labor hours
   - process step
-  - manufacturing
-  - production
+  - manufacturing process
+  - view
   questions:
-  - What are the required setup hours for a specific product model?
-  - How many machine hours are needed for a given process step?
-  - Which location is associated with these production instructions?
+  - What are the required setup hours for a product model?
+  - How many machine hours are needed per lot size?
+  - Which steps have labor hours defined?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - Instructions
+  - LaborHours
+  - LocationID
+  - LotSize
+  - MachineHours
+  - ModifiedDate
+  - Name
+  - ProductModelID
+  - SetupHours
+  - Step
+  - rowguid
 Production.WorkOrder:
   description: One row detailing a specific work order created for a product, tracking
     quantities ordered (OrderQty), stocked (StockedQty), and scrapped (ScrappedQty).
@@ -1259,45 +1419,69 @@ Purchasing.Vendor:
   source: llm
   model: google/gemma-4-e4b
 Purchasing.vVendorWithAddresses:
-  description: One row containing the address details for a vendor, including name
-    and location information.
+  description: A read-only view over vendor and address information, providing a consolidated
+    view of business entity details including name, address type, city, and country
+    region.
   domain: purchasing
   keywords:
   - vendor
   - supplier
   - address
-  - adresse
+  - purchase
   - fournisseur
-  - location
-  - city
-  - postal code
+  - adresse
   - business entity
+  - contact
+  - location
   questions:
-  - What is the primary address line for a given vendor?
-  - Which country region does a vendor operate in?
-  - How can I find all addresses associated with a specific business entity ID?
+  - What is the primary address for a given vendor?
+  - How many distinct countries are represented in this view?
+  - Can I find the name and city combination for a specific BusinessEntityID?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - AddressLine1
+  - AddressLine2
+  - AddressType
+  - BusinessEntityID
+  - City
+  - CountryRegionName
+  - Name
+  - PostalCode
+  - StateProvinceName
 Purchasing.vVendorWithContacts:
-  description: One row containing contact details for a vendor, linking the vendor
-    (BusinessEntityID) to specific contact information like phone number or email.
+  description: A read-only view over vendor contact information, providing details
+    like name, title, and various phone/email numbers for a business entity.
   domain: purchasing
   keywords:
   - vendor
   - contact
-  - phone number
-  - email
+  - business entity
   - supplier
   - fournisseur
-  - business entity
-  - contact details
-  - personnel
+  - contact info
+  - phone number
+  - email address
+  - vendeur
   questions:
-  - What is the primary phone number for a vendor?
-  - How can I find the email address associated with a business entity?
-  - Which contact types are recorded for vendors?
+  - What is the primary contact email for a vendor?
+  - How many phone numbers are associated with a business entity?
+  - Can I find the title of a specific vendor contact?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BusinessEntityID
+  - ContactType
+  - EmailAddress
+  - EmailPromotion
+  - FirstName
+  - LastName
+  - MiddleName
+  - Name
+  - PhoneNumber
+  - PhoneNumberType
+  - Suffix
+  - Title
 Sales.CountryRegionCurrency:
   description: One row defining the currency associated with a specific country region,
     tracking when this relationship was last modified.
@@ -1622,49 +1806,83 @@ Sales.Store:
   source: llm
   model: google/gemma-4-e4b
 Sales.vIndividualCustomer:
-  description: One row per individual customer, containing personal details like name
-    (FirstName, LastName), contact information (PhoneNumber, EmailAddress), and address
-    details.
-  domain: person
+  description: A read-only view over customer contact information, providing a consolidated
+    view of individual customers including their name components (FirstName, LastName)
+    and contact details like EmailAddress.
+  domain: sales
   keywords:
   - customer
-  - individual
   - contact
   - email
-  - phone number
+  - address
   - client
   - adresse
   - nom
-  - personne
+  - phone number
+  - view
+  - individual
   questions:
-  - What is the email address for a given BusinessEntityID?
-  - How many phone numbers are associated with an individual?
-  - Which country region does a customer reside in?
+  - What is the primary email address for a customer?
+  - How can I find a customer by their full name?
+  - Which fields are available in this view?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - AddressLine1
+  - AddressLine2
+  - AddressType
+  - BusinessEntityID
+  - City
+  - CountryRegionName
+  - Demographics
+  - EmailAddress
+  - EmailPromotion
+  - FirstName
+  - LastName
+  - MiddleName
+  - PhoneNumber
+  - PhoneNumberType
+  - PostalCode
+  - StateProvinceName
+  - Suffix
+  - Title
 Sales.vPersonDemographics:
-  description: One row containing demographic and purchasing data for a business entity,
-    including total purchases year to date (TotalPurchaseYTD) and personal details
-    like gender and education.
+  description: A read-only view over person demographics, providing aggregated purchase
+    data (TotalPurchaseYTD) and personal details like birth date, income, and family
+    status for a business entity.
   domain: person
   keywords:
   - demographics
-  - purchase history
+  - purchase total
   - income
+  - birth date
   - gender
-  - birthdate
-  - education
   - marital status
-  - business entity
+  - view
+  - client profile
   questions:
-  - What is the total purchase year to date for a specific business entity?
-  - How can I find the birth date associated with an entity?
-  - Which demographic fields are available for analysis?
+  - What is the average TotalPurchaseYTD by gender?
+  - Which occupation has the highest NumberChildrenAtHome?
+  - How many records have a null BirthDate?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BirthDate
+  - BusinessEntityID
+  - DateFirstPurchase
+  - Education
+  - Gender
+  - HomeOwnerFlag
+  - MaritalStatus
+  - NumberCarsOwned
+  - NumberChildrenAtHome
+  - Occupation
+  - TotalChildren
+  - TotalPurchaseYTD
+  - YearlyIncome
 Sales.vSalesPerson:
-  description: One row per sales representative, containing personal details, contact
-    information, and performance metrics like sales quota (SalesQuota) and year-to-date
+  description: A read-only view over sales representative details, containing contact
+    information and performance metrics like sales quota (SalesQuota) and year-to-date
     sales (SalesYTD).
   domain: sales
   keywords:
@@ -1673,96 +1891,160 @@ Sales.vSalesPerson:
   - vSalesPerson
   - quota
   - sales ytd
+  - contact
   - commercial
-  - vente
-  - représentant
-  - commission
-  - performance
+  - agent
+  - territory
   questions:
-  - What is the total sales year-to-date for a salesperson?
-  - Which salesperson has the highest sales quota?
-  - How can I find the email address of a specific salesperson?
+  - What is the total sales year-to-date for a specific salesperson?
+  - How can I find the phone number and email address of a representative?
+  - Which territory group does a salesperson belong to?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - AddressLine1
+  - AddressLine2
+  - BusinessEntityID
+  - City
+  - CountryRegionName
+  - EmailAddress
+  - EmailPromotion
+  - FirstName
+  - JobTitle
+  - LastName
+  - MiddleName
+  - PhoneNumber
+  - PhoneNumberType
+  - PostalCode
+  - SalesLastYear
+  - SalesQuota
+  - SalesYTD
+  - StateProvinceName
+  - Suffix
+  - TerritoryGroup
+  - TerritoryName
+  - Title
 Sales.vSalesPersonSalesByFiscalYears:
-  description: One row summarizes a salesperson's sales performance across multiple
-    fiscal years, detailing their name, job title, and sales figures for each year.
+  description: A read-only view over sales performance data, showing the total sales
+    amount for a salesperson across different fiscal years (SalesPersonID, FullName,
+    JobTitle).
   domain: sales
   keywords:
   - salesperson
   - sales
-  - performance
   - yearly
   - fiscal year
-  - ventes
-  - commercial
+  - performance
+  - vSalesPersonSalesByFiscalYears
   - revenue
-  - job title
+  - ventes
   questions:
-  - What was the total sales revenue for a specific salesperson across all recorded
-    years?
-  - How does a salesperson's performance change between 2003 and 2004?
-  - Which job titles are associated with high sales figures?
+  - What was the total sales for a specific salesperson in 2003?
+  - How does a salesperson's performance compare across multiple fiscal years?
+  - Which job title has the highest recorded sales across all years?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - '2002'
+  - '2003'
+  - '2004'
+  - FullName
+  - JobTitle
+  - SalesPersonID
+  - SalesTerritory
 Sales.vStoreWithAddresses:
-  description: One row detailing a specific store's address information, linking the
-    business entity (BusinessEntityID) to its physical location details like city
-    and postal code.
+  description: A read-only view over sales data that combines business entity information
+    with their associated addresses, showing details like name and location.
   domain: sales
   keywords:
-  - store
+  - view
   - address
-  - location
-  - magasin
-  - adresse
-  - city
-  - postal code
   - business entity
-  - vStore
+  - location
+  - adresse
+  - ville
+  - client
+  - customer
+  - vstore
   questions:
-  - What is the address for a specific BusinessEntityID?
-  - How many stores are located in a certain city?
-  - Which country region contains the most store addresses?
+  - What is the primary address for a given business entity?
+  - How many distinct countries are represented in this view?
+  - Can I find the city and state for a specific BusinessEntityID?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - AddressLine1
+  - AddressLine2
+  - AddressType
+  - BusinessEntityID
+  - City
+  - CountryRegionName
+  - Name
+  - PostalCode
+  - StateProvinceName
 Sales.vStoreWithContacts:
-  description: One row representing a contact associated with a business entity, detailing
-    the contact's name, phone number, and email address.
+  description: This is a read-only view over customer and business contact information,
+    providing details like name (FirstName, LastName), phone number (PhoneNumber),
+    and email address (EmailAddress) for various contacts.
   domain: sales
   keywords:
   - contact
+  - customer
   - business entity
   - email
   - phone number
   - client
-  - customer
-  - personnel
+  - contact details
   - vstore
   questions:
-  - What is the primary phone number for a business?
-  - How many contacts are associated with a specific BusinessEntityID?
-  - Can we retrieve the email address and title of a contact?
+  - What is the primary contact method listed for a business?
+  - How many different contact types are recorded in this view?
+  - Can I find an email address associated with a specific BusinessEntityID?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - BusinessEntityID
+  - ContactType
+  - EmailAddress
+  - EmailPromotion
+  - FirstName
+  - LastName
+  - MiddleName
+  - Name
+  - PhoneNumber
+  - PhoneNumberType
+  - Suffix
+  - Title
 Sales.vStoreWithDemographics:
-  description: One row contains demographic and sales information for a specific business
-    entity, detailing its annual sales, revenue, and operational size (square feet,
-    employees).
+  description: A read-only view over sales data representing a business entity, summarizing
+    key metrics like annual sales, revenue, and employee count for each BusinessEntityID.
   domain: sales
   keywords:
   - business
+  - sales
+  - annual revenue
   - demographics
-  - annual sales
-  - revenue
   - client
-  - customer data
-  - ventes annuelles
-  - revenu
+  - customer
+  - ventes
+  - revenu annuel
   - entity
   questions:
-  - What is the annual revenue for a given business entity?
-  - How many employees does a business have based on its record?
-  - Which year was the business entity opened?
+  - What is the total annual revenue for a specific business?
+  - How many employees does a business with a certain specialty have?
+  - Which businesses opened in a particular year?
   source: llm
   model: google/gemma-4-e4b
+  columns_snapshot:
+  - AnnualRevenue
+  - AnnualSales
+  - BankName
+  - Brands
+  - BusinessEntityID
+  - BusinessType
+  - Internet
+  - Name
+  - NumberEmployees
+  - Specialty
+  - SquareFeet
+  - YearOpened
